@@ -24,6 +24,14 @@
                         </div>
                     </div>
 
+                    <div class="form-group">
+                        <label for="task-dealine" class="col-sm-3 control-label">Deadline</label>
+
+                        <div class="col-sm-6">
+                            <input type="text" name="deadline" id="task-dealine" class="form-control" value="{{ old('task') }}">
+                        </div>
+                    </div>
+
                     <!-- Add Task Button -->
                     <div class="form-group">
                         <div class="col-sm-offset-3 col-sm-6">
@@ -53,13 +61,13 @@
                         <td class="table-text"><div>Làm bài tập Laravel </div></td>
                         <!-- Task Complete Button -->
                         <td>
-                            <a href="{{ url('task/complete/1') }}" type="submit" class="btn btn-success">
+                            <a href="{{ route('task.complete',['id'=>2]) }}" type="submit" class="btn btn-success">
                                 <i class="fa fa-btn fa-check"></i>Hoàn thành
                             </a>
                         </td>
                         <!-- Task Delete Button -->
                         <td>
-                            <form action="{{ route('task.delete', ['id' => 100]) }}" method="POST">
+                            <form action="{{ route('task.destroy', ['id' => 100]) }}" method="POST">
                                 {{ csrf_field() }}
                                 {{ method_field('DELETE') }}
 
@@ -73,13 +81,13 @@
                         <td class="table-text"><div>Làm bài tập PHP  </div></td>
                         <!-- Task Complete Button -->
                         <td>
-                            <a href="{{ url('task/complete/1') }}" type="submit" class="btn btn-success">
+                            <a href="{{ route('task.complete',['id'=>2]) }}" type="submit" class="btn btn-success">
                                 <i class="fa fa-btn fa-check"></i>Hoàn thành
                             </a>
                         </td>
                         <!-- Task Delete Button -->
                         <td>
-                            <form action="{{ url('task/2') }}" method="POST">
+                            <form action="{{route('task.destroy', ['id' => 100]) }}" method="POST">
                                 {{ csrf_field() }}
                                 {{ method_field('DELETE') }}
 
@@ -93,13 +101,13 @@
                         <td class="table-text"><div><strike>Làm project Laravel </strike></div></td>
                         <!-- Task Complete Button -->
                         <td>
-                            <a href="{{ url('task/complete/1') }}" type="submit" class="btn btn-success">
+                            <a href="{{ route('task.reset',['id'=>3]) }}" type="submit" class="btn btn-success">
                                 <i class="fa fa-btn fa-refresh"></i>Làm lại
                             </a>
                         </td>
                         <!-- Task Delete Button -->
                         <td>
-                            <form action="{{ url('task/3') }}" method="POST">
+                            <form action="{{ route('task.destroy', ['id' => 100]) }}" method="POST">
                                 {{ csrf_field() }}
                                 {{ method_field('DELETE') }}
 

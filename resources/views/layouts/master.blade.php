@@ -25,7 +25,7 @@
 </head>
 <body>
 <div>
-    @include('layouts.header')
+    @include('layouts.header',['name'=>'bxx'])
 </div>
 <div>
     @yield('content')

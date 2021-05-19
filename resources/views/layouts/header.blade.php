@@ -4,7 +4,7 @@
 
             <!-- Branding Image -->
             <a class="navbar-brand" href="{{ url('/') }}">
-                Danh sách công việc
+                Danh sách công việc {{ $name }}
             </a>
         </div>
 

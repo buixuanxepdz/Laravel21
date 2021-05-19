@@ -32,9 +32,7 @@
         </div>
     </li>
 @endforeach
+
 </ul>
-@if($l['status']==1)
-    Đã hoàn thành
-@endif
 </body>
 </html>
