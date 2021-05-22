@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Task;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
@@ -12,9 +13,13 @@ class TaskController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        return view('tasks.index2');
+    public function index(Request $request)
+    {   
+        // $tasks = Task::all();
+        $tasks = Task::where('status',1)->get();
+        return view('tasks.index2',[
+            'tasks' => $tasks
+        ]);
     }
 
     /**
@@ -41,8 +46,19 @@ class TaskController extends Controller
 
         // $all = $request->only(['name','deadline']); 
 
-        $all = $request->except(['_token']);
-        dd($all);
+        // $all = $request->except(['_token']);
+        // dd($all);
+        $name = $request->get('name');
+        $deadline = $request->get('deadline');
+        $content = $request->get('content');
+        $task = new Task();
+        $task->name = $name;
+        $task->status = 1;
+        $task->content = $content;
+        $task->deadline = $deadline;
+        $task->save();
+        
+        return redirect()->route('task.index2');
     }
 
     /**
@@ -53,7 +69,9 @@ class TaskController extends Controller
      */
     public function show($id)
     {
-        //
+        $task = Task::find($id);
+        // $task = Task::where('id', $id)->first();
+        dd($task);
     }
 
     /**
@@ -87,7 +105,10 @@ class TaskController extends Controller
      */
     public function destroy($id)
     {
-        dd($id);
+        $task = Task::find($id);
+        $task->delete();
+        return redirect()->route('task.index2');
+        // echo $id;
     }
     public function Complete($id)
     {

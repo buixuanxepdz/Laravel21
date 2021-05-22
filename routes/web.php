@@ -56,6 +56,7 @@ Route::prefix('task')->group(function () {
     Route::get('/edit/{id}', 'Frontend\TaskController@edit')->name('task.edit');
  
     Route::get('/complete/{id}','Frontend\TaskController@complete')->name('task.complete');
+    Route::get('/show/{id}','Frontend\TaskController@show')->name('task.show');
  
     Route::get('/reset/{id}','Frontend\TaskController@reComplete')->name('task.reset');
  

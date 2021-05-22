@@ -12,7 +12,7 @@
                 <!-- Display Validation Errors -->
 
             <!-- New Task Form -->
-                <form action="{{ url('task')}}" method="POST" class="form-horizontal">
+                <form action="{{ route('task.store') }}" method="POST" class="form-horizontal">
                 {{ csrf_field() }}
 
                 <!-- Task Name -->
@@ -23,7 +23,13 @@
                             <input type="text" name="name" id="task-name" class="form-control" value="{{ old('task') }}">
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label for="task-content" class="col-sm-3 control-label">Content</label>
 
+                        <div class="col-sm-6">
+                            <input type="text" name="content" id="task-content" class="form-control" value="{{ old('task') }}">
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label for="task-dealine" class="col-sm-3 control-label">Deadline</label>
 
@@ -57,8 +63,9 @@
                     <th>&nbsp;</th>
                     </thead>
                     <tbody>
+                    @foreach ($tasks as $task)
                     <tr>
-                        <td class="table-text"><div>Làm bài tập Laravel </div></td>
+                        <td class="table-text"><div>{{ $task->name }}</div></td>
                         <!-- Task Complete Button -->
                         <td>
                             <a href="{{ route('task.complete',['id'=>2]) }}" type="submit" class="btn btn-success">
@@ -67,7 +74,7 @@
                         </td>
                         <!-- Task Delete Button -->
                         <td>
-                            <form action="{{ route('task.destroy', ['id' => 100]) }}" method="POST">
+                            <form action="{{ route('task.destroy',$task->id) }}" method="POST">
                                 {{ csrf_field() }}
                                 {{ method_field('DELETE') }}
 
@@ -77,46 +84,8 @@
                             </form>
                         </td>
                     </tr>
-                    <tr>
-                        <td class="table-text"><div>Làm bài tập PHP  </div></td>
-                        <!-- Task Complete Button -->
-                        <td>
-                            <a href="{{ route('task.complete',['id'=>2]) }}" type="submit" class="btn btn-success">
-                                <i class="fa fa-btn fa-check"></i>Hoàn thành
-                            </a>
-                        </td>
-                        <!-- Task Delete Button -->
-                        <td>
-                            <form action="{{route('task.destroy', ['id' => 100]) }}" method="POST">
-                                {{ csrf_field() }}
-                                {{ method_field('DELETE') }}
-
-                                <button type="submit" class="btn btn-danger">
-                                    <i class="fa fa-btn fa-trash"></i>Xoá
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="table-text"><div><strike>Làm project Laravel </strike></div></td>
-                        <!-- Task Complete Button -->
-                        <td>
-                            <a href="{{ route('task.reset',['id'=>3]) }}" type="submit" class="btn btn-success">
-                                <i class="fa fa-btn fa-refresh"></i>Làm lại
-                            </a>
-                        </td>
-                        <!-- Task Delete Button -->
-                        <td>
-                            <form action="{{ route('task.destroy', ['id' => 100]) }}" method="POST">
-                                {{ csrf_field() }}
-                                {{ method_field('DELETE') }}
-
-                                <button type="submit" class="btn btn-danger">
-                                    <i class="fa fa-btn fa-trash"></i>Xoá
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
+                    @endforeach
+                   
                     </tbody>
                 </table>
             </div>
