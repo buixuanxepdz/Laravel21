@@ -5,49 +5,10 @@
     <div class="col-sm-offset-2 col-sm-8">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Thêm công việc mới
+                <a href="{{ route('task.create') }}">Thêm công việc mới</a> 
             </div>
 
-            <div class="panel-body">
-                <!-- Display Validation Errors -->
-
-            <!-- New Task Form -->
-                <form action="{{ route('task.store') }}" method="POST" class="form-horizontal">
-                {{ csrf_field() }}
-
-                <!-- Task Name -->
-                    <div class="form-group">
-                        <label for="task-name" class="col-sm-3 control-label">Tên công việc</label>
-
-                        <div class="col-sm-6">
-                            <input type="text" name="name" id="task-name" class="form-control" value="{{ old('task') }}">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="task-content" class="col-sm-3 control-label">Content</label>
-
-                        <div class="col-sm-6">
-                            <input type="text" name="content" id="task-content" class="form-control" value="{{ old('task') }}">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="task-dealine" class="col-sm-3 control-label">Deadline</label>
-
-                        <div class="col-sm-6">
-                            <input type="text" name="deadline" id="task-dealine" class="form-control" value="{{ old('task') }}">
-                        </div>
-                    </div>
-
-                    <!-- Add Task Button -->
-                    <div class="form-group">
-                        <div class="col-sm-offset-3 col-sm-6">
-                            <button type="submit" class="btn btn-default">
-                                <i class="fa fa-btn fa-plus"></i>Thêm công việc
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
+            
         </div>
 
         <!-- Current Tasks -->
@@ -60,17 +21,34 @@
                 <table class="table table-striped task-table">
                     <thead>
                     <th>Tên công việc</th>
+                    <th>Mức độ</th>
+                    <th>Trạng thái</th>
                     <th>&nbsp;</th>
                     </thead>
                     <tbody>
                     @foreach ($tasks as $task)
                     <tr>
-                        <td class="table-text"><div>{{ $task->name }}</div></td>
+                        <td class="table-text"><div><a href="{{ route('task.show',['id' => $task->id]) }}" target="_blank">{{ $task->name }}</a></div></td>
                         <!-- Task Complete Button -->
-                        <td>
-                            <a href="{{ route('task.complete',['id'=>2]) }}" type="submit" class="btn btn-success">
-                                <i class="fa fa-btn fa-check"></i>Hoàn thành
-                            </a>
+                        <td>{{ $task->priority_name }}</td>
+                        <td>{{ $task->status_text }}</td>
+                        <td><?php
+                            if($task->status == 2){
+                            ?>
+
+                                <a href="{{ route('task.recomplete',$task->id) }}" type="submit" class="btn btn-success">
+                                    <i class="fa fa-btn fa-check"></i>Làm lại
+                                </a>
+                            <?php
+                            }
+                            else{
+                            ?>
+                                <a href="{{ route('task.complete',$task->id) }}" type="submit" class="btn btn-success">
+                                    <i class="fa fa-btn fa-check"></i>Hoàn Thành
+                                </a>
+                            <?php
+                            }
+                            ?>
                         </td>
                         <!-- Task Delete Button -->
                         <td>
@@ -82,6 +60,9 @@
                                     <i class="fa fa-btn fa-trash"></i>Xoá
                                 </button>
                             </form>
+                        </td>
+                        <td>
+                            <a href="{{ route('task.edit',$task->id) }}"><button class="btn btn-danger">Chinh sua</button></a>
                         </td>
                     </tr>
                     @endforeach

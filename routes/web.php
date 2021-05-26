@@ -54,14 +54,17 @@ Route::prefix('task')->group(function () {
  
     //Route::get('/edit/{id}',[TaskController::class, 'edit'])->name('task.edit');
     Route::get('/edit/{id}', 'Frontend\TaskController@edit')->name('task.edit');
+
+    Route::match(['put','patch'], 'task/{id}', 'Frontend\TaskController@update')->name('task.update');
  
     Route::get('/complete/{id}','Frontend\TaskController@complete')->name('task.complete');
+    Route::get('/recomplete/{id}','Frontend\TaskController@reComplete')->name('task.recomplete');
     Route::get('/show/{id}','Frontend\TaskController@show')->name('task.show');
  
     Route::get('/reset/{id}','Frontend\TaskController@reComplete')->name('task.reset');
  
     //Route::get('/create',  [TaskController::class, 'create'])->name('task.create');
-    Route::delete('/create', 'Frontend\TaskController@create')->name('task.create');
+    Route::get('/create', 'Frontend\TaskController@create')->name('task.create');
 
     //Route::delete('/delete/{id}',[TaskController::class, 'destroy'])->name('task.delete');
     Route::delete('/delete/{id}', 'Frontend\TaskController@destroy')->name('task.destroy');

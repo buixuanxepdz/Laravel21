@@ -36,4 +36,8 @@
 @yield('script')
 {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
 </body>
+<script src="//cdn.ckeditor.com/4.16.1/full/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace( 'editor' );
+</script>
 </html>
