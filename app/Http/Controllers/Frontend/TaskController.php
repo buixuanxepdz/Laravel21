@@ -107,7 +107,7 @@ class TaskController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
+    {   
         $task = Task::find($id);
         return view('tasks.edit')->with([
             'task' => $task

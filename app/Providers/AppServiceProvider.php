@@ -25,7 +25,15 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         $menu = ['tin tuc','the thao'];
-        View::share('menu',$menu);
+        $priorities = [
+            'Bình Thường' => 0,
+            'Quan trọng' => 1,
+            'Khẩn cấp' => 2
+        ];
+        View::share([
+            'menu'=>$menu,
+            'priorities' => $priorities
+            ]);
         // $list = [
         //     [
         //         'name' => 'Học View trong Laravel',
@@ -41,5 +49,7 @@ class AppServiceProvider extends ServiceProvider
         //     ],
         // ];
         // View::share('list',$list);
+
+
     }
 }

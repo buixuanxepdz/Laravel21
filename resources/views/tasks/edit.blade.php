@@ -39,9 +39,11 @@
                         <label for="exampleFormControlSelect1"  class="col-sm-3 control-label">Example select</label>
                         <div class="col-sm-6">
                         <select name="priority" class="form-control" id="exampleFormControlSelect1">
-                            <option value="0"{{ $task->priority=="0"?'selected':'' }}>Bình thường</option>
-                            <option value="1"{{ $task->priority=="1"?'selected':'' }}>Quan trọng</option>
-                            <option value="2"{{ $task->priority=="2"?'selected':'' }}>Khẩn cấp</option>
+                            @foreach($priorities as $key => $pri)
+                                <option value="{{ $pri }}" {{ $task->priority== $pri ?'selected':'' }}>
+                                    {{ $key }}
+                                </option>
+                            @endforeach
                         </select>
                         </div>
                     </div>

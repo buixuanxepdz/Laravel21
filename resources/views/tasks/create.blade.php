@@ -38,9 +38,14 @@
                         <label for="exampleFormControlSelect1"  class="col-sm-3 control-label">Example select</label>
                         <div class="col-sm-6">
                         <select name="priority" class="form-control" id="exampleFormControlSelect1">
-                            <option value="0">Bình thường</option>
+                            <!-- <option value="0">Bình thường</option>
                             <option value="1">Quan trọng</option>
-                            <option value="2">Khẩn cấp</option>
+                            <option value="2">Khẩn cấp</option> -->
+                            @foreach($priorities as $key => $pri)
+                                <option value="{{ $pri }}">
+                                    {{ $key }}
+                                </option>
+                            @endforeach
                         </select>
                         </div>
                     </div>
