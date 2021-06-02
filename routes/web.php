@@ -158,8 +158,14 @@ Route::group([
         Route::get('/', 'UserController@index')->name('backend.user.index');
         Route::get('/create', 'UserController@create')->name('backend.user.create');
     });
+    Route::group(['prefix' => 'categories'], function(){
+        Route::get('/', 'CategoryController@index')->name('backend.category.index');
+        Route::get('/create', 'CategoryController@create')->name('backend.category.create');
+    });
 });
 
-Route::get('/',function(){
-    return view('frontend.index');
+Route::group([
+    'namespace' => 'Frontend'
+],function(){
+    Route::get('/','HomeController@index')->name('frontend.home');
 });

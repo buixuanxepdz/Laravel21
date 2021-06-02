@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddPhoneColumnUsersTable extends Migration
+class CreateImagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,12 @@ class AddPhoneColumnUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('phone')->after('name');
+        Schema::create('images', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('path');
+            $table->integer('product_id');
+            $table->timestamps();
         });
     }
 
@@ -25,8 +29,6 @@ class AddPhoneColumnUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn(['phone']);
-        });
+        Schema::dropIfExists('images');
     }
 }

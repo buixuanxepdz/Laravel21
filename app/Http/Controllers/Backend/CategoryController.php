@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\Models\Product;
 use Illuminate\Http\Request;
-
-class ProductController extends Controller
+use App\Models\Category;
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +14,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::orderBy('updated_at', 'desc')->paginate(15);
-        return view('backend.products.index',['products' => $products]);
+        $categories = Category::orderBy('updated_at', 'desc')->paginate(2);
+        return view('backend.categories.index',['categories' => $categories]);
     }
 
     /**
@@ -26,7 +25,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('backend.products.create');
+        return view('backend.categories.create');
     }
 
     /**
