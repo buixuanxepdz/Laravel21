@@ -151,16 +151,21 @@ Route::group([
     Route::group(['prefix' => 'products'], function(){
         Route::get('/', 'ProductController@index')->name('backend.product.index');
         Route::get('/create', 'ProductController@create')->name('backend.product.create');
+        Route::get('/show/{id}', 'ProductController@showImages')->name('backend.product.showImage');
+        Route::get('/showOrder/{order_id}', 'OrderController@showProducts')->name('backend.product.showOrder');
+
      });
 
     //Quản lý người dùng
     Route::group(['prefix' => 'users'], function(){
         Route::get('/', 'UserController@index')->name('backend.user.index');
         Route::get('/create', 'UserController@create')->name('backend.user.create');
+        Route::get('/show/{user_id}', 'UserController@showProducts')->name('backend.user.showProduct');
     });
     Route::group(['prefix' => 'categories'], function(){
         Route::get('/', 'CategoryController@index')->name('backend.category.index');
         Route::get('/create', 'CategoryController@create')->name('backend.category.create');
+        Route::get('/show/{category_id}', 'CategoryController@showProducts')->name('backend.category.showProduct');
     });
 });
 

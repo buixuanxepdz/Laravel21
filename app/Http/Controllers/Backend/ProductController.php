@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\Image;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -49,6 +50,13 @@ class ProductController extends Controller
     public function show($id)
     {
         //
+    }
+
+    public function showImages($id)
+    {
+        $images = Product::find($id)->images;
+         return view('backend.products.showImages')->with(['images' => $images]);
+
     }
 
     /**

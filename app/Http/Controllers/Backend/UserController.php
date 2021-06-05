@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\User;
+
 
 class UserController extends Controller
 {
@@ -49,6 +51,11 @@ class UserController extends Controller
         //
     }
 
+    public function showProducts($user_id)
+    {
+        $users = User::find($user_id)->products()->paginate(10);
+        return view('backend.users.showProduct')->with(['users' => $users ]);
+    }
     /**
      * Show the form for editing the specified resource.
      *

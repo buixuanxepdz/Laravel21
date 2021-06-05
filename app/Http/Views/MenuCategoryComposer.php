@@ -10,12 +10,21 @@ class MenuCategoryComposer
     public function compose(View $view){
         $menus = Category::where('parent_id',0)->get();
         
-        $view->with('menu',$menus);
+        $view->with('menus',$menus);
         
     }
 
-    public function getCategoryChildren($category)
+    public function getCategoryWithChildren($categories)
     {
-       
+       foreach($categories as $category)
+       {
+           $children = Category::where('parent_id',$category->id)->get();
+
+           if(count($children) > 0)
+           {
+                $category->children = $this->getCategoryWithChildren($children);
+           }
+       }
+       return $categories;
     }
 }

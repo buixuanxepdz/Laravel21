@@ -50,6 +50,11 @@ class CategoryController extends Controller
         //
     }
 
+    public function showProducts($category_id)
+    {
+        $categories = Category::find($category_id)->products()->paginate(10);
+        return view('backend.categories.showProduct')->with(['categories' => $categories ]);
+    }
     /**
      * Show the form for editing the specified resource.
      *

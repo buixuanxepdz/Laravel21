@@ -16,11 +16,17 @@ class UsersTableSeeder extends Seeder
     {
         
         DB::table('users')->truncate();
+        DB::table('users_info')->truncate();
         for($i=1;$i < 20;$i++){
             DB::table('users')->insert([
                 'name' => "Admin $i",
                 'email' => "admin$i@gmail.com",
                 'password' => bcrypt('123456')
+            ]);
+            DB::table('users_info')->insert([
+                'phone' => "0829834234",
+                'address' => "Ha noi",
+                'user_id' => $i
             ]);
         }
     }

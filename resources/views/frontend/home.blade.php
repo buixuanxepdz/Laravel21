@@ -145,13 +145,14 @@
 									</div>
 								</div>
 							</div>
-							@foreach($menu as $value)
+							@foreach($menus as $value)
 								<div class="panel panel-default">
 									<div class="panel-heading">
 										<h4 class="panel-title"><a href="#">{{ $value->name }}</a></h4>
 									</div>
 								</div>
 							@endforeach
+							
 						</div><!--/category-products-->
 					
 						<div class="brands_products"><!--brands_products-->
