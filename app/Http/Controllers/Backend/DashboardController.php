@@ -10,6 +10,7 @@ use App\Models\Category;
 use App\Models\Order;
 use App\Models\Image;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -64,6 +65,13 @@ class DashboardController extends Controller
         // dd($products);
         // $products = Image::find(1)->product;
         // dd($products);
+        // if (Auth::check()) {
+        //     echo "ok login";
+        // }
+        $products = Product::with('orders')->first()->orders;
+        foreach($products as $product){
+            dd($product->pivot->get());
+        }
         $products = Product::orderBy('updated_at', 'desc')->simplePaginate();
         
         // dd($products);

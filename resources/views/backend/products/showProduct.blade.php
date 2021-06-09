@@ -119,9 +119,8 @@
                                         </tr>
                                     @endforeach  
                                     </tbody>
-                                 
                                 </table>
-                                
+                                @dd($orders)
                             </div>
                             <!-- /.card-body -->
                         </div>

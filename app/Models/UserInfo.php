@@ -9,7 +9,11 @@ class UserInfo extends Model
 {
     use HasFactory;
     protected $table = 'users_info';
-
+    protected $fillable = [
+        'user_id',
+        'phone',
+        'address',
+    ];
     public function user(){
         return $this->belongsTo(User::class);
     }

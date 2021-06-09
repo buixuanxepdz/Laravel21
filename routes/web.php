@@ -139,11 +139,17 @@ Route::get('/list',function(){
 //     return view('Unit3.home');
 // });
 
-
+//login
+Route::get('admin/login', 'Auth\LoginController@showLoginForm')->name('login.form');
+Route::post('admin/login', 'Auth\LoginController@login')->name('login.store');
+Route::get('admin/logout', 'Auth\LogoutController@logout')->name('logout');
+Route::get('admin/register', 'Auth\RegisterController@showForm')->name('register.form');
+Route::post('admin/register', 'Auth\RegisterController@register')->name('register.post');
 
 Route::group([
     'namespace' => 'Backend',
-    'prefix' => 'admin'
+    'prefix' => 'admin',
+    'middleware' => 'auth'
 ], function (){
     // Trang dashboard - trang chủ admin
     Route::get('/dashboard', 'DashboardController@index')->name('backend.dashboard');
