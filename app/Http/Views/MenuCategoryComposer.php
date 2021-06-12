@@ -27,4 +27,14 @@ class MenuCategoryComposer
        }
        return $categories;
     }
+
+    // public function cate_parent($data,$parent = 0, $str ="--"){
+    //     foreach($data as $key => $value){
+    //         $id = $value['id'];
+    //         $name = $value['name'];
+    //         if($value["parent_id"] == $parent){
+    //             echo "<option>$str $name</option>";
+    //         }
+    //     }
+    // }
 }

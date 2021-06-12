@@ -46,7 +46,7 @@
                                 <th>ID</th>
                                 <th>Tên Danh Mục</th>
                                 <th>Thời gian</th>
-                                <th>Mô tả</th>
+                                <th>Hành động</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -55,7 +55,7 @@
                                 <td>{{ $category->id }}</td>
                                 <td>{{ $category->name }}</td>
                                 <td>{{ $category->updated_at }}</td>
-                                <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+                                <td><a href="{{ route('backend.category.edit',$category->id) }}"><button class="btn btn-success">Sửa</button></a></td>
                             </tr>
                            @endforeach
                             </tbody>

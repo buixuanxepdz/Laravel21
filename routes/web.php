@@ -157,6 +157,9 @@ Route::group([
     Route::group(['prefix' => 'products'], function(){
         Route::get('/', 'ProductController@index')->name('backend.product.index');
         Route::get('/create', 'ProductController@create')->name('backend.product.create');
+        Route::post('/store', 'ProductController@store')->name('backend.product.store');
+        Route::get('/edit/{id}', 'ProductController@edit')->name('backend.product.edit');
+        Route::post('/update/{id}', 'ProductController@update')->name('backend.product.update');
         Route::get('/show/{id}', 'ProductController@showImages')->name('backend.product.showImage');
         Route::get('/showOrder/{order_id}', 'OrderController@showProducts')->name('backend.product.showOrder');
 
@@ -171,6 +174,9 @@ Route::group([
     Route::group(['prefix' => 'categories'], function(){
         Route::get('/', 'CategoryController@index')->name('backend.category.index');
         Route::get('/create', 'CategoryController@create')->name('backend.category.create');
+        Route::post('/create', 'CategoryController@store')->name('backend.category.store');
+        Route::get('/edit/{id}', 'CategoryController@edit')->name('backend.category.edit');
+        Route::post('/update/{id}', 'CategoryController@update')->name('backend.category.update');
         Route::get('/show/{category_id}', 'CategoryController@showProducts')->name('backend.category.showProduct');
     });
 });

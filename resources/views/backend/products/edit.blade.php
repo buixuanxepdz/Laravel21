@@ -6,7 +6,7 @@
 <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Tạo sản phẩm</h1>
+                <h1 class="m-0 text-dark">Cập nhật sản phẩm</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -26,11 +26,11 @@
                 <!-- general form elements -->
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Tạo sản phẩm</h3>
+                        <h3 class="card-title">Cập nhật sản phẩm</h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form role="form" method="post" action="{{ route('backend.product.store') }}">
+                    <form role="form" method="post" action="{{ route('backend.product.update',$products->id) }}">
                         @csrf
                         {{-- @if ($errors->any())
                             <div class="alert alert-danger">
@@ -44,23 +44,17 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Tên sản phẩm</label>
-                                <input type="text" name="name" value="{{ old('name') }}" class="form-control" id="" placeholder="Điền tên sản phẩm">
+                                <input type="text" name="name" value="{{ $products->name }}" class="form-control" id="" placeholder="Điền tên sản phẩm">
                                 @error('name')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Số lượng</label>
-                                <input type="text" name="quantity" value="{{ old('quantity') }}" class="form-control" id="" placeholder="Số lượng">
-                                @error('quantity')
                                 <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
                             </div>
                             <div class="form-group">
                                 <label>Danh mục sản phẩm</label>
                                 <select name="category_id" class="form-control select2" style="width: 100%;">
+                                    <option>--Chọn danh mục---</option>
                                     @foreach($categories as $category)
-                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                        <option value="{{ $category->id }}" {{ $products->category_id == $category->id ?'selected':'' }}>{{ $category->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -68,7 +62,7 @@
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label>Giá gốc</label>
-                                        <input type="text" name="origin_price" value="{{ old('origin_price') }}" class="form-control" placeholder="Điền giá gốc">
+                                        <input type="text" name="origin_price" value="{{ $products->origin_price }}" class="form-control" placeholder="Điền giá gốc">
                                         @error('origin_price')
                                         <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
@@ -77,7 +71,7 @@
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label>Giá bán</label>
-                                        <input type="text" name="sale_price" value="{{ old('sale_price') }}" class="form-control" placeholder="Điền giá gốc">
+                                        <input type="text" name="sale_price" value="{{ $products->sale_price }}" class="form-control" placeholder="Điền giá gốc">
                                         @error('sale_price')
                                         <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
@@ -87,10 +81,7 @@
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Mô tả sản phẩm</label>
                                 <textarea class="textarea" name="content" placeholder="Place some text here"
-                                          style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
-                                          @error('content')
-                                            <div class="alert alert-danger">{{ $message }}</div>
-                                          @enderror
+                                          style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{{ $products->content }}</textarea>
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputFile">Hình ảnh sản phẩm</label>
@@ -107,8 +98,9 @@
                             <div class="form-group">
                                 <label>Trạng thái sản phẩm</label>
                                 <select name="status" class="form-control select2" style="width: 100%;">
+                                    <option>--Chọn trạng thái---</option>
                                     @foreach (\App\Models\Product::$status_text as $key => $value)
-                                    <option value="{{ $key }}">{{ $value }}</option>
+                                    <option value="{{ $key }}" {{ $products->status == $key ?'selected':'' }}>{{ $value }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -117,7 +109,7 @@
                     
                         <div class="card-footer">
                             <a href="{{ route('backend.product.index') }}" class="btn btn-default">Huỷ bỏ</a>
-                            <button type="submit" class="btn btn-success">Tạo mới</button>
+                            <button type="submit" class="btn btn-success">Cập nhật</button>
                         </div>
                     </form>
                 </div>

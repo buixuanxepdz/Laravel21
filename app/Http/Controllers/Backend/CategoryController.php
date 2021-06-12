@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
+use App\Http\Requests\StoreCategoryRequest;
+use Illuminate\Support\Facades\Validator;
 class CategoryController extends Controller
 {
     /**
@@ -14,7 +16,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::orderBy('updated_at', 'desc')->paginate(2);
+        $categories = Category::orderBy('updated_at', 'desc')->paginate(10);
         return view('backend.categories.index',['categories' => $categories]);
     }
 
@@ -24,8 +26,9 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        return view('backend.categories.create');
+    {   
+        $categories = Category::all();
+        return view('backend.categories.create')->with(['categories' => $categories]);
     }
 
     /**
@@ -34,9 +37,15 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreCategoryRequest $request)
     {
-        //
+        $category = new Category();
+        $category->name = $request->get('name');
+        $category->slug = \Illuminate\Support\Str::slug($request->get('name'));
+        $category->parent_id = $request->get('parent_id');
+        $category->save();
+
+        return redirect()->route('backend.category.index');
     }
 
     /**
@@ -63,7 +72,9 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $categories = Category::find($id);
+        $category = Category::all();
+        return view('backend.categories.edit')->with(['categories' => $categories])->with(['category'=>$category]);
     }
 
     /**
@@ -73,9 +84,15 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreCategoryRequest $request, $id)
     {
-        //
+        $category = Category::find($id);
+
+        $category->name = $request->get('name');
+        $category->slug = \Illuminate\Support\Str::slug($request->get('name'));
+        $category->parent_id = $request->get('parent_id');
+        $category->save();
+        return redirect()->route('backend.category.index');
     }
 
     /**

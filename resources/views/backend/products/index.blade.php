@@ -47,6 +47,8 @@
                                 <th>Tên sản phẩm</th>
                                 <th>Thời gian</th>
                                 <th>Status</th>
+                                <th>User</th>
+                                <th>Cập nhật</th>
                                 <th>Mô tả</th>
                             </tr>
                             </thead>
@@ -57,6 +59,8 @@
                                 <td>{{ $product->name }}</td>
                                 <td>{{ $product->updated_at }}</td>
                                 <td><span class="tag tag-success">{{ $product->status }}</span></td>
+                                <td><span class="tag tag-success">{{ $product->user->name }}</span></td>
+                                <td><a href="{{ route('backend.product.edit',$product->id) }}"><button class="btn btn-success">Sửa</button></a></td>
                                 <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
                             </tr>
                            @endforeach

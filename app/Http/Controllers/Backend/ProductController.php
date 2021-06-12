@@ -5,7 +5,12 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Image;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreProductRequest;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
@@ -27,7 +32,10 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('backend.products.create');
+        $categories = Category::all();
+        return view('backend.products.create')->with([
+            'categories' => $categories
+        ]);
     }
 
     /**
@@ -36,9 +44,60 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreProductRequest $request)
     {
-        //
+
+        // $validatedData = $request->validate([
+        //     'name'         => 'required|min:10|max:255',
+        //     'origin_price' => 'required|numeric',
+        //     'sale_price'   => 'required|numeric',
+        //     'quantity'   => 'required|numeric',
+        //     'category_id' => 'required',
+        //     'status' => 'required',
+        // ]);
+
+        // $validator = Validator::make($request->all(),
+        //     [
+        //         'name'         => 'required|min:10|max:255',
+        //         'origin_price' => 'required|numeric',
+        //         'sale_price'   => 'required|numeric',
+        //         'quantity'   => 'required|numeric|max:9999'
+        //     ],
+        //     [
+        //         'required'         => ':attribute không được để trống',
+        //         'min' => ':attribute không được nhỏ hơn :min',
+        //         'max'   => ':attribute không được lớn hơn :max'
+        //     ],
+        //     [
+        //         'name'         => 'Tên sản phẩm',
+        //         'origin_price' => 'Giá gốc',
+        //         'sale_price'   => 'Giá bán',
+        //         'quantity'   => 'Số lượng'
+        //     ]
+        // );
+        // if ($validator->errors()){
+        //     return back()
+        //         ->withErrors($validator)
+        //         ->withInput();
+        // }
+
+        // dd($request->except('_token'));
+        $product = new Product();
+        $product->name = $request->get('name');
+        $product->slug = \Illuminate\Support\Str::slug($request->get('name'));
+        $product->category_id = $request->get('category_id');
+        $product->origin_price = $request->get('origin_price');
+        $product->sale_price = $request->get('sale_price');
+        $product->content = $request->get('content');
+        $product->quantity = $request->get('quantity');
+        $product->status = $request->get('status');
+        $product->user_id = Auth::user()->id;
+        $product->created_at = Carbon::now();
+        $product->save();
+            // if($product->save()){
+            //     dd('ok');
+            // }
+        return redirect()->route('backend.product.index');
     }
 
     /**
@@ -67,7 +126,9 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        //
+        $categories = Category::all();
+        $products = Product::find($id);
+        return view('backend.products.edit')->with(['categories' => $categories])->with(['products' => $products]);
     }
 
     /**
@@ -77,9 +138,53 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        //
+    public function update(StoreProductRequest $request, $id)
+    {  
+
+        // $validatedData = $request->validate([
+        //     'name'         => 'required|min:10|max:255',
+        //     'origin_price' => 'required|numeric',
+        //     'sale_price'   => 'required|numeric',
+        // ]);
+
+        // $validator = Validator::make($request->all(),
+        // [
+        //     'name'         => 'required|min:10|max:255',
+        //     'origin_price' => 'required|numeric',
+        //     'sale_price'   => 'required|numeric',
+        // ],
+        // [
+        //     'required'         => ':attribute không được để trống',
+        //     'min' => ':attribute không được nhỏ hơn :min',
+        //     'max'   => ':attribute không được lớn hơn :max',
+        // ],
+        // [
+        //     'name'         => 'Tên sản phẩm',
+        //     'origin_price' => 'Giá gốc',
+        //     'sale_price'   => 'Giá bán',
+        // ]
+        // );
+       
+        // if ($validator->errors()){ 
+        //     return back()
+        //         ->withErrors($validator)
+        //         ->withInput();
+        // }
+        
+        //  $data = $request->except('_token');
+        $product = Product::find($id);
+        
+        // $product->update($data);
+        $product->name = $request->get('name');
+        $product->slug = \Illuminate\Support\Str::slug($request->get('name'));
+        $product->category_id = $request->get('category_id');
+        $product->origin_price = $request->get('origin_price');
+        $product->sale_price = $request->get('sale_price');
+        $product->content = $request->get('content');
+        $product->status = $request->get('status');
+        $product->user_id = Auth::user()->id;
+        $product->save();
+        return redirect()->route('backend.product.index');
     }
 
     /**
