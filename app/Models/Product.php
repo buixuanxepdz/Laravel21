@@ -38,4 +38,16 @@ class Product extends Model
     public function getStatusTextAttribute(){
         return self::$status_text[$this->status];
     }
+    public function getStatusProductAttribute(){
+        if($this->status == 0){
+            return "Đang nhập";
+        }
+        elseif($this->status == 1){
+            return "Đang bán";
+        }
+        else{
+            return "Hết hàng";
+        }
+
+    }
 }

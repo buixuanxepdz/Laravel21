@@ -30,7 +30,7 @@
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form role="form" method="post" action="{{ route('backend.product.store') }}">
+                    <form runat="server" role="form" method="post" action="{{ route('backend.product.store') }}" enctype="multipart/form-data">
                         @csrf
                         {{-- @if ($errors->any())
                             <div class="alert alert-danger">
@@ -96,13 +96,18 @@
                                 <label for="exampleInputFile">Hình ảnh sản phẩm</label>
                                 <div class="input-group">
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input" id="exampleInputFile">
+                                        <input type="file" class="custom-file-input" name="image[]" id="imgInp" accept="image/*" multiple>
                                         <label class="custom-file-label" for="exampleInputFile">Choose file</label>
                                     </div>
                                     <div class="input-group-append">
                                         <span class="input-group-text" id="">Upload</span>
                                     </div>
+                                   
                                 </div>
+                                <img style="width:70px;" id="blah" src="#" alt="your image" />
+                                 @error('image')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
                             </div>
                             <div class="form-group">
                                 <label>Trạng thái sản phẩm</label>
@@ -125,4 +130,12 @@
         </div>
         <!-- /.row (main row) -->
     </div>
+    <script>
+        imgInp.onchange = evt => {
+            const [file] = imgInp.files
+            if (file) {
+                blah.src = URL.createObjectURL(file)
+            }
+        }
+</script>
 @endsection

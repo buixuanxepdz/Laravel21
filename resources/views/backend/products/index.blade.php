@@ -44,29 +44,46 @@
                             <thead>
                             <tr>
                                 <th>ID</th>
+                                <th>Ảnh</th>
                                 <th>Tên sản phẩm</th>
                                 <th>Thời gian</th>
-                                <th>Status</th>
-                                <th>User</th>
-                                <th>Cập nhật</th>
-                                <th>Mô tả</th>
+                                <th>Trạng thái</th>
+                                <th>Người tạo</th>
+                                <th>Hành động</th>
                             </tr>
                             </thead>
                             <tbody>
                             @foreach($products as $product)
                             <tr>
                                 <td>{{ $product->id }}</td>
+                                 <td>
+                                    @if (count($product->images) > 0)
+                                        <img src="{{ $product->images[0]->image_url }}" width="60px" alt="">
+                                    @endif
+                                </td>
                                 <td>{{ $product->name }}</td>
+                               
                                 <td>{{ $product->updated_at }}</td>
-                                <td><span class="tag tag-success">{{ $product->status }}</span></td>
+                                <td><span class="tag tag-success">{{ $product->status_product }}</span></td>
                                 <td><span class="tag tag-success">{{ $product->user->name }}</span></td>
-                                <td><a href="{{ route('backend.product.edit',$product->id) }}"><button class="btn btn-success">Sửa</button></a></td>
-                                <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+                                <td>
+                                    <a href="{{ route('backend.product.edit',$product->id) }}"><button class="btn btn-success"><i class="fas fa-edit" style="margin-right: 3px"></i>Sửa</button></a>
+                                    <form style="display: inline" action="{{ route('backend.product.destroy',$product->id) }}" method="POST">
+                                        {{ csrf_field() }}
+                                        {{ method_field('DELETE') }}
+        
+                                        <button onclick="return confirm('Bạn có muốn xóa ?')" type="submit" class="btn btn-danger">
+                                            <i class="fa fa-btn fa-trash" style="margin-right: 3px"></i>Xoá
+                                        </button>
+                                    </form>
+                                </td>
                             </tr>
                            @endforeach
                             </tbody>
                         </table>
-                        {!! $products->links() !!}
+                        <div class="mt-3 float-right mr-5">
+                            {!! $products->links() !!}
+                        </div>
                     </div>
                     <!-- /.card-body -->
                 </div>

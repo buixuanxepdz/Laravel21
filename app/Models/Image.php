@@ -12,4 +12,8 @@ class Image extends Model
     public function product(){
         return $this->belongsTo(Product::class);
     }
+
+    public function getImageUrlAttribute(){
+        return url(\Illuminate\Support\Facades\Storage::url($this->path));
+    }
 }

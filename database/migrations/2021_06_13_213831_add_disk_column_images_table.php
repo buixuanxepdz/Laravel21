@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddQuantityColumnProductsTable extends Migration
+class AddDiskColumnImagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddQuantityColumnProductsTable extends Migration
      */
     public function up()
     {
-        Schema::table('products', function (Blueprint $table) {
-            $table->integer('quantity')->default(0);
+        Schema::table('images', function (Blueprint $table) {
+            $table->string('disk')->nullable()->after('name');
         });
     }
 
@@ -25,8 +25,8 @@ class AddQuantityColumnProductsTable extends Migration
      */
     public function down()
     {
-        Schema::table('products', function (Blueprint $table) {
-            $table->dropColumn('quantity');
+        Schema::table('images', function (Blueprint $table) {
+            $table->dropColumn('disk');
         });
     }
 }

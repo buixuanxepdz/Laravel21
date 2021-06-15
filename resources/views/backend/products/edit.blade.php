@@ -30,7 +30,7 @@
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form role="form" method="post" action="{{ route('backend.product.update',$products->id) }}">
+                    <form runat="server" role="form" method="post" action="{{ route('backend.product.update',$products->id) }}" enctype="multipart/form-data">
                         @csrf
                         {{-- @if ($errors->any())
                             <div class="alert alert-danger">
@@ -46,6 +46,13 @@
                                 <label for="exampleInputEmail1">Tên sản phẩm</label>
                                 <input type="text" name="name" value="{{ $products->name }}" class="form-control" id="" placeholder="Điền tên sản phẩm">
                                 @error('name')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Số lượng</label>
+                                <input type="text" name="quantity" value="{{ $products->quantity }}" class="form-control" id="" placeholder="Điền tên sản phẩm">
+                                @error('quantity')
                                 <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -87,13 +94,19 @@
                                 <label for="exampleInputFile">Hình ảnh sản phẩm</label>
                                 <div class="input-group">
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input" id="exampleInputFile">
+                                        <input type="file" name="image[]" class="custom-file-input" id="imgInp" accept="image/*" multiple>
+                                        
                                         <label class="custom-file-label" for="exampleInputFile">Choose file</label>
                                     </div>
+                                    
                                     <div class="input-group-append">
                                         <span class="input-group-text" id="">Upload</span>
                                     </div>
                                 </div>
+                                <img style="width:70px;" id="blah" src="#" alt="your image" />
+                                @error('image')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label>Trạng thái sản phẩm</label>
@@ -117,4 +130,12 @@
         </div>
         <!-- /.row (main row) -->
     </div>
+    <script>
+                imgInp.onchange = evt => {
+        const [file] = imgInp.files
+        if (file) {
+            blah.src = URL.createObjectURL(file)
+        }
+        }
+    </script>
 @endsection

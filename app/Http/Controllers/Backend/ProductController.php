@@ -10,6 +10,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreProductRequest;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
@@ -46,6 +47,7 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
+
 
         // $validatedData = $request->validate([
         //     'name'         => 'required|min:10|max:255',
@@ -84,7 +86,7 @@ class ProductController extends Controller
         // dd($request->except('_token'));
         $product = new Product();
         $product->name = $request->get('name');
-        $product->slug = \Illuminate\Support\Str::slug($request->get('name'));
+        $product->slug = \Illuminate\Support\Str::slug($request->get('name')).''.rand(0,999);
         $product->category_id = $request->get('category_id');
         $product->origin_price = $request->get('origin_price');
         $product->sale_price = $request->get('sale_price');
@@ -97,6 +99,35 @@ class ProductController extends Controller
             // if($product->save()){
             //     dd('ok');
             // }
+            if($request->hasFile('image')){
+                $files = $request->file('image');
+                foreach($files as $file){
+                    $name = $file->getClientOriginalName().rand(0,999);
+                    $disk_name = 'public';
+
+                    $path = Storage::disk($disk_name)->putFileAs('images',$file,$name);
+
+                    $image = new Image();
+                    $image->name = $name;
+                    $image->disk = $disk_name;
+                    $image->path = $path;
+                    $image->product_id = $product->id;
+                    $image->save();
+                        // dd($image);
+                }
+                // $path = Storage::putFile('images',$file);
+    
+                // $name = $file->getClientOriginalName();
+    
+                // $path = Storage::putFileAs('images',$file,$name);
+    
+                // $path =$file->store('files');
+                // $path = $file->move('images2',$name)
+              
+                // dd($path);
+            }else{
+                dd('khong co file');
+            }
         return redirect()->route('backend.product.index');
     }
 
@@ -128,7 +159,8 @@ class ProductController extends Controller
     {
         $categories = Category::all();
         $products = Product::find($id);
-        return view('backend.products.edit')->with(['categories' => $categories])->with(['products' => $products]);
+        $images = Image::find($id);
+        return view('backend.products.edit')->with(['categories' => $categories])->with(['products' => $products])->with(['images' => $images]);
     }
 
     /**
@@ -176,14 +208,43 @@ class ProductController extends Controller
         
         // $product->update($data);
         $product->name = $request->get('name');
-        $product->slug = \Illuminate\Support\Str::slug($request->get('name'));
+        $product->slug = \Illuminate\Support\Str::slug($request->get('name')).''.rand(0,999);
         $product->category_id = $request->get('category_id');
         $product->origin_price = $request->get('origin_price');
         $product->sale_price = $request->get('sale_price');
+        $product->quantity = $request->get('quantity');
         $product->content = $request->get('content');
         $product->status = $request->get('status');
         $product->user_id = Auth::user()->id;
         $product->save();
+
+        if($request->hasFile('image')){
+            $files = $request->file('image');
+            foreach($files as $file){
+                
+                $name = $file->getClientOriginalName();
+                // dd($file->getClientOriginalName());
+                $disk_name = 'public';
+                
+                $path = Storage::disk($disk_name)->putFileAs('images',$file,$name);
+                $image = Image::where('product_id',$product->id)->first();
+                
+                if(!$image){
+                    $image = new Image();
+                }
+                
+                // dd($image);
+                $image->name = $name;
+                $image->disk = $disk_name;
+                $image->path = $path;
+                $image->product_id = $product->id;
+
+                $image->save();
+                // dd($image);
+            }
+        }else{
+            dd('khong co file');
+        }
         return redirect()->route('backend.product.index');
     }
 
@@ -195,6 +256,9 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $product = Product::find($id);
+        $product->delete();
+
+        return redirect()->route('backend.product.index');
     }
 }

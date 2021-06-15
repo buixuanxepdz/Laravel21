@@ -12,11 +12,12 @@ body {
   position: relative;
   font-weight:400px;
 }
-
+.category-tab{
+    width: 100% !important;
+}
 ul li {
   list-style: none;
 }
-
 a:hover {
 outline: none;
 text-decoration:none;
@@ -714,13 +715,33 @@ h2.title:before{
 	margin-bottom: 0px;
 }
 
+#con{
+  display: none;
+  font-family: 'Roboto', sans-serif;
+  font-size: 15px;
+}
+#con a{
+  color: #696763;
+}
+#cha{
+    transition: 0.3s;
+}
+#cha:hover  #con{
+  display: block;
+  transition: 0.3s;
+}
 .category-products .panel-default .panel-heading {
   background-color: #FFFFFF;
   border: 0 none;
   color: #FFFFFF;
   padding: 5px 20px;
 }
-
+/* .collapse{
+  display: none !important;
+}
+.category-products .panel-default .panel-heading:hover .collapse{
+  display: block !important;
+} */
 .category-products .panel-default .panel-heading .panel-title a {
   color: #696763;
   font-family: 'Roboto', sans-serif;

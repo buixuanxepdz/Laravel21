@@ -131,7 +131,9 @@
                                     </tbody>
                                    
                                 </table>
-                                {!! $products->links() !!}
+                                <div class="mt-3 float-right mr-5">
+                                    {!! $products->links() !!}
+                                </div>
                             </div>
                             <!-- /.card-body -->
                         </div>

@@ -76,36 +76,10 @@
 					<div class="left-sidebar">
 						<h2>Danh mục</h2>
 						<div class="panel-group category-products" id="accordian"><!--category-productsr-->
+							
 							@if($menus)
 								@foreach($menus as $value)
-								<div class="panel panel-default">
-									<div class="panel-heading menucha" id="cha">
-										<h4 class="panel-title">
-											<a data-toggle="collapse" data-parent="#accordian" href="#">
-												@if ($value->children)
-													<span class="badge pull-right"><i class="fa fa-plus"></i></span>
-												@endif
-												{{ $value->name }}
-											</a>
-										</h4>
-										@if ($value->children)   
-									<div id="con" class="panel-collapse collapse">
-										<div class="panel-body">
-											<ul>
-												@foreach ($value->children as $children)
-												<a href="">
-													<li>
-														{{ $children->name }}
-													</li>
-												</a>
-												@endforeach
-											</ul>
-										</div>
-									</div>
-									@endif
-									</div>
-									
-								</div>
+									@include('frontend.includes.childrenmenu',['value'=>$value])
 								@endforeach
 							@endif
 							{{-- @dd($menus) --}}
@@ -144,19 +118,15 @@
 				<div class="col-sm-9 padding-right">
 					<div class="features_items"><!--features_items-->
 						<h2 class="title text-center">Features Items</h2>
-						@foreach ($product as $pro)
+						@foreach ($searchs as $pro)
 							<div class="col-sm-4">
 							<div class="product-image-wrapper">
 								<div class="single-products">
 										<div class="productinfo text-center">
-											<a href="{{ route('frontend.detailproduct',$pro->slug) }}">
-												@if (count($pro->images) > 0)
-												<img src="{{ $pro->images[0]->image_url }}" width="60px" alt="">
-												@endif
-											</a> 
+											<a href="{{ route('frontend.detailproduct',$pro->slug) }}"><img src="/frontend/images/home/product1.jpg" alt="" /></a> 
 											<h2>{{  number_format($pro->sale_price).''.'đ' }}</h2>
-											<p>{{ $pro->name }}</p>
-											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
+											<p>{!!$pro->name !!}</p>
+											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
 										</div>
 								</div>
 								<div class="choose">
@@ -168,8 +138,8 @@
 							</div>
 						</div>
 						@endforeach
-					</div>	
-						{!! $product->links() !!}
+                    </div>   
+						{!! $searchs->links() !!}
 						<!--features_items-->
 					
 					<div class="category-tab"><!--category-tab-->

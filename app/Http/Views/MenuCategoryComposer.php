@@ -9,7 +9,7 @@ class MenuCategoryComposer
 {
     public function compose(View $view){
         $menus = Category::where('parent_id',0)->get();
-        
+        $menus = $this->getCategoryWithChildren($menus);
         $view->with('menus',$menus);
         
     }
@@ -18,23 +18,13 @@ class MenuCategoryComposer
     {
        foreach($categories as $category)
        {
-           $children = Category::where('parent_id',$category->id)->get();
+           $childrens = Category::where('parent_id',$category->id)->get();
 
-           if(count($children) > 0)
+           if(count($childrens) > 0)
            {
-                $category->children = $this->getCategoryWithChildren($children);
+                $category->children = $this->getCategoryWithChildren($childrens);
            }
        }
        return $categories;
     }
-
-    // public function cate_parent($data,$parent = 0, $str ="--"){
-    //     foreach($data as $key => $value){
-    //         $id = $value['id'];
-    //         $name = $value['name'];
-    //         if($value["parent_id"] == $parent){
-    //             echo "<option>$str $name</option>";
-    //         }
-    //     }
-    // }
 }

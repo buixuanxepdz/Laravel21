@@ -9,8 +9,10 @@ use App\Models\UserInfo;
 use App\Models\Category;
 use App\Models\Order;
 use App\Models\Image;
+use Illuminate\Contracts\Cache\Store;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class DashboardController extends Controller
 {
@@ -68,6 +70,24 @@ class DashboardController extends Controller
         // if (Auth::check()) {
         //     echo "ok login";
         // }
+
+        // dd(storage_path());
+        // Storage::disk('local')->put('file.txt', 'Contents');
+        // Storage::disk('public')->put('file2.txt', 'public');
+        // Storage::disk('local_2')->put('file3.txt', 'contents');
+        // Storage::put('test.txt', 'Xep');
+
+        // $disk =Storage::disk('public');
+
+        // $path = 'file2.txt';
+
+        // if($disk->exists($path)){
+        //     $public = $disk->get($path);
+        //     dd($public);
+        // }else{
+        //     dd('ko ton tai file');
+        // }
+
         $products = Product::with('orders')->first()->orders;
         foreach($products as $product){
             dd($product->pivot->get());
