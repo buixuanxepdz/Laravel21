@@ -261,4 +261,11 @@ class ProductController extends Controller
 
         return redirect()->route('backend.product.index');
     }
+    public function search(Request $request){
+        $keyword = $request->get('keyword');
+
+        $searchs = Product::where('name','like','%'.$keyword.'%')->paginate(6);
+
+        return view('backend.products.search')->with(['searchs' => $searchs]);
+    }
 }

@@ -13,10 +13,38 @@
                     <h2>Danh mục</h2>
                     <div class="panel-group category-products" id="accordian"><!--category-productsr-->
                         @if($menus)
-                            @foreach($menus as $value)
-                                @include('frontend.includes.childrenmenu',['value'=>$value])
-                            @endforeach
-                        @endif
+                        @foreach($menus as $value)
+                        <div class="panel panel-default">
+                            <div class="panel-heading menucha" id="cha">
+                                <h4 class="panel-title">
+                                    <a href="#">{{ $value->name }}</a>
+                                    <a data-toggle="collapse" data-parent="#accordian" href="#{{ $value->id }}">
+                                        @if ($value->children)
+                                            <span class="badge pull-right"><i class="fa fa-plus"></i></span>
+                                        @endif
+                                        
+                                    </a>
+                                </h4>
+                            @if ($value->children)   
+                            <div id="{{ $value->id }}" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <ul>
+                                        @foreach ($value->children as $children)
+                                        <a href="#" style="color: #696763">
+                                            <li>
+                                                {{ $children->name }}
+                                            </li>
+                                        </a>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                            @endif
+                            </div>
+                            
+                        </div>
+                        @endforeach
+                    @endif
                     </div><!--/category-products-->
                 
                     <div class="brands_products"><!--brands_products-->
@@ -53,10 +81,10 @@
                 <div class="product-details"><!--product-details-->
                     <div class="col-sm-5">
                         <div class="view-product">
-                            <img src="{{ $products->images[0]->image_url }}" alt="" />
+                            <img style="width: 100% !important;height:400px" src="{{ $products->images[0]->image_url }}" alt="" />
                             <h3>ZOOM</h3>
                         </div>
-                        <div id="similar-product" class="carousel slide" data-ride="carousel">
+                        {{-- <div id="similar-product" class="carousel slide" data-ride="carousel">
                             
                               <!-- Wrapper for slides -->
                                 <div class="carousel-inner">
@@ -85,7 +113,7 @@
                               <a class="right item-control" href="#similar-product" data-slide="next">
                                 <i class="fa fa-angle-right"></i>
                               </a>
-                        </div>
+                        </div> --}}
 
                     </div>
                     <div class="col-sm-7">
@@ -104,7 +132,7 @@
                                 </button>
                             </span>
                             <p><b>Availability:</b> In Stock</p>
-                            <p><b>Condition:</b> New</p>
+                            <p><b>Danh mục:</b>{{ $products->category->name }}</p>
                             <p><b>Brand:</b> E-SHOPPER</p>
                             <a href=""><img src="/frontend/images/product-details/share.png" class="share img-responsive"  alt="" /></a>
                         </div><!--/product-information-->

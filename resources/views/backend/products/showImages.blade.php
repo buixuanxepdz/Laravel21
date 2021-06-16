@@ -119,7 +119,7 @@
                                         <tr>
                                             <td>{{ $image->id }}</td>
                                             <td>{{ $image->product->name }}</td>
-                                            <td><img src="{{ $image->path }}" alt="" width="100px" /></td>   
+                                            <td><img src="{{ $image->image_url }}" alt="" width="100px" /></td>   
                                         </tr>
                                     @endforeach    
                                     </tbody>

@@ -79,7 +79,35 @@
 							
 							@if($menus)
 								@foreach($menus as $value)
-									@include('frontend.includes.childrenmenu',['value'=>$value])
+								<div class="panel panel-default">
+									<div class="panel-heading menucha" id="cha">
+										<h4 class="panel-title">
+											<a href="#">{{ $value->name }}</a>
+											<a data-toggle="collapse" data-parent="#accordian" href="#{{ $value->id }}">
+												@if ($value->children)
+													<span class="badge pull-right"><i class="fa fa-plus"></i></span>
+												@endif
+												
+											</a>
+										</h4>
+									@if ($value->children)   
+									<div id="{{ $value->id }}" class="panel-collapse collapse">
+										<div class="panel-body">
+											<ul>
+												@foreach ($value->children as $children)
+												<a href="#" style="color: #696763">
+													<li>
+														{{ $children->name }}
+													</li>
+												</a>
+												@endforeach
+											</ul>
+										</div>
+									</div>
+									@endif
+									</div>
+									
+								</div>
 								@endforeach
 							@endif
 							{{-- @dd($menus) --}}
@@ -123,7 +151,7 @@
 							<div class="product-image-wrapper">
 								<div class="single-products">
 										<div class="productinfo text-center">
-											<a href="{{ route('frontend.detailproduct',$pro->slug) }}"><img src="/frontend/images/home/product1.jpg" alt="" /></a> 
+											<a href="{{ route('frontend.detailproduct',$pro->slug) }}"><img style="width: 100% !important;height:300px" src="{{ $pro->images[0]->image_url }}" alt="" /></a> 
 											<h2>{{  number_format($pro->sale_price).''.'đ' }}</h2>
 											<p>{!!$pro->name !!}</p>
 											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>

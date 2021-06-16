@@ -41,7 +41,7 @@ class CategoryController extends Controller
     {
         $category = new Category();
         $category->name = $request->get('name');
-        $category->slug = \Illuminate\Support\Str::slug($request->get('name'));
+        $category->slug = \Illuminate\Support\Str::slug($request->get('name')).rand(0,999);
         $category->parent_id = $request->get('parent_id');
         $category->save();
 
@@ -89,7 +89,7 @@ class CategoryController extends Controller
         $category = Category::find($id);
 
         $category->name = $request->get('name');
-        $category->slug = \Illuminate\Support\Str::slug($request->get('name'));
+        $category->slug = \Illuminate\Support\Str::slug($request->get('name')).rand(0,999);
         $category->parent_id = $request->get('parent_id');
         $category->save();
         return redirect()->route('backend.category.index');

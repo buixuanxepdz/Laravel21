@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\Category;
 use App\Models\Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -25,5 +26,9 @@ class HomeController extends Controller
         $searchs = Product::where('name','like','%'.$keyword.'%')->paginate(6);
 
         return view('frontend.search')->with(['searchs' => $searchs]);
+    }
+    public function productcategory($slug){
+        $category_name = Category::where('slug',$slug)->first();
+        return view('frontend.productcategory')->with(['category_name' => $category_name]);
     }
 }

@@ -56,13 +56,13 @@
                                 <td>{{ $category->name }}</td>
                                 <td>{{ $category->updated_at }}</td>
                                 <td>
-                                    <a href="{{ route('backend.category.edit',$category->id) }}"><button class="btn btn-success">Sửa</button></a>
+                                    <a href="{{ route('backend.category.edit',$category->id) }}"><button class="btn btn-success"><i class="fas fa-edit" style="margin-right: 3px"></i>Sửa</button></a>
                                     <form style="display: inline" action="{{ route('backend.category.destroy',$category->id) }}" method="POST">
                                         {{ csrf_field() }}
                                         {{ method_field('DELETE') }}
         
                                         <button onclick="return confirm('Bạn có muốn xóa ?')" type="submit" class="btn btn-danger">
-                                            <i class="fa fa-btn fa-trash"></i>Xoá
+                                            <i class="fa fa-btn fa-trash" style="margin-left:3px;"></i>Xoá
                                         </button>
                                     </form>
                                 </td>

@@ -163,6 +163,7 @@ Route::group([
         Route::get('/show/{id}', 'ProductController@showImages')->name('backend.product.showImage');
         Route::get('/showOrder/{order_id}', 'OrderController@showProducts')->name('backend.product.showOrder');
         Route::delete('/delete/{id}', 'ProductController@destroy')->name('backend.product.destroy');
+        Route::post('/search','ProductController@search')->name('backend.product.search');
 
      });
 
@@ -188,5 +189,6 @@ Route::group([
 ],function(){
     Route::get('/','HomeController@index')->name('frontend.home');
     Route::get('/detailproduct/{slug}','HomeController@show')->name('frontend.detailproduct');
+    Route::get('/productcategory/{slug}','HomeController@ProductCategory')->name('frontend.productcategory');
     Route::post('/search','HomeController@search')->name('frontend.search');
 });

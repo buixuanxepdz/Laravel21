@@ -81,7 +81,7 @@
 								<div class="panel panel-default">
 									<div class="panel-heading menucha" id="cha">
 										<h4 class="panel-title">
-											<a href="{{ route('frontend.productcategory',$value->category->slug) }}">{{ $value->name }}</a>
+											<a href="#">{{ $value->name }}</a>
 											<a data-toggle="collapse" data-parent="#accordian" href="#{{ $value->id }}">
 												@if ($value->children)
 													<span class="badge pull-right"><i class="fa fa-plus"></i></span>
@@ -145,7 +145,7 @@
 				<div class="col-sm-9 padding-right">
 					<div class="features_items"><!--features_items-->
 						<h2 class="title text-center">Features Items</h2>
-						@foreach ($product as $pro)
+						{{-- @foreach ($product as $pro)
 							<div class="col-sm-4">
 							<div class="product-image-wrapper">
 								<div class="single-products">
@@ -170,7 +170,7 @@
 						</div>
 						@endforeach
 					</div>	
-						{!! $product->links() !!}
+						{!! $product->links() !!} --}}
 						<!--features_items-->
 					
 					<div class="category-tab"><!--category-tab-->

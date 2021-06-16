@@ -46,14 +46,14 @@
                                 <label for="exampleInputEmail1">Tên sản phẩm</label>
                                 <input type="text" name="name" value="{{ old('name') }}" class="form-control" id="" placeholder="Điền tên sản phẩm">
                                 @error('name')
-                                <div class="alert alert-danger">{{ $message }}</div>
+                                <span style="color: red">{{ $message }}</span> 
                                 @enderror
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Số lượng</label>
                                 <input type="text" name="quantity" value="{{ old('quantity') }}" class="form-control" id="" placeholder="Số lượng">
                                 @error('quantity')
-                                <div class="alert alert-danger">{{ $message }}</div>
+                                <span style="color: red">{{ $message }}</span> 
                                 @enderror
                             </div>
                             <div class="form-group">
@@ -70,7 +70,7 @@
                                         <label>Giá gốc</label>
                                         <input type="text" name="origin_price" value="{{ old('origin_price') }}" class="form-control" placeholder="Điền giá gốc">
                                         @error('origin_price')
-                                        <div class="alert alert-danger">{{ $message }}</div>
+                                        <span style="color: red">{{ $message }}</span> 
                                         @enderror
                                     </div>
                                 </div>
@@ -79,7 +79,7 @@
                                         <label>Giá bán</label>
                                         <input type="text" name="sale_price" value="{{ old('sale_price') }}" class="form-control" placeholder="Điền giá gốc">
                                         @error('sale_price')
-                                        <div class="alert alert-danger">{{ $message }}</div>
+                                        <span style="color: red">{{ $message }}</span> 
                                         @enderror
                                     </div>
                                 </div>
@@ -89,7 +89,7 @@
                                 <textarea class="textarea" name="content" placeholder="Place some text here"
                                           style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
                                           @error('content')
-                                            <div class="alert alert-danger">{{ $message }}</div>
+                                                <span style="color: red">{{ $message }}</span> 
                                           @enderror
                             </div>
                             <div class="form-group">
@@ -105,9 +105,9 @@
                                    
                                 </div>
                                 <img style="width:70px;" id="blah" src="#" alt="your image" />
-                                 @error('image')
-                                    <div class="alert alert-danger">{{ $message }}</div>
-                                    @enderror
+                                @error('image[]')
+                                    <span style="color: red">{{ $message }}</span> 
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label>Trạng thái sản phẩm</label>

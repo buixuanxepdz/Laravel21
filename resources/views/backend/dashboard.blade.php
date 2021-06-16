@@ -111,8 +111,8 @@
                                         <th>Tên sản phẩm</th>
                                         <th>Thời gian</th>
                                         <th>Danh mục</th>
-                                        <th>User</th>
-                                        <th>Status</th>
+                                        <th>Người tạo</th>
+                                        <th>Trạng Thái</th>
                                         <th>Mô tả</th>
                                     </tr>
                                     </thead>
@@ -124,8 +124,8 @@
                                             <td>{{ $product->updated_at }}</td>
                                             <td><a href="{{ route('backend.category.showProduct',$product->category->id) }}">{{ $product->category->name }}</a></td>
                                             <td><a href="{{ route('backend.user.showProduct',$product->user->id) }}">{{ $product->user->name }}</a></td>
-                                            <td><span class="tag tag-success">{{ $product->status }}</span></td>
-                                            <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+                                            <td><span class="tag tag-success">{{ $product->status_text }}</span></td>
+                                            <td>{!! $product->content !!}</td>
                                         </tr>
                                     @endforeach    
                                     </tbody>

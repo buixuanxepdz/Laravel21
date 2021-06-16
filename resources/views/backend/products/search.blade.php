@@ -56,22 +56,22 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($products as $product)
+                            @foreach($searchs as $search)
                             <tr>
-                                <td>{{ $product->id }}</td>
+                                <td>{{ $search->id }}</td>
                                  <td>
-                                    @if (count($product->images) > 0)
-                                        <img src="{{ $product->images[0]->image_url }}" width="60px" alt="">
+                                    @if (count($search->images) > 0)
+                                        <img src="{{ $search->images[0]->image_url }}" width="60px" alt="">
                                     @endif
                                 </td>
-                                <td><a href="{{ route('backend.product.showImage',$product->id) }}">{{ $product->name }}</a></td>
+                                <td>{{ $search->name }}</td>
                                
-                                <td>{{ $product->updated_at }}</td>
-                                <td><span class="tag tag-success">{{ $product->status_product }}</span></td>
-                                <td><span class="tag tag-success">{{ $product->user->name }}</span></td>
+                                <td>{{ $search->updated_at }}</td>
+                                <td><span class="tag tag-success">{{ $search->status_product }}</span></td>
+                                <td><span class="tag tag-success">{{ $search->user->name }}</span></td>
                                 <td>
-                                    <a href="{{ route('backend.product.edit',$product->id) }}"><button class="btn btn-success"><i class="fas fa-edit" style="margin-right: 3px"></i>Sửa</button></a>
-                                    <form style="display: inline" action="{{ route('backend.product.destroy',$product->id) }}" method="POST">
+                                    <a href="{{ route('backend.product.edit',$search->id) }}"><button class="btn btn-success"><i class="fas fa-edit" style="margin-right: 3px"></i>Sửa</button></a>
+                                    <form style="display: inline" action="{{ route('backend.product.destroy',$search->id) }}" method="POST">
                                         {{ csrf_field() }}
                                         {{ method_field('DELETE') }}
         
@@ -85,7 +85,7 @@
                             </tbody>
                         </table>
                         <div class="mt-3 float-right mr-5">
-                            {!! $products->links() !!}
+                            {!! $searchs->links() !!}
                         </div>
                     </div>
                     <!-- /.card-body -->

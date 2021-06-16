@@ -715,7 +715,7 @@ h2.title:before{
 	margin-bottom: 0px;
 }
 
-#con{
+/* #con{
   display: none;
   font-family: 'Roboto', sans-serif;
   font-size: 15px;
@@ -729,7 +729,7 @@ h2.title:before{
 #cha:hover  #con{
   display: block;
   transition: 0.3s;
-}
+} */
 .category-products .panel-default .panel-heading {
   background-color: #FFFFFF;
   border: 0 none;

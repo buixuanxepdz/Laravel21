@@ -29,9 +29,10 @@ class StoreProductRequest extends FormRequest
             'quantity'     => 'required|numeric|max:50000',
             'sale_price'   => 'required|numeric',
             'content'      => 'required',
-            'image[]'        => 'required',
-            'image[]'        => 'image',
-            'image[]'        => 'mimes:jpg,jpeg,png',
+            'image[]'        => 'required|mimes:jpg,jpeg,png|max:2048',
+            'image[]'        => 'image|file',
+            // 'image[]'        => '',
+            // 'image[]'        => ''
         ];
     }
     public function messages()
@@ -48,17 +49,20 @@ class StoreProductRequest extends FormRequest
             'sale_price.required' => ':attribute không được để trống',
             'sale_price.numeric' => ':attribute phải là số',
             'content.required' => ':attribute không được để trống',
-            'image.required' => 'Chọn 1 tấm ảnh',
-            'image[].image' => 'Chỉ nhận ảnh',
+            'image[].required' => 'Không được để trống',
+            'image[].image' => 'Hãy chọn ảnh',
+            'image[].file' => 'Hãy chọn file',
             'image[].mimes' => 'Chỉ nhận ảnh có đuôi jpg,png,jpeg',
+            'image[].max' => 'Kích thước vượt quá 2MB'
         ];
     }
     public function attributes()
     {
         return [
-            'sale_price' => 'giá bán',
-            'origin_price' => 'giá gốc',
-            'content' => 'mô tả'
+            'sale_price' => 'Giá bán',
+            'origin_price' => 'Giá gốc',
+            'content' => 'Mô tả',
+            'quantity' => 'Số lượng'
         ];
     }
 }

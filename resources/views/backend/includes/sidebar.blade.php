@@ -82,7 +82,7 @@
                     </li>
                     <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-tree"></i>
+                            <i class="nav-icon fas fa-user"></i>
                             <p>
                                 Quản lý người dùng
                                 <i class="fas fa-angle-left right"></i>
@@ -95,6 +95,23 @@
                                     <p>Tạo mới</p>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a href="{{ route('backend.user.index') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Danh sách</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item has-treeview">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-shopping-cart nav-icon"></i>
+                            <p>
+                                Quản lý đơn hàng
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
                             <li class="nav-item">
                                 <a href="{{ route('backend.user.index') }}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
