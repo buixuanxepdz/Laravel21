@@ -17,4 +17,8 @@ class UserInfo extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
+
+    public function getImageUrlAttribute(){
+        return url(\Illuminate\Support\Facades\Storage::url($this->path));
+    }
 }

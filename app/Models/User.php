@@ -55,6 +55,9 @@ class User extends Authenticatable
     public function products(){
         return $this->hasMany(Product::class);
     }
+    public function categories(){
+        return $this->hasMany(Category::class);
+    }
     /**
      * The accessors to append to the model's array form.
      *
@@ -63,4 +66,26 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+    const STAFF = 2;
+    const ADMIN = 1;
+    const USER = 0;
+
+    public static $author = [
+        self::STAFF => 'Nhân viên',
+        self::USER => 'Người dùng'
+    ];
+    public function getAuthorAttribute(){
+        return self::$author[$this->role];
+    }
+
+    public function getAuthorUserAttribute()
+    {
+        if($this->role == 1){
+            return "Admin";
+        }elseif($this->role ==2){
+            return "Nhân viên";
+        }else{
+            return "Người dùng";
+        }
+    }
 }

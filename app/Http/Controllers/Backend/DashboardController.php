@@ -89,9 +89,9 @@ class DashboardController extends Controller
         // }
 
         $products = Product::with('orders')->first()->orders;
-        foreach($products as $product){
-            dd($product->pivot->get());
-        }
+        // foreach($products as $product){
+        //     dd($product->pivot->get());
+        // }
         $products = Product::orderBy('updated_at', 'desc')->simplePaginate();
         
         // dd($products);

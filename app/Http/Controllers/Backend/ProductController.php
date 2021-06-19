@@ -7,10 +7,13 @@ use App\Models\Product;
 use App\Models\Image;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Category;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreProductRequest;
+use App\Models\Brand;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
@@ -34,8 +37,15 @@ class ProductController extends Controller
     public function create()
     {
         $categories = Category::all();
+        $user = Auth::user();
+        $brands = Brand::all();
+        // if($user->cannot('create',Product::class)){
+        //     abort(403);
+        // }
+        $this->authorize('create',Product::class);
         return view('backend.products.create')->with([
-            'categories' => $categories
+            'categories' => $categories,
+            'brands' => $brands
         ]);
     }
 
@@ -86,8 +96,9 @@ class ProductController extends Controller
         // dd($request->except('_token'));
         $product = new Product();
         $product->name = $request->get('name');
-        $product->slug = \Illuminate\Support\Str::slug($request->get('name')).''.rand(0,999);
+        $product->slug = \Illuminate\Support\Str::slug($request->get('name')).rand(0,999);
         $product->category_id = $request->get('category_id');
+        $product->brand_id = $request->get('brand_id');
         $product->origin_price = $request->get('origin_price');
         $product->sale_price = $request->get('sale_price');
         $product->content = $request->get('content');
@@ -128,6 +139,7 @@ class ProductController extends Controller
             }else{
                 dd('khong co file');
             }
+            // $this->authorize('create',Product::class);
         return redirect()->route('backend.product.index');
     }
 
@@ -155,12 +167,29 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Product $product)
     {
         $categories = Category::all();
-        $products = Product::find($id);
-        $images = Image::find($id);
-        return view('backend.products.edit')->with(['categories' => $categories])->with(['products' => $products])->with(['images' => $images]);
+        // $products = Product::find($id);
+        $images = Image::find($product);
+        $brands = Brand::all();
+        // $user = Auth::user();
+        // if (Gate::denies('update-product', $products)){
+        //     abort(403);
+        // }
+        // if($user->can('update',$products)){
+        //     return view('backend.products.edit')->with(['categories' => $categories])->with(['products' => $products])->with(['images' => $images]); 
+        // }else{
+        //     abort(403);
+        // }
+        // $this->authorize('update',$products);
+        return view('backend.products.edit')->with([
+            'categories' => $categories,
+            'products' => $product,
+            'images' => $images,
+            'brands' => $brands,
+        ]); 
+        //return view('backend.products.edit')->with(['product',$product]);
     }
 
     /**
@@ -208,8 +237,9 @@ class ProductController extends Controller
         
         // $product->update($data);
         $product->name = $request->get('name');
-        $product->slug = \Illuminate\Support\Str::slug($request->get('name')).''.rand(0,999);
+        $product->slug = \Illuminate\Support\Str::slug($request->get('name')).rand(0,999);
         $product->category_id = $request->get('category_id');
+        $product->brand_id = $request->get('brand_id');
         $product->origin_price = $request->get('origin_price');
         $product->sale_price = $request->get('sale_price');
         $product->quantity = $request->get('quantity');
@@ -222,7 +252,7 @@ class ProductController extends Controller
             $files = $request->file('image');
             foreach($files as $file){
                 
-                $name = $file->getClientOriginalName();
+                $name = $file->getClientOriginalName().rand(0,999);
                 // dd($file->getClientOriginalName());
                 $disk_name = 'public';
                 
@@ -245,6 +275,7 @@ class ProductController extends Controller
         }else{
             dd('khong co file');
         }
+        // $this->authorize('update',Product::class);
         return redirect()->route('backend.product.index');
     }
 
@@ -258,7 +289,10 @@ class ProductController extends Controller
     {
         $product = Product::find($id);
         $product->delete();
-
+        // if (Gate::denies('delete-product', $product)){
+        //     abort(403);
+        // }
+        // $this->authorize('delete',Product::class);
         return redirect()->route('backend.product.index');
     }
     public function search(Request $request){

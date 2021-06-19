@@ -145,7 +145,8 @@
                             <li><a href="#details" data-toggle="tab">Details</a></li>
                             <li><a href="#companyprofile" data-toggle="tab">Company Profile</a></li>
                             <li><a href="#tag" data-toggle="tab">Tag</a></li>
-                            <li class="active"><a href="#reviews" data-toggle="tab">Reviews (5)</a></li>
+                            <li class="active"><a href="#reviews" data-toggle="tab">Reviews</a></li>
+                            <li class=""><a href="#comment" data-toggle="tab">Bình luận</a></li>
                         </ul>
                     </div>
                     <div class="tab-content">
@@ -324,6 +325,11 @@
                                     </button>
                                 </form>
                             </div>
+                        </div>
+                        <div class="tab-pane fade active in" id="comment" >
+                            <div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v11.0" nonce="6BpkYskA"></script>
+                            <div class="fb-comments" data-href="http://127.0.0.1:8000/detailproduct/{{ $products->slug }}" data-width="" data-numposts="5"></div>
                         </div>
                         
                     </div>

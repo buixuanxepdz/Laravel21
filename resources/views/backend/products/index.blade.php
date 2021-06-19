@@ -49,6 +49,8 @@
                                 <th>ID</th>
                                 <th>Ảnh</th>
                                 <th>Tên sản phẩm</th>
+                                <th>Tên danh mục</th>
+                                {{-- <th>Tên thương hiệu</th> --}}
                                 <th>Thời gian</th>
                                 <th>Trạng thái</th>
                                 <th>Người tạo</th>
@@ -65,13 +67,21 @@
                                     @endif
                                 </td>
                                 <td><a href="{{ route('backend.product.showImage',$product->id) }}">{{ $product->name }}</a></td>
-                               
+                                <td>{{ $product->category->name }}</td>
+                                {{-- @dd($product->brand->name) --}}
+                                {{-- <td>{{ $product->brand->name }}</td> --}}
                                 <td>{{ $product->updated_at }}</td>
                                 <td><span class="tag tag-success">{{ $product->status_product }}</span></td>
                                 <td><span class="tag tag-success">{{ $product->user->name }}</span></td>
                                 <td>
-                                    <a href="{{ route('backend.product.edit',$product->id) }}"><button class="btn btn-success"><i class="fas fa-edit" style="margin-right: 3px"></i>Sửa</button></a>
-                                    <form style="display: inline" action="{{ route('backend.product.destroy',$product->id) }}" method="POST">
+                                    {{-- @if(\Illuminate\Support\Facades\Gate::allows('update-product', $product)) --}}
+                                    @can('update',$product)
+                                         <a href="{{ route('backend.product.edit',$product->id) }}"><button class="btn btn-success"><i class="fas fa-edit" style="margin-right: 3px"></i>Sửa</button></a>
+                                    @endcan
+                                    {{-- @endif --}}
+                                    {{-- @if(\Illuminate\Support\Facades\Gate::allows('delete-product', $product)) --}}
+                                    @can('delete',$product)
+                                         <form style="display: inline" action="{{ route('backend.product.destroy',$product->id) }}" method="POST">
                                         {{ csrf_field() }}
                                         {{ method_field('DELETE') }}
         
@@ -79,6 +89,9 @@
                                             <i class="fa fa-btn fa-trash" style="margin-right: 3px"></i>Xoá
                                         </button>
                                     </form>
+                                    @endcan
+                                   
+                                    {{-- @endif --}}
                                 </td>
                             </tr>
                            @endforeach

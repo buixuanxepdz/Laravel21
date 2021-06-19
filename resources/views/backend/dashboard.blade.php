@@ -142,4 +142,33 @@
                 </div>
             </div>
         </section>
+        <form action="" method="post">
+                        
+                        
+            <table class="table table-sm table-bordered" style="display: none;">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Cost</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+        
+            <tbody id="addRow" class="addRow">
+        
+            </tbody>
+            <tbody>
+              <tr>
+                <td colspan="1" class="text-right">
+                    <strong>Total:</strong> 
+                </td>
+                <td>
+                    <input type="number" id="estimated_ammount" class="estimated_ammount" value="0" readonly>
+                </td>
+              </tr>
+            </tbody>
+        
+            </table>
+           <button type="submit" class="btn btn-success btn-sm">Submit</button>
+          </form>
 @endsection

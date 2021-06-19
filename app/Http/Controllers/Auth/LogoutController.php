@@ -10,7 +10,7 @@ class LogoutController extends Controller
 {
     public function logout(Request $request){
        
-        if(Auth::user()->role ==1){
+        if(Auth::user()->role ==1 || Auth::user()->role ==2){
              Auth::logout();
 
             $request->session()->invalidate();

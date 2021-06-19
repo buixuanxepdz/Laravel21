@@ -1,5 +1,6 @@
 <?php
 
+use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
 // use \App\Http\Controllers\TaskController;
 // use \App\Http\Controllers\Task\TaskController;
@@ -149,7 +150,7 @@ Route::post('admin/register', 'Auth\RegisterController@register')->name('registe
 Route::group([
     'namespace' => 'Backend',
     'prefix' => 'admin',
-    'middleware' => 'auth'
+    'middleware' => ['auth','checkadmin']
 ], function (){
     // Trang dashboard - trang chủ admin
     Route::get('/dashboard', 'DashboardController@index')->name('backend.dashboard');
@@ -158,7 +159,7 @@ Route::group([
         Route::get('/', 'ProductController@index')->name('backend.product.index');
         Route::get('/create', 'ProductController@create')->name('backend.product.create');
         Route::post('/store', 'ProductController@store')->name('backend.product.store');
-        Route::get('/edit/{id}', 'ProductController@edit')->name('backend.product.edit');
+        Route::get('/edit/{product}', 'ProductController@edit')->name('backend.product.edit');
         Route::post('/update/{id}', 'ProductController@update')->name('backend.product.update');
         Route::get('/show/{id}', 'ProductController@showImages')->name('backend.product.showImage');
         Route::get('/showOrder/{order_id}', 'OrderController@showProducts')->name('backend.product.showOrder');
@@ -171,7 +172,11 @@ Route::group([
     Route::group(['prefix' => 'users'], function(){
         Route::get('/', 'UserController@index')->name('backend.user.index');
         Route::get('/create', 'UserController@create')->name('backend.user.create');
+        Route::post('/store', 'UserController@store')->name('backend.user.store');
+        Route::get('/edit/{user_id}', 'UserController@edit')->name('backend.user.edit');
         Route::get('/show/{user_id}', 'UserController@showProducts')->name('backend.user.showProduct');
+        Route::post('/update/{user_id}', 'UserController@update')->name('backend.user.update');
+        Route::delete('/delete/{id}', 'UserController@destroy')->name('backend.user.destroy');
     });
     Route::group(['prefix' => 'categories'], function(){
         Route::get('/', 'CategoryController@index')->name('backend.category.index');
@@ -182,6 +187,15 @@ Route::group([
         Route::get('/show/{category_id}', 'CategoryController@showProducts')->name('backend.category.showProduct');
         Route::delete('/delete/{id}', 'CategoryController@destroy')->name('backend.category.destroy');
     });
+    Route::group(['prefix' => 'brands'], function(){
+        Route::get('/', 'BrandController@index')->name('backend.brand.index');
+        Route::get('/create', 'BrandController@create')->name('backend.brand.create');
+        Route::post('/store', 'BrandController@store')->name('backend.brand.store');
+        Route::get('/edit/{id}', 'BrandController@edit')->name('backend.brand.edit');
+        Route::post('/update/{id}', 'BrandController@update')->name('backend.brand.update');
+        Route::get('/show/{id}', 'BrandController@showProducts')->name('backend.brand.showProduct');
+        Route::delete('/delete/{id}', 'BrandController@destroy')->name('backend.brand.destroy');
+    });
 });
 
 Route::group([
@@ -189,6 +203,6 @@ Route::group([
 ],function(){
     Route::get('/','HomeController@index')->name('frontend.home');
     Route::get('/detailproduct/{slug}','HomeController@show')->name('frontend.detailproduct');
-    Route::get('/productcategory/{slug}','HomeController@ProductCategory')->name('frontend.productcategory');
+    Route::get('/productcategory/{slug}','HomeController@productcategory')->name('frontend.productcategory');
     Route::post('/search','HomeController@search')->name('frontend.search');
 });

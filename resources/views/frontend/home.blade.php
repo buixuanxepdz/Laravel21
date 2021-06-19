@@ -81,7 +81,7 @@
 								<div class="panel panel-default">
 									<div class="panel-heading menucha" id="cha">
 										<h4 class="panel-title">
-											<a href="{{ route('frontend.productcategory',$value->category->slug) }}">{{ $value->name }}</a>
+											<a href="{{ route('frontend.productcategory',$value->slug) }}">{{ $value->name }}</a>
 											<a data-toggle="collapse" data-parent="#accordian" href="#{{ $value->id }}">
 												@if ($value->children)
 													<span class="badge pull-right"><i class="fa fa-plus"></i></span>
@@ -94,7 +94,7 @@
 										<div class="panel-body">
 											<ul>
 												@foreach ($value->children as $children)
-												<a href="#" style="color: #696763">
+												<a href="{{ route('frontend.productcategory',$value->slug) }}" style="color: #696763">
 													<li>
 														{{ $children->name }}
 													</li>
@@ -116,13 +116,10 @@
 							<h2>Thương hiệu</h2>
 							<div class="brands-name">
 								<ul class="nav nav-pills nav-stacked">
-									<li><a href="#"> <span class="pull-right">(50)</span>Acne</a></li>
-									<li><a href="#"> <span class="pull-right">(56)</span>Grüne Erde</a></li>
-									<li><a href="#"> <span class="pull-right">(27)</span>Albiro</a></li>
-									<li><a href="#"> <span class="pull-right">(32)</span>Ronhill</a></li>
-									<li><a href="#"> <span class="pull-right">(5)</span>Oddmolly</a></li>
-									<li><a href="#"> <span class="pull-right">(9)</span>Boudestijn</a></li>
-									<li><a href="#"> <span class="pull-right">(4)</span>Rösch creative culture</a></li>
+									@foreach ($brands as $brand)
+										<li><a href="#"> <span class="pull-right"></span>{{ $brand->name }}</a></li>
+									@endforeach
+									
 								</ul>
 							</div>
 						</div><!--/brands_products-->

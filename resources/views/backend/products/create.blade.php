@@ -64,6 +64,14 @@
                                     @endforeach
                                 </select>
                             </div>
+                            <div class="form-group">
+                                <label>Thương hiệu sản phẩm</label>
+                                <select name="brand_id" class="form-control select2" style="width: 100%;">
+                                    @foreach($brands as $brand)
+                                        <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                             <div class="row">
                                 <div class="col-6">
                                     <div class="form-group">

@@ -46,41 +46,47 @@
                                 <th>ID</th>
                                 <th>Email</th>
                                 <th>Tên</th>
+                                <th>Quyền</th>
                                 <th>Thời gian</th>
-                                <th>Status</th>
+                                <th>Hành động</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>183</td>
-                                <td>hoannc@gmail.com</td>
-                                <td>John Doe</td>
-                                <td>11-7-2014</td>
-                                <td><span class="tag tag-success">Approved</span></td>
-                            </tr>
-                            <tr>
-                                <td>219</td>
-                                <td>hoannc@gmail.com</td>
-                                <td>Alexander Pierce</td>
-                                <td>11-7-2014</td>
-                                <td><span class="tag tag-warning">Pending</span></td>
-                            </tr>
-                            <tr>
-                                <td>657</td>
-                                <td>hoannc@gmail.com</td>
-                                <td>Bob Doe</td>
-                                <td>11-7-2014</td>
-                                <td><span class="tag tag-primary">Approved</span></td>
-                            </tr>
-                            <tr>
-                                <td>175</td>
-                                <td>hoannc@gmail.com</td>
-                                <td>Mike Doe</td>
-                                <td>11-7-2014</td>
-                                <td><span class="tag tag-danger">Denied</span></td>
-                            </tr>
+                            @foreach ($users as $user)   
+                                <tr>
+                                    <td>{{ $user->id }}</td>
+                                    <td>{{ $user->email }}</td>
+                                    <td>{{ $user->name }}</td>
+                                    <td>{{ $user->author_user }}</td>
+                                    <td>{{ $user->created_at }}</td>
+                                    {{-- <td>abc</td> --}}
+                                    <td>
+                                        {{-- @if(\Illuminate\Support\Facades\Gate::allows('update-product', $product)) --}}
+                                        @can('update',$user)
+                                             <a href="{{ route('backend.user.edit',$user->id) }}"><button class="btn btn-success"><i class="fas fa-edit" style="margin-right: 3px"></i>Sửa</button></a>
+                                        @endcan
+                                        {{-- @endif --}}
+                                        {{-- @if(\Illuminate\Support\Facades\Gate::allows('delete-product', $product)) --}}
+                                        @can('delete',$user)
+                                             <form style="display: inline" action="{{ route('backend.user.destroy',$user->id) }}" method="POST">
+                                            {{ csrf_field() }}
+                                            {{ method_field('DELETE') }}
+            
+                                            <button onclick="return confirm('Bạn có muốn xóa ?')" type="submit" class="btn btn-danger">
+                                                <i class="fa fa-btn fa-trash" style="margin-right: 3px"></i>Xoá
+                                            </button>
+                                        </form>
+                                        @endcan
+                                       
+                                        {{-- @endif --}}
+                                    </td>
+                                </tr>
+                             @endforeach
                             </tbody>
                         </table>
+                        <div class="mt-3 float-right mr-5">
+                            {!! $users->links() !!}
+                        </div>
                     </div>
                     <!-- /.card-body -->
                 </div>

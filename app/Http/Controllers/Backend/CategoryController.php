@@ -16,8 +16,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::orderBy('updated_at', 'desc')->paginate(10);
-        return view('backend.categories.index',['categories' => $categories]);
+        $categories_parent = Category::where('parent_id',0)->get();
+        $categories = Category::orderBy('created_at', 'desc')->paginate(10);
+        return view('backend.categories.index',['categories' => $categories,'categories_parent'=>$categories_parent]);
     }
 
     /**

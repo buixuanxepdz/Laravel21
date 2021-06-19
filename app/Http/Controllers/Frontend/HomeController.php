@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Brand;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Image;
@@ -13,7 +14,11 @@ class HomeController extends Controller
 {
     public function index(){
         $product = Product::where('status',1)->orderBy('created_at','desc')->paginate(3);
-        return view('frontend.home')->with(['product' => $product]);
+        $brands = Brand::all();
+        return view('frontend.home')->with([
+            'product' => $product,
+            'brands'=> $brands
+        ]);
     }
 
     public function show($slug){
@@ -29,6 +34,9 @@ class HomeController extends Controller
     }
     public function productcategory($slug){
         $category_name = Category::where('slug',$slug)->first();
-        return view('frontend.productcategory')->with(['category_name' => $category_name]);
+        // dd($category_name);
+        $category_products = Product::where('category_id', $category_name->id)->orderBy('created_at','desc')->paginate(6);
+        // dd($category_products);
+        return view('frontend.productcategory')->with(['category_name' => $category_name])->with(['category_products' => $category_products]);
     }
 }

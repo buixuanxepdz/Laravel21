@@ -11,10 +11,10 @@
             <!-- Sidebar user panel (optional) -->
             <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                 <div class="image">
-                    <img src="/backend/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+                    <img style="width:50px !important;height:50px !important;" src="{{ Illuminate\Support\Facades\Auth::user()->userInfo->image_url }}" class="img-circle elevation-2" alt="User Image">
                 </div>
                 <div class="info">
-                    <a href="#" class="d-block">{{ Illuminate\Support\Facades\Auth::user()->name }}</a>
+                    <a href="{{ route('backend.user.edit',Illuminate\Support\Facades\Auth::user()->id) }}" class="d-block">{{ Illuminate\Support\Facades\Auth::user()->name }}</a>
                 </div>
             </div>
 
@@ -38,7 +38,7 @@
                             <p>
                                 Quản lý sản phẩm
                                 <i class="fas fa-angle-left right"></i>
-                                <span class="badge badge-info right">6</span>
+                                {{-- <span class="badge badge-info right">6</span> --}}
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
@@ -82,6 +82,30 @@
                     </li>
                     <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
+                            <i class="fas fa-tshirt"></i>
+                            <p>
+                                Quản lý thương hiệu
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('backend.brand.create') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Tạo mới</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('backend.brand.index') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Danh sách</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    @if(Illuminate\Support\Facades\Auth::user()->role == \App\Models\User::ADMIN)
+                    <li class="nav-item has-treeview">
+                        <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-user"></i>
                             <p>
                                 Quản lý người dùng
@@ -103,6 +127,7 @@
                             </li>
                         </ul>
                     </li>
+                    @endif
                     <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
                             <i class="fas fa-shopping-cart nav-icon"></i>
