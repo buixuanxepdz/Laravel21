@@ -20,6 +20,19 @@
 @endsection
 @section('content')
 <div class="container-fluid">
+    <style>
+        #searchajax a{
+            text-decoration: none !important;
+            font-size: 17px;
+            color: black;
+        }
+        #searchajax li{
+            text-align: center;
+        }
+        #searchajax li:hover{
+            background-color: rgb(208, 212, 216);
+        }
+    </style>
         <!-- Main row -->
         <div class="row">
 
@@ -30,10 +43,10 @@
 
                         <div class="card-tools">
                             <div class="input-group input-group-sm" style="width: 150px;">
-                                <form style="display: flex" action="{{ route('backend.product.search') }}" method="POST">
+                                <form style="display: flex" autocomplete="off" action="{{ route('backend.product.search') }}" method="get">
                                     @csrf
-                                <input type="text" name="keyword" class="form-control float-right" placeholder="Search">
-
+                                <input type="text" name="keyword" id="keywords" class="form-control float-right" placeholder="Search">
+                                <div id="searchajax" style="position: absolute;top:40px;"></div>
                                 <div class="input-group-append">
                                     <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
                                 </div>
@@ -85,7 +98,7 @@
                             </tbody>
                         </table>
                         <div class="mt-3 float-right mr-5">
-                            {!! $searchs->links() !!}
+                            {!! $searchs->appends(request()->all())->render() !!}
                         </div>
                     </div>
                     <!-- /.card-body -->
@@ -95,4 +108,28 @@
         </div>
         <!-- /.row (main row) -->
     </div>
+    <script>
+        $('#keywords').keyup(function(){
+                var query = $(this).val();
+          // alert(query);
+                if( query != ''){
+                    var _token = $('input[name = "_token"]').val();
+                    $.ajax({
+                        url: "{{ url('/autocomplete-ajax') }}",
+                        method:"POST",
+                        data:{query:query,_token:_token},
+                        success:function(data){
+                            $('#searchajax').fadeIn();
+                            $('#searchajax').html(data);
+                        }
+                    });
+                }else{
+                    $('#searchajax').fadeOut();
+                }
+            });
+            $(document).on('click','.lisearch',function(){
+                $('#keywords').val($(this).text());
+                $('#searchajax').fadeOut();
+            });
+    </script>
 @endsection

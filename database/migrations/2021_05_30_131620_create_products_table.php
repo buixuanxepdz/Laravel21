@@ -22,8 +22,8 @@ class CreateProductsTable extends Migration
             $table->integer('discount_percent')->default(0);
             $table->integer('size')->default(0);
             $table->text('content')->nullable();
-            $table->integer('user_id');
-            $table->integer('category_id');
+            $table->integer('user_id')->nullable();
+            $table->integer('category_id')->nullable();
             $table->integer('status')->default(0);
             $table->timestamps();
             $table->softDeletes();

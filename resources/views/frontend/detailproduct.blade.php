@@ -7,6 +7,7 @@
 @section('content')
 <section>
     <div class="container">
+        {{-- @dd($products) --}}
         <div class="row">
             <div class="col-sm-3">
                 <div class="left-sidebar">
@@ -17,7 +18,7 @@
                         <div class="panel panel-default">
                             <div class="panel-heading menucha" id="cha">
                                 <h4 class="panel-title">
-                                    <a href="#">{{ $value->name }}</a>
+                                    <a href="{{ route('frontend.productcategory',$value->slug) }}">{{ $value->name }}</a>
                                     <a data-toggle="collapse" data-parent="#accordian" href="#{{ $value->id }}">
                                         @if ($value->children)
                                             <span class="badge pull-right"><i class="fa fa-plus"></i></span>
@@ -51,13 +52,9 @@
                         <h2>Thương hiệu</h2>
                         <div class="brands-name">
                             <ul class="nav nav-pills nav-stacked">
-                                <li><a href="#"> <span class="pull-right">(50)</span>Acne</a></li>
-                                <li><a href="#"> <span class="pull-right">(56)</span>Grüne Erde</a></li>
-                                <li><a href="#"> <span class="pull-right">(27)</span>Albiro</a></li>
-                                <li><a href="#"> <span class="pull-right">(32)</span>Ronhill</a></li>
-                                <li><a href="#"> <span class="pull-right">(5)</span>Oddmolly</a></li>
-                                <li><a href="#"> <span class="pull-right">(9)</span>Boudestijn</a></li>
-                                <li><a href="#"> <span class="pull-right">(4)</span>Rösch creative culture</a></li>
+                                @foreach ($brands as $brand)
+                                    <li><a href="{{ route('frontend.productbrand',$brand->slug) }}"> <span class="pull-right"></span>{{ $brand->name }}</a></li>
+                                    @endforeach
                             </ul>
                         </div>
                     </div><!--/brands_products-->
@@ -80,41 +77,27 @@
             <div class="col-sm-9 padding-right">
                 <div class="product-details"><!--product-details-->
                     <div class="col-sm-5">
-                        <div class="view-product">
+                        {{-- <div class="view-product">
                             <img style="width: 100% !important;height:400px" src="{{ $products->images[0]->image_url }}" alt="" />
                             <h3>ZOOM</h3>
-                        </div>
-                        {{-- <div id="similar-product" class="carousel slide" data-ride="carousel">
-                            
-                              <!-- Wrapper for slides -->
-                                <div class="carousel-inner">
-                                    <div class="item active">
-                                      <a href=""><img src="/frontend/images/product-details/similar1.jpg" alt=""></a>
-                                      <a href=""><img src="/frontend/images/product-details/similar2.jpg" alt=""></a>
-                                      <a href=""><img src="/frontend/images/product-details/similar3.jpg" alt=""></a>
-                                    </div>
-                                    <div class="item">
-                                      <a href=""><img src="/frontend/images/product-details/similar1.jpg" alt=""></a>
-                                      <a href=""><img src="/frontend/images/product-details/similar2.jpg" alt=""></a>
-                                      <a href=""><img src="/frontend/images/product-details/similar3.jpg" alt=""></a>
-                                    </div>
-                                    <div class="item">
-                                      <a href=""><img src="/frontend/images/product-details/similar1.jpg" alt=""></a>
-                                      <a href=""><img src="/frontend/images/product-details/similar2.jpg" alt=""></a>
-                                      <a href=""><img src="/frontend/images/product-details/similar3.jpg" alt=""></a>
-                                    </div>
-                                    
-                                </div>
-
-                              <!-- Controls -->
-                              <a class="left item-control" href="#similar-product" data-slide="prev">
-                                <i class="fa fa-angle-left"></i>
-                              </a>
-                              <a class="right item-control" href="#similar-product" data-slide="next">
-                                <i class="fa fa-angle-right"></i>
-                              </a>
                         </div> --}}
-
+                       
+                            <ul id="imageGallery">
+                            @if (!empty($products->images) && count($products->images)>0)
+                                @foreach ($products->images as $image)
+                                <li data-thumb="{{ $image->image_url }}" data-src="{{ $image->image_url }}">
+                                <img style="width: 100%" src="{{ $image->image_url }}" />
+                                </li>
+                                @endforeach
+                                @foreach ($products->images as $image)
+                                <li data-thumb="{{ $image->image_url }}" data-src="{{ $image->image_url }}">
+                                <img style="width:100%" src="{{ $image->image_url }}" />
+                                </li>
+                                @endforeach   
+                                @endif
+                          </ul>
+                        
+                        
                     </div>
                     <div class="col-sm-7">
                         <div class="product-information"><!--/product-information-->
@@ -125,15 +108,30 @@
                             <span>
                                 <span>{{ number_format($products->sale_price).''.'đ' }}</span>
                                 <label>Số lượng:</label>
-                                <input type="text" value="{{ $products->quantity }}" />
+                                <input type="number" value="1" min="1" max="999" />
+
                                 <button type="button" class="btn btn-fefault cart">
                                     <i class="fa fa-shopping-cart"></i>
                                     Thêm vào giỏ hàng
                                 </button>
                             </span>
-                            <p><b>Availability:</b> In Stock</p>
-                            <p><b>Danh mục:</b>{{ $products->category->name }}</p>
-                            <p><b>Brand:</b> E-SHOPPER</p>
+                            @if($products->quantity == 0)
+                            <p><b>Kho:</b>Hết hàng</p>
+                            @else
+                             <p><b>Kho:</b>{{ $products->quantity }}</p>
+                            @endif
+                            @if ($products->category == NULL)
+                                <p><b>Danh mục:</b>không có</p>
+                            @else
+                                <p><b>Danh mục:</b>{{ $products->category->name }}</p>
+                            @endif
+                            @if ($products->brand == NULL)
+                                <p><b>Thương hiệu: </b>không có</p>
+                            @else
+                                <p><b>Thương hiệu:</b>{{ $products->brand->name }}</p>
+                            @endif
+                            
+                            
                             <a href=""><img src="/frontend/images/product-details/share.png" class="share img-responsive"  alt="" /></a>
                         </div><!--/product-information-->
                     </div>

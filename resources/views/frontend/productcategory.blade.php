@@ -1,9 +1,18 @@
 @extends('frontend.layouts.master')
+
 @section('title')
 	Bui Xuan Xep
 @endsection
 <!--/Footer-->
 @section('content')
+
+<style>
+	.ui-slider-horizontal .ui-slider-range {
+    top: 0;
+    height: 100%;
+	background-color: #fe980f !important;
+}
+</style>
 <section id="slider"><!--slider-->
 		<div class="container">
 			<div class="row">
@@ -81,7 +90,7 @@
 								<div class="panel panel-default">
 									<div class="panel-heading menucha" id="cha">
 										<h4 class="panel-title">
-											<a href="#">{{ $value->name }}</a>
+											<a href="{{ route('frontend.productcategory',$value->slug) }}">{{ $value->name }}</a>
 											<a data-toggle="collapse" data-parent="#accordian" href="#{{ $value->id }}">
 												@if ($value->children)
 													<span class="badge pull-right"><i class="fa fa-plus"></i></span>
@@ -116,22 +125,34 @@
 							<h2>Thương hiệu</h2>
 							<div class="brands-name">
 								<ul class="nav nav-pills nav-stacked">
-									<li><a href="#"> <span class="pull-right">(50)</span>Acne</a></li>
-									<li><a href="#"> <span class="pull-right">(56)</span>Grüne Erde</a></li>
-									<li><a href="#"> <span class="pull-right">(27)</span>Albiro</a></li>
-									<li><a href="#"> <span class="pull-right">(32)</span>Ronhill</a></li>
-									<li><a href="#"> <span class="pull-right">(5)</span>Oddmolly</a></li>
-									<li><a href="#"> <span class="pull-right">(9)</span>Boudestijn</a></li>
-									<li><a href="#"> <span class="pull-right">(4)</span>Rösch creative culture</a></li>
+									@foreach ($brands as $brand)
+                                    <li><a href="{{ route('frontend.productbrand',$brand->slug) }}"> <span class="pull-right"></span>{{ $brand->name }}</a></li>
+                                    @endforeach
 								</ul>
 							</div>
 						</div><!--/brands_products-->
 						
-						<div class="price-range"><!--price-range-->
-							<h2>Price Range</h2>
+						<div ><!--price-range-->
+							<h2>Lọc giá</h2>
 							<div class="well text-center">
-								 <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="600" data-slider-step="5" data-slider-value="[250,450]" id="sl2" ><br />
-								 <b class="pull-left">$ 0</b> <b class="pull-right">$ 600</b>
+								<form action="" method="GET">
+									 {{-- <select name="sortby" class="sortby" style="border:1px solid #ced4da;">
+                                        <option {{ Request::get('sortby') == 'default' || !Request::get('sortby') ? "'selected = selected '" : "" }} value="default" selected="selected">Mặc định</option>
+                                        <option {{ Request::get('sortby') == 'moi-nhat' ? "selected = 'selected '" : "" }} value="moi-nhat">Sản phẩm mới</option>
+                                        <option {{ Request::get('sortby') == 'sp-cu' ? "selected = 'selected '" : "" }} value="sp-cu">Sản phẩm cũ</option>
+                                    </select> --}}
+									<div id="slider-range" ></div>
+									<div style="display: flex;justify-content:space-between;">
+										<input type="text" id="amount_one" readonly style="width:49%;border:0; color:#f6931f; font-weight:bold;">
+										<input type="text" id="amount_two" readonly style="width:49%;border:0; color:#f6931f; font-weight:bold;">
+									</div>
+									
+									<input type="hidden" name="minprice" id="minprice">
+									<input type="hidden" name="maxprice" id="maxprice">
+									<input type="submit" name="price_range" value="Lọc giá" class="btn btn_default" >
+								</form>
+								
+								
 							</div>
 						</div><!--/price-range-->
 						
@@ -164,15 +185,23 @@
 								</div>
 								<div class="choose">
 									<ul class="nav nav-pills nav-justified">
-										<li><a href="#"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>
-										<li><a href="#"><i class="fa fa-plus-square"></i>Add to compare</a></li>
+										@if ($category_product->category == NULL)
+										<li><a href="#"><i class="fa fa-plus-square"></i>Không có danh mục</a></li>
+										@else
+											<li><a href="#"><i class="fa fa-plus-square"></i>{{ $category_product->category->name }}</a></li>
+										@endif
+										@if ($category_product->brand == NULL)
+											<li><a href="#"><i class="fa fa-plus-square"></i>Không có thương hiệu</a></li>
+										@else
+											<li><a href="#"><i class="fa fa-plus-square"></i>{{ $category_product->brand->name }}</a></li>
+										@endif
 									</ul>
 								</div>
 							</div>
 						</div>
 						@endforeach
 					</div>	
-						{!! $category_products->links() !!}
+						{!! $category_products->appends(request()->input())->links() !!}
 						<!--features_items-->
 					
 					<div class="category-tab"><!--category-tab-->
@@ -470,5 +499,7 @@
 		</div>
 	</section>
 	{{-- @dd($menus) --}}
+	
 @endsection
+
 

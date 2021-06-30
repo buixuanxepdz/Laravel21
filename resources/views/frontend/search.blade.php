@@ -117,13 +117,9 @@
 							<h2>Thương hiệu</h2>
 							<div class="brands-name">
 								<ul class="nav nav-pills nav-stacked">
-									<li><a href="#"> <span class="pull-right">(50)</span>Acne</a></li>
-									<li><a href="#"> <span class="pull-right">(56)</span>Grüne Erde</a></li>
-									<li><a href="#"> <span class="pull-right">(27)</span>Albiro</a></li>
-									<li><a href="#"> <span class="pull-right">(32)</span>Ronhill</a></li>
-									<li><a href="#"> <span class="pull-right">(5)</span>Oddmolly</a></li>
-									<li><a href="#"> <span class="pull-right">(9)</span>Boudestijn</a></li>
-									<li><a href="#"> <span class="pull-right">(4)</span>Rösch creative culture</a></li>
+									@foreach ($brands as $brand)
+                                    <li><a href="{{ route('frontend.productbrand',$brand->slug) }}"> <span class="pull-right"></span>{{ $brand->name }}</a></li>
+                                    @endforeach
 								</ul>
 							</div>
 						</div><!--/brands_products-->
@@ -151,7 +147,12 @@
 							<div class="product-image-wrapper">
 								<div class="single-products">
 										<div class="productinfo text-center">
-											<a href="{{ route('frontend.detailproduct',$pro->slug) }}"><img style="width: 100% !important;height:300px" src="{{ $pro->images[0]->image_url }}" alt="" /></a> 
+											<a href="{{ route('frontend.detailproduct',$pro->slug) }}">
+												@if (count($pro->images) > 0)
+													<img style="width: 100% !important;height:300px" src="{{ $pro->images[0]->image_url }}" alt="" />
+												@endif
+													
+											</a> 
 											<h2>{{  number_format($pro->sale_price).''.'đ' }}</h2>
 											<p>{!!$pro->name !!}</p>
 											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
@@ -159,8 +160,16 @@
 								</div>
 								<div class="choose">
 									<ul class="nav nav-pills nav-justified">
-										<li><a href="#"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>
-										<li><a href="#"><i class="fa fa-plus-square"></i>Add to compare</a></li>
+										@if ($pro->category == NULL)
+										<li><a href="#"><i class="fa fa-plus-square"></i>Không có danh mục</a></li>
+										@else
+											<li><a href="#"><i class="fa fa-plus-square"></i>{{ $pro->category->name }}</a></li>
+										@endif
+										@if ($pro->brand == NULL)
+											<li><a href="#"><i class="fa fa-plus-square"></i>Không có thương hiệu</a></li>
+										@else
+											<li><a href="#"><i class="fa fa-plus-square"></i>{{ $pro->brand->name }}</a></li>
+										@endif
 									</ul>
 								</div>
 							</div>

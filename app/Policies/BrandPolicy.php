@@ -53,7 +53,11 @@ class BrandPolicy
      */
     public function update(User $user, Brand $brand)
     {
-        //
+        if ($user->id === $brand->user_id || $user->role == User::ADMIN){
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -65,7 +69,11 @@ class BrandPolicy
      */
     public function delete(User $user, Brand $brand)
     {
-        //
+        if ($user->id === $brand->user_id || $user->role == User::ADMIN){
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**

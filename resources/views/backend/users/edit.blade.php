@@ -37,22 +37,37 @@
                                 <label for="exampleInputEmail1">Tên</label>
                                 <input type="text" name="name" class="form-control" id="" value="{{ $users->name }}" placeholder="Tên người dùng">
                             </div>
+                            @error('name')
+                            <span style="color: red">{{ $message }}</span> 
+                            @enderror
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Email</label>
                                 <input type="email" name="email" value="{{ $users->email }}" class="form-control" id="" placeholder="Email">
                             </div>
+                            @error('email')
+                            <span style="color: red">{{ $message }}</span> 
+                            @enderror
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Địa chỉ</label>
                                 <input type="text" name="address" class="form-control" id="" value="{{ $users->userInfo->address }}" placeholder="Địa chỉ">
                             </div>
+                            @error('address')
+                            <span style="color: red">{{ $message }}</span> 
+                            @enderror
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Số điện thoại</label>
                                 <input type="text" name="phone" class="form-control" id="" value="{{ $users->userInfo->phone }}" placeholder="Số điện thoại">
                             </div>
+                            @error('phone')
+                            <span style="color: red">{{ $message }}</span> 
+                            @enderror
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Mật khẩu</label>
                                 <input type="password" name="password"  class="form-control" id="">
                             </div>
+                            @error('password')
+                            <span style="color: red">{{ $message }}</span> 
+                            @enderror
                             <div class="form-group">
                                 <label for="exampleInputFile">Hình ảnh sản phẩm</label>
                                 <div class="input-group">
@@ -65,6 +80,9 @@
                                     <div class="input-group-append">
                                         <span class="input-group-text" id="">Upload</span>
                                     </div>
+                                    @error('image[]')
+                                    <span style="color: red">{{ $message }}</span> 
+                                    @enderror
                                 </div>
                                 <img style="width:70px;" id="blah" src="#" alt="your image" />
                             </div>    

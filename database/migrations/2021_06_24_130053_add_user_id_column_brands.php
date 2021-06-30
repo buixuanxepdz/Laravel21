@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddBrandIdColumnProducts extends Migration
+class AddUserIdColumnBrands extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddBrandIdColumnProducts extends Migration
      */
     public function up()
     {
-        Schema::table('products', function (Blueprint $table) {
-            $table->integer('brand_id')->nullable()->after('category_id');
+        Schema::table('brands', function (Blueprint $table) {
+            $table->integer('user_id')->nullable()->after('slug');
         });
     }
 
@@ -25,8 +25,8 @@ class AddBrandIdColumnProducts extends Migration
      */
     public function down()
     {
-        Schema::table('products', function (Blueprint $table) {
-            $table->dropColumn('brand_id');
+        Schema::table('brands', function (Blueprint $table) {
+            $table->dropColumn('user_id');
         });
     }
 }

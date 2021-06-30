@@ -52,9 +52,9 @@ class UserPolicy
      */
     public function update(User $user, User $model)
     {
-        if ($user->id === $model->id || $user->role == User::ADMIN){
+        if ($user->role == User::ADMIN){
             return true;
-        } else {
+        } else{
             return false;
         }
     }
@@ -70,7 +70,7 @@ class UserPolicy
     {
         if ($user->role == User::ADMIN){
             return true;
-        } else {
+        }else {
             return false;
         }
     }

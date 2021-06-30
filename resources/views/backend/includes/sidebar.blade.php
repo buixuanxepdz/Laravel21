@@ -14,7 +14,7 @@
                     <img style="width:50px !important;height:50px !important;" src="{{ Illuminate\Support\Facades\Auth::user()->userInfo->image_url }}" class="img-circle elevation-2" alt="User Image">
                 </div>
                 <div class="info">
-                    <a href="{{ route('backend.user.edit',Illuminate\Support\Facades\Auth::user()->id) }}" class="d-block">{{ Illuminate\Support\Facades\Auth::user()->name }}</a>
+                    <a href="{{ route('backend.user.editprofile',Illuminate\Support\Facades\Auth::user()->id) }}" class="d-block">{{ Illuminate\Support\Facades\Auth::user()->name }}</a>
                 </div>
             </div>
 
@@ -27,12 +27,13 @@
                         <a href="{{ route('backend.dashboard') }}" class="nav-link active">
                             <i class="nav-icon fas fa-tachometer-alt"></i>
                             <p>
-                                Dashboard
+                                Tổng quan
                             </p>
                         </a>
 
                     </li>
-                    <li class="nav-item has-treeview">
+                    <li style="padding: 10px 0"><i style="color: aliceblue;font-size: 18px">Sản phẩm</i></li>    
+                    <li class="nav-item has-treeview ">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-shopping-basket"></i>
                             <p>
@@ -103,6 +104,7 @@
                             </li>
                         </ul>
                     </li>
+                    <li style="padding: 10px 0"><i style="color: aliceblue;font-size: 18px">Người dùng</i></li>  
                     @if(Illuminate\Support\Facades\Auth::user()->role == \App\Models\User::ADMIN)
                     <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
@@ -128,11 +130,30 @@
                         </ul>
                     </li>
                     @endif
+                    <li style="padding: 10px 0"><i style="color: aliceblue;font-size: 18px">Giỏ hàng</i></li> 
                     <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
                             <i class="fas fa-shopping-cart nav-icon"></i>
                             <p>
                                 Quản lý đơn hàng
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('backend.user.index') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Danh sách</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li style="padding: 10px 0"><i style="color: aliceblue;font-size: 18px">Thống kê</i></li> 
+                    <li class="nav-item has-treeview">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-chart-area nav-icon"></i>
+                            <p>
+                                Thống kê
                                 <i class="fas fa-angle-left right"></i>
                             </p>
                         </a>

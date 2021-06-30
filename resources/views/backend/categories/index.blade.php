@@ -74,7 +74,7 @@
                                         {{ csrf_field() }}
                                         {{ method_field('DELETE') }}
         
-                                        <button onclick="return confirm('Bạn có muốn xóa ?')" type="submit" class="btn btn-danger">
+                                        <button  type="submit" class="btn btn-danger delete-confirm" data-name="{{ $category->name }}">
                                             <i class="fa fa-btn fa-trash" style="margin-left:3px;"></i>Xoá
                                         </button>
                                     </form>
@@ -93,4 +93,55 @@
         </div>
         <!-- /.row (main row) -->
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
+
+    @if(Session::has('success'))
+    <script>
+        toastr.success("{!! Session::get('success') !!}");
+    </script>    
+    @elseif(Session::has('error'))    
+    <script>
+        toastr.error("{!! Session::get('error') !!}");
+    </script>
+    @endif
+
+    @if(Session::has('updatesuccess'))
+    <script>
+        toastr.success("{!! Session::get('updatesuccess') !!}");
+    </script>    
+    @elseif(Session::has('updateerror'))    
+    <script>
+        toastr.error("{!! Session::get('updateerror') !!}");
+    </script>
+    @endif
+
+    @if(Session::has('deletesuccess'))
+    <script>
+        toastr.success("{!! Session::get('deletesuccess') !!}");
+    </script>    
+    @elseif(Session::has('deleteerror'))    
+    <script>
+        toastr.error("{!! Session::get('deleteerror') !!}");
+    </script>
+    @endif
+    <script>
+        $('.delete-confirm').click(function(event) {
+      var form =  $(this).closest("form");
+      var name = $(this).data("name");
+      event.preventDefault();
+      swal({
+          title: `Bạn có muốn xóa ${name}?`,
+          text: "Nếu bạn xóa nó, bạn sẽ không thể khôi phục lại được",
+          icon: "error",
+          buttons: ["Không", "Đồng ý"],
+          dangerMode: true,
+      })
+      .then((willDelete) => {
+        if (willDelete) {
+          form.submit();
+        }
+      });
+  });
+    </script>
 @endsection

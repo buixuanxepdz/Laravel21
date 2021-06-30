@@ -37,9 +37,9 @@
                                 <label for="exampleInputEmail1">Tên thương hiệu</label>
                                 <input type="text" value="{{ $brands->name }}" name="name" class="form-control" id="" placeholder="Điền tên thương hiệu">
                             </div>
-                            {{-- @error('name')
-                            <div class="alert alert-danger">{{ $message }}</div>
-                            @enderror --}}
+                            @error('name')
+                            <span style="color: red">{{ $message }}</span>
+                            @enderror
                         </div>
                         <!-- /.card-body -->
 

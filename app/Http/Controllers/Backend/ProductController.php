@@ -23,12 +23,47 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::orderBy('updated_at', 'desc')->paginate(15);
-        return view('backend.products.index',['products' => $products]);
+        $products = Product::orderBy('updated_at', 'desc')->paginate(10);
+        $categories = Category::all();
+        // $products = Product::query();
+
+        // if ($request->sortby == 'default') {
+        //     return view('backend.products.index',['products' => $products]);
+        // }
+        
+        // if ($request->sortby) 
+        // {
+        //     $sortby = $request->sortby;
+        //     switch ($sortby) {
+        //         case 'moi-nhat':
+        //             $products = Product::orderBy('id','desc');
+        //             break;
+        //         case 'sp-cu':
+        //             $products = Product::orderBy('id','asc');
+        //             break;
+                
+        //         default:
+        //         $products = Product::orderBy('id','desc');
+                
+        //     }
+        //     $products = $products->paginate(10);
+        // }
+        
+        return view('backend.products.index',['products' => $products])->with(['categories' => $categories]);
     }
 
+
+    public function filterProduct(Request $request){
+        if($request->get('status') == -1 && $request->get('category') == -1){
+            return redirect()->route('backend.product.index');
+        }
+
+        $products = Product::query()->status($request)->category($request)->paginate(10);
+        $categories = Category::all();
+        return view('backend.products.index',['products' => $products])->with(['categories' => $categories]);
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -36,7 +71,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $categories = Category::all();
+        $categories = Category::where('parent_id',0)->get();
         $user = Auth::user();
         $brands = Brand::all();
         // if($user->cannot('create',Product::class)){
@@ -139,8 +174,20 @@ class ProductController extends Controller
             }else{
                 dd('khong co file');
             }
+        // $save =0 ;
+        // if($save){
+        //     $request->session()->flash('success','Tao sp thanh cong');
+        // }else{
+        //     $request->session()->flash('error','Tao sp that bai');
+        // }
             // $this->authorize('create',Product::class);
-        return redirect()->route('backend.product.index');
+            if($product->save() &&  $image->save()){
+                 return redirect()->route('backend.product.index')->with("success",'Thêm mới sản phẩm thành công');  
+            }else{
+                return redirect()->route('backend.product.index')->with("error",'Thêm mới sản phẩm thất bại');  
+            }
+             
+        
     }
 
     /**
@@ -237,7 +284,7 @@ class ProductController extends Controller
         
         // $product->update($data);
         $product->name = $request->get('name');
-        $product->slug = \Illuminate\Support\Str::slug($request->get('name')).rand(0,999);
+        //$product->slug = \Illuminate\Support\Str::slug($request->get('name'));
         $product->category_id = $request->get('category_id');
         $product->brand_id = $request->get('brand_id');
         $product->origin_price = $request->get('origin_price');
@@ -248,35 +295,39 @@ class ProductController extends Controller
         $product->user_id = Auth::user()->id;
         $product->save();
 
+     
         if($request->hasFile('image')){
             $files = $request->file('image');
             foreach($files as $file){
-                
                 $name = $file->getClientOriginalName().rand(0,999);
-                // dd($file->getClientOriginalName());
                 $disk_name = 'public';
-                
+
                 $path = Storage::disk($disk_name)->putFileAs('images',$file,$name);
-                $image = Image::where('product_id',$product->id)->first();
-                
-                if(!$image){
-                    $image = new Image();
-                }
-                
-                // dd($image);
+
+                $image = new Image();
                 $image->name = $name;
                 $image->disk = $disk_name;
                 $image->path = $path;
                 $image->product_id = $product->id;
-
                 $image->save();
-                // dd($image);
+                    // dd($image);
             }
-        }else{
-            dd('khong co file');
+
+        }
+        $delimg = $request->get('delimg');
+        if(!empty($delimg)){
+            foreach($delimg as $del){
+                $imgdelete = Image::find($del);
+                Storage::disk('public')->delete($imgdelete->path);
+                $imgdelete->delete();
+            }
         }
         // $this->authorize('update',Product::class);
-        return redirect()->route('backend.product.index');
+        if($product->save()){
+            return redirect()->route('backend.product.index')->with("updatesuccess",'Chỉnh sửa sản phẩm thành công');  
+       }else{
+           return redirect()->route('backend.product.index')->with("updateerror",'Chỉnh sửa sản phẩm thất bại');  
+       }
     }
 
     /**
@@ -285,15 +336,22 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Product $product)
     {
-        $product = Product::find($id);
-        $product->delete();
+        $image = Image::where('product_id',$product->id)->delete();
         // if (Gate::denies('delete-product', $product)){
         //     abort(403);
         // }
         // $this->authorize('delete',Product::class);
-        return redirect()->route('backend.product.index');
+        if( $product->delete()){
+            return redirect()->route('backend.product.index')->with("deletesuccess",'Xóa sản phẩm thành công');      
+        }else{
+           return redirect()->route('backend.product.index')->with("deleteerror",'Xóa sản phẩm thất bại');  
+        }
+            // $save = 1;
+        
+
+        // return redirect()->route('backend.product.index');
     }
     public function search(Request $request){
         $keyword = $request->get('keyword');
@@ -301,5 +359,19 @@ class ProductController extends Controller
         $searchs = Product::where('name','like','%'.$keyword.'%')->paginate(6);
 
         return view('backend.products.search')->with(['searchs' => $searchs]);
+      
+    }
+
+    public function autocomplete_ajax(Request $request){
+        $data = $request->all();
+        if($data['query']){
+            $product =  Product::where('name','like','%'.$data['query'].'%')->paginate(6);
+            $output = '<ul class="dropdown-menu" style="display:block;position:relative;text-align:center">';
+            foreach ($product as $value) {
+                $output .= '<li class ="lisearch"><a href="#">'.$value->name.'</a></li>';
+            }
+            $output .= '</ul>';
+            echo $output;
+        }
     }
 }

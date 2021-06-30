@@ -143,7 +143,7 @@ Route::get('/list',function(){
 //login
 Route::get('admin/login', 'Auth\LoginController@showLoginForm')->name('login.form');
 Route::post('admin/login', 'Auth\LoginController@login')->name('login.store');
-Route::get('admin/logout', 'Auth\LogoutController@logout')->name('logout');
+Route::get('admin/logout', 'Auth\LogoutController@logout')->name('logout')->middleware('auth');
 Route::get('admin/register', 'Auth\RegisterController@showForm')->name('register.form');
 Route::post('admin/register', 'Auth\RegisterController@register')->name('register.post');
 
@@ -163,9 +163,10 @@ Route::group([
         Route::post('/update/{id}', 'ProductController@update')->name('backend.product.update');
         Route::get('/show/{id}', 'ProductController@showImages')->name('backend.product.showImage');
         Route::get('/showOrder/{order_id}', 'OrderController@showProducts')->name('backend.product.showOrder');
-        Route::delete('/delete/{id}', 'ProductController@destroy')->name('backend.product.destroy');
-        Route::post('/search','ProductController@search')->name('backend.product.search');
-
+        Route::delete('/delete/{product}', 'ProductController@destroy')->name('backend.product.destroy');
+        Route::get('/search','ProductController@search')->name('backend.product.search');
+        Route::get('/filter','ProductController@filterProduct')->name('backend.product.filter');
+        Route::post('/autocomplete-ajax','Product@autocomplete_ajax')->name('backend.product.searchauto');
      });
 
     //Quản lý người dùng
@@ -175,8 +176,10 @@ Route::group([
         Route::post('/store', 'UserController@store')->name('backend.user.store');
         Route::get('/edit/{user_id}', 'UserController@edit')->name('backend.user.edit');
         Route::get('/show/{user_id}', 'UserController@showProducts')->name('backend.user.showProduct');
-        Route::post('/update/{user_id}', 'UserController@update')->name('backend.user.update');
-        Route::delete('/delete/{id}', 'UserController@destroy')->name('backend.user.destroy');
+        Route::post('/update/{id}', 'UserController@update')->name('backend.user.update');
+        Route::delete('/delete/{user}', 'UserController@destroy')->name('backend.user.destroy');
+        Route::get('/editprofile/{id}', 'UserController@editprofile')->name('backend.user.editprofile');
+        Route::post('/editprofile/{id}', 'UserController@updateprofile')->name('backend.user.updateprofile');
     });
     Route::group(['prefix' => 'categories'], function(){
         Route::get('/', 'CategoryController@index')->name('backend.category.index');
@@ -185,7 +188,7 @@ Route::group([
         Route::get('/edit/{id}', 'CategoryController@edit')->name('backend.category.edit');
         Route::post('/update/{id}', 'CategoryController@update')->name('backend.category.update');
         Route::get('/show/{category_id}', 'CategoryController@showProducts')->name('backend.category.showProduct');
-        Route::delete('/delete/{id}', 'CategoryController@destroy')->name('backend.category.destroy');
+        Route::delete('/delete/{category}', 'CategoryController@destroy')->name('backend.category.destroy');
     });
     Route::group(['prefix' => 'brands'], function(){
         Route::get('/', 'BrandController@index')->name('backend.brand.index');
@@ -194,7 +197,7 @@ Route::group([
         Route::get('/edit/{id}', 'BrandController@edit')->name('backend.brand.edit');
         Route::post('/update/{id}', 'BrandController@update')->name('backend.brand.update');
         Route::get('/show/{id}', 'BrandController@showProducts')->name('backend.brand.showProduct');
-        Route::delete('/delete/{id}', 'BrandController@destroy')->name('backend.brand.destroy');
+        Route::delete('/delete/{brand}', 'BrandController@destroy')->name('backend.brand.destroy');
     });
 });
 
@@ -204,5 +207,7 @@ Route::group([
     Route::get('/','HomeController@index')->name('frontend.home');
     Route::get('/detailproduct/{slug}','HomeController@show')->name('frontend.detailproduct');
     Route::get('/productcategory/{slug}','HomeController@productcategory')->name('frontend.productcategory');
-    Route::post('/search','HomeController@search')->name('frontend.search');
+    Route::get('/productbrand/{slug}','HomeController@productbrand')->name('frontend.productbrand');
+    Route::get('/search','HomeController@search')->name('frontend.search');
+    Route::post('/autocomplete-ajax','HomeController@autocomplete_ajax')->name('frontend.searchauto');
 });

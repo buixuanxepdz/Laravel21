@@ -10,7 +10,7 @@
         </ul>
 
         <!-- SEARCH FORM -->
-        <form class="form-inline ml-3" action="{{ route('backend.product.search') }}" method="POST">
+        {{-- <form class="form-inline ml-3" action="{{ route('backend.product.search') }}" method="POST">
             @csrf
             <div class="input-group input-group-sm">
                 <input class="form-control form-control-navbar" name="keyword" type="search" placeholder="Search" aria-label="Search">
@@ -20,7 +20,7 @@
                     </button>
                 </div>
             </div>
-        </form>
+        </form> --}}
 
         <!-- Right navbar links -->
         <ul class="navbar-nav ml-auto">

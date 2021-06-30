@@ -14,7 +14,7 @@ class AddUserIdColumnCategories extends Migration
     public function up()
     {
         Schema::table('categories', function (Blueprint $table) {
-            $table->integer('user_id')->default(0)->after('parent_id');
+            $table->integer('user_id')->nullable()->default(0)->after('parent_id');
         });
     }
 

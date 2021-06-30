@@ -29174,6 +29174,7 @@ body.text-sm .input-group-text {
 
 .card.card-tabs .card-tools {
   margin: .3rem .5rem;
+  
 }
 
 .card.card-tabs:not(.expanding-card).collapsed-card .card-header {
@@ -29261,6 +29262,7 @@ html.maximized-card {
 .card-header > .card-tools {
   float: right;
   margin-right: -0.625rem;
+  
 }
 
 .card-header > .card-tools .input-group,

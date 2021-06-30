@@ -13,7 +13,7 @@ class Product extends Model
 
     const STATUS_INIT = 0;
     const STATUS_BUY = 1;
-    const STATUS_STOP = -1;
+    const STATUS_STOP = 2;
 
     public static $status_text = [
         self::STATUS_INIT => 'Đang nhập',
@@ -53,4 +53,34 @@ class Product extends Model
         }
 
     }
+    public function scopeStatus($query, $request)
+    {
+        if ($request->has('status')) 
+        {
+            if($request->get('status') == -1){
+                $query->orderBy('created_at','desc');
+            }else{
+                $query->where('status', $request->status)->orderBy('created_at','desc');
+            }
+           
+        }
+
+    return $query;
+    }
+    public function scopeCategory($query, $request)
+    {
+        if ($request->has('category')) 
+        {
+            if($request->get('category') == -1){
+                $query->orderBy('created_at','desc');
+            }else{
+                $query->where('category_id', $request->category)->orderBy('created_at','desc');
+            }
+           
+        }
+
+    return $query;
+    }
+
+   
 }

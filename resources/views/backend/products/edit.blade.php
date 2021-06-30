@@ -59,7 +59,7 @@
                             <div class="form-group">
                                 <label>Danh mục sản phẩm</label>
                                 <select name="category_id" class="form-control select2" style="width: 100%;">
-                                    <option>--Chọn danh mục---</option>
+                                    <option value="">--Chọn danh mục--</option>
                                     @foreach($categories as $category)
                                         <option value="{{ $category->id }}" {{ $products->category_id == $category->id ?'selected':'' }}>{{ $category->name }}</option>
                                     @endforeach
@@ -68,7 +68,7 @@
                             <div class="form-group">
                                 <label>Thương hiệu sản phẩm</label>
                                 <select name="brand_id" class="form-control select2" style="width: 100%;">
-                                    <option>--Chọn thương hiệu---</option>
+                                    <option value="">--Chọn thương hiệu--</option>
                                     @foreach($brands as $brand)
                                         <option value="{{ $brand->id }}" {{ $products->brand_id == $brand->id ?'selected':'' }}>{{ $brand->name }}</option>
                                     @endforeach
@@ -103,7 +103,7 @@
                                 <label for="exampleInputFile">Hình ảnh sản phẩm</label>
                                 <div class="input-group">
                                     <div class="custom-file">
-                                        <input type="file" name="image[]" class="custom-file-input" id="imgInp" accept="image/*" multiple>
+                                        <input type="file" name="image[]"  class="custom-file-input" id="uploadFile" accept="image/*" multiple>
                                         
                                         <label class="custom-file-label" for="exampleInputFile">Choose file</label>
                                     </div>
@@ -112,15 +112,29 @@
                                         <span class="input-group-text" id="">Upload</span>
                                     </div>
                                 </div>
-                                <img style="width:70px;" id="blah" src="#" alt="your image" />
+                                <div class="gallery" style="display: flex; flex-wrap: wrap;"></div>
                                 @error('image')
                                 <span style="color: red">{{ $message }}</span> 
                                 @enderror
                             </div>
                             <div class="form-group">
+                                <label for="exampleInputFile">Xóa hình ảnh sản phẩm</label>
+                                <div style="display:flex;flex:wrap;flex-direction:row;">
+                                    @foreach ($products->images as $image)
+                                        <div>
+                                        <img style="width:200px;height:250px" src="{{ $image->image_url }}" alt="">
+                                        <div class="d-flex justify-content-center">
+                                            <input type="checkbox" name="delimg[]" value="{{ $image->id }}" multiple>
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                    
+                                </div>
+                                
+                            </div>
+                            <div class="form-group">
                                 <label>Trạng thái sản phẩm</label>
                                 <select name="status" class="form-control select2" style="width: 100%;">
-                                    <option>--Chọn trạng thái---</option>
                                     @foreach (\App\Models\Product::$status_text as $key => $value)
                                     <option value="{{ $key }}" {{ $products->status == $key ?'selected':'' }}>{{ $value }}</option>
                                     @endforeach
@@ -140,11 +154,39 @@
         <!-- /.row (main row) -->
     </div>
     <script>
-                imgInp.onchange = evt => {
-        const [file] = imgInp.files
-        if (file) {
-            blah.src = URL.createObjectURL(file)
+             function previewImages()
+{
+    var preview = document.querySelector('.gallery');
+
+    if(this.files)
+    {
+        [].forEach.call(this.files, readAndPreview);
+    }
+
+    function readAndPreview(file)
+    {
+        if (!/\.(jpe?g|png|gif)$/i.test(file.name))
+        {
+            return alert(file.name + " is not an image");
         }
-        }
+
+        var reader = new FileReader();
+
+        reader.addEventListener("load", function() {
+          var image = new Image();
+          image.width = 150;
+          image.height = 150;
+          image.title  = file.name;
+          image.src    = this.result;
+
+          preview.appendChild(image);
+        });
+
+        reader.readAsDataURL(file);
+
+    }
+}
+
+document.querySelector('#uploadFile').addEventListener("change", previewImages);
     </script>
 @endsection

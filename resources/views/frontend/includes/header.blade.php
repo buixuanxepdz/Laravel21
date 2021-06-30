@@ -69,7 +69,7 @@
 								@if(!Auth::check())
 								<li><a href="{{ route('login.form') }}"><i class="fa fa-lock"></i>Login</a></li>
 								@endif
-								<li><a href="{{ route('logout') }}"><i class="fa fa-lock"></i> Logout</a></li>
+								<li><a href="{{ route('logout') }}"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
 							</ul>
 						</div>
 					</div>
@@ -80,7 +80,7 @@
 		<div class="header-bottom"><!--header-bottom-->
 			<div class="container">
 				<div class="row">
-					<div class="col-sm-8">
+					<div class="col-sm-7">
 						<div class="navbar-header">
 							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 								<span class="sr-only">Toggle navigation</span>
@@ -112,11 +112,14 @@
 							</ul>
 						</div>
 					</div>
-					<div class="col-sm-4">
-						<form action="{{ route('frontend.search') }}" method="POST">
+					<div class="col-sm-5">
+						<form action="{{ route('frontend.search') }}" autocomplete="off" method="GET">
 							@csrf
-							<div class="search_box pull-right">
-								<input type="text" name="keyword" placeholder="Search"/>
+							<div class="search_box pull-right" style="display: flex;justify-content:space-between;width:80%">
+								<div class="timkiem" style="position: relative;width:70%">
+									<input style="width:90%" type="text" name="keyword" value="{{ old('keyword') }}" id="keywords" placeholder="Tìm kiếm"/>
+								<div id="searchajax" style="position: absolute"></div>
+								</div>
 								<input style="margin: 0 !important;color:white;font-size:18px;font-weight:bold;" type="submit" name="search" value="Tìm kiếm" class="btn btn-primary"/>
 							</div>
 						</form>
@@ -125,3 +128,27 @@
 			</div>
 		</div><!--/header-bottom-->
 	</header>
+	<script>
+		// $('#keyword').keyup(function(){
+		// 	var query = $(this).val();
+		// 	alert();
+		// 	if( query != ''){
+		// 		var _token = $('input[name = "_token"]').val();
+		// 		$.ajax({
+		// 			url: "{{ url('/autocomplete-ajax') }}",
+		// 			method:"POST",
+		// 			data:{query:query,_token:_token},
+		// 			success:function(data){
+		// 				$('#search_ajax').fadeIn();
+		// 				$('#search_ajax').html(data);
+		// 			}
+		// 		});
+		// 	}else{
+		// 		$('#search_ajax').fadeOut();
+		// 	}
+		// });
+		// $(document).on('click','lisearch',function(){
+		// 	$('#keywords').val($(this).text());
+		// 	$('#search_ajax').fadeOut();
+		// })
+	</script>

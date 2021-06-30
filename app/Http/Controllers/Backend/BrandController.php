@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreBrandRequest;
 use App\Models\Brand;
+use App\Models\Product;
+use Illuminate\Support\Facades\Auth;
 
 class BrandController extends Controller
 {
@@ -37,13 +40,18 @@ class BrandController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreBrandRequest $request)
     {
         $brand = new Brand();
         $brand->name = $request->get('name');
         $brand->slug = \Illuminate\Support\Str::slug($request->get('name')).rand(0,999);
+        $brand->user_id = Auth::user()->id;
         $brand->save();
-        return redirect()->route('backend.brand.index');
+        if( $brand->save()){
+            return redirect()->route('backend.brand.index')->with("success",'Thêm thương hiệu thành công');      
+        }else{
+           return redirect()->route('backend.brand.index')->with("error",'Thêm thương hiệu thất bại');  
+        }
     }
 
     /**
@@ -76,14 +84,18 @@ class BrandController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreBrandRequest $request, $id)
     {
         
         $brand = Brand::find($id);
 
         $brand->name = $request->get('name');
         $brand->save();
-        return redirect()->route('backend.brand.index');
+        if( $brand->save()){
+            return redirect()->route('backend.brand.index')->with("updatesuccess",'Chỉnh sửa thương hiệu thành công');      
+        }else{
+           return redirect()->route('backend.brand.index')->with("updateerror",'Chỉnh sửa thương hiệu thất bại');  
+        }
     }
 
     /**
@@ -92,11 +104,15 @@ class BrandController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Brand $brand)
     {
-        $brand = Brand::find($id);
-        $brand->delete();
-
-        return redirect()->route('backend.brand.index');
+        // $brand = Brand::find($id);
+        // $brand->delete();
+        Product::where('brand_id',$brand->id)->update(['brand_id' => NULL]);
+        if( $brand->delete()){
+            return redirect()->route('backend.brand.index')->with("deletesuccess",'Xóa thương hiệu thành công');      
+        }else{
+           return redirect()->route('backend.brand.index')->with("deleteerror",'Xóa thương hiệu thất bại');  
+        }
     }
 }

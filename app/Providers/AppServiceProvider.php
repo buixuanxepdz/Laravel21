@@ -5,6 +5,9 @@ namespace App\Providers;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Validator;
+use App\Models\Product;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -32,9 +35,13 @@ class AppServiceProvider extends ServiceProvider
             'Quan trọng' => 1,
             'Khẩn cấp' => 2
         ];
+        $min_price = Product::min('sale_price');
+        $max_price = Product::max('sale_price');
         View::share([
             'menu'=>$menu,
-            'priorities' => $priorities
+            'priorities' => $priorities,
+            'min_price' => $min_price,
+            'max_price' => $max_price,
             ]);
         // $list = [
         //     [
@@ -52,6 +59,10 @@ class AppServiceProvider extends ServiceProvider
         // ];
         // View::share('list',$list);
 
-            
+        // Validator::extend('phone', function($attribute, $value, $parameters)
+        // {
+        //     return substr($value, 0, 2) == '01';
+        // });
     }
+    
 }

@@ -42,7 +42,7 @@
                         <!-- small box -->
                         <div class="small-box bg-success">
                             <div class="inner">
-                                <h3>5300</h3>
+                                <h3>{{ count($countproducts) }}</h3>
 
                                 <p>Sản phẩm</p>
                             </div>
@@ -57,7 +57,7 @@
                         <!-- small box -->
                         <div class="small-box bg-warning">
                             <div class="inner">
-                                <h3>44</h3>
+                                <h3>{{ count($countusers) }}</h3>
 
                                 <p>Người dùng</p>
                             </div>
@@ -108,24 +108,36 @@
                                     <thead>
                                     <tr>
                                         <th>ID</th>
+                                        <th>Ảnh</th>
                                         <th>Tên sản phẩm</th>
-                                        <th>Thời gian</th>
+                                       
                                         <th>Danh mục</th>
                                         <th>Người tạo</th>
                                         <th>Trạng Thái</th>
                                         <th>Mô tả</th>
+                                        <th>Thời gian</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     @foreach($products as $product)
                                         <tr>
                                             <td>{{ $product->id }}</td>
+                                            <td>
+                                                @if (count($product->images) > 0)
+                                                    <img src="{{ $product->images[0]->image_url }}" width="60px" alt="">
+                                                @endif
+                                            </td>
                                             <td><a href="{{ route('backend.product.showImage',$product->id) }}">{{ $product->name }}</a></td>
-                                            <td>{{ $product->updated_at }}</td>
-                                            <td><a href="{{ route('backend.category.showProduct',$product->category->id) }}">{{ $product->category->name }}</a></td>
+                                            @if ($product->category == NULL)
+                                                <td>Không có danh mục</td>
+                                            @else
+                                                <td><a href="{{ route('backend.category.showProduct',$product->category->id) }}">{{ $product->category->name }}</a></td>
+                                            @endif
+                                            
                                             <td><a href="{{ route('backend.user.showProduct',$product->user->id) }}">{{ $product->user->name }}</a></td>
                                             <td><span class="tag tag-success">{{ $product->status_text }}</span></td>
                                             <td>{!! $product->content !!}</td>
+                                            <td>{{ $product->created_at }}</td>
                                         </tr>
                                     @endforeach    
                                     </tbody>
@@ -142,33 +154,14 @@
                 </div>
             </div>
         </section>
-        <form action="" method="post">
-                        
-                        
-            <table class="table table-sm table-bordered" style="display: none;">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Cost</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-        
-            <tbody id="addRow" class="addRow">
-        
-            </tbody>
-            <tbody>
-              <tr>
-                <td colspan="1" class="text-right">
-                    <strong>Total:</strong> 
-                </td>
-                <td>
-                    <input type="number" id="estimated_ammount" class="estimated_ammount" value="0" readonly>
-                </td>
-              </tr>
-            </tbody>
-        
-            </table>
-           <button type="submit" class="btn btn-success btn-sm">Submit</button>
-          </form>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+        @if(Session::has('updatesuccess'))
+        <script>
+            toastr.success("{!! Session::get('updatesuccess') !!}");
+        </script>    
+        @elseif(Session::has('updateerror'))    
+        <script>
+            toastr.error("{!! Session::get('updateerror') !!}");
+        </script>
+        @endif
 @endsection

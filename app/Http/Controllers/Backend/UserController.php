@@ -4,7 +4,12 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
+use App\Models\Product;
+use App\Models\Category;
+use App\Models\Brand;
 use App\Models\UserInfo;
 use App\Models\Image;
 use Illuminate\Support\Facades\Storage;
@@ -43,7 +48,7 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
         $user = new User();
         $user->name = $request->get('name'); 
@@ -78,7 +83,11 @@ class UserController extends Controller
         }else{
             dd('khong co file');
         }
-        return redirect()->route('backend.user.index');
+        if($user->save() &&  $user_info->save()){
+            return redirect()->route('backend.user.index')->with("success",'Thêm mới người dùng thành công');  
+       }else{
+           return redirect()->route('backend.user.index')->with("error",'Thêm mới người dùng thất bại');  
+       }
     }
 
     /**
@@ -110,6 +119,13 @@ class UserController extends Controller
         return view('backend.users.edit')->with(['users'=> $users]);
     }
 
+    public function editprofile($id)
+    {
+        $users = User::find($id);
+        
+        return view('backend.users.editprofile')->with(['users'=> $users]);
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -117,9 +133,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $user_id)
+    public function update(UpdateUserRequest $request, $id)
     {
-        $users = User::find($user_id);
+        $users = User::find($id);
 
         $users->name = $request->get('name');
         $users->email = $request->get('email');
@@ -159,10 +175,63 @@ class UserController extends Controller
                 $user_info->save();
                 // dd($image);
             }
-        }else{
-            dd('khong co file');
         }
-        return redirect()->route('backend.user.index');
+        if($users->save() &&  $user_info->save()){
+            return redirect()->route('backend.user.index')->with("updatesuccess",'Chỉnh sửa người dùng thành công');  
+       }else{
+           return redirect()->route('backend.user.index')->with("updateerror",'Chỉnh sửa người dùng thất bại');  
+       }
+
+
+    }
+    public function updateprofile(UpdateUserRequest $request, $id)
+    {
+        $users = User::find($id);
+
+        $users->name = $request->get('name');
+        $users->email = $request->get('email');
+
+        if($request->get('password') == null){
+            $users->password  =  $users->password;
+        }else{
+            $users->password = bcrypt($request->get('password'));
+        }
+        
+        // dd($users);
+        $users->save();
+
+        $user_info = UserInfo::where('user_id',$users->id)->first();
+
+        $user_info->address = $request->get('address');
+        $user_info->phone = $request->get('phone');
+        if($request->hasFile('image')){
+            $files = $request->file('image');
+            foreach($files as $file){
+                
+                $name = $file->getClientOriginalName();
+                // dd($file->getClientOriginalName());
+                $disk_name = 'public';
+                
+                $path = Storage::disk($disk_name)->putFileAs('images',$file,$name);
+                
+                if(!$user_info){
+                    $user_info = new UserInfo();
+                }
+                
+                // dd($image);
+                $user_info->disk = $disk_name;
+                $user_info->path = $path;
+                $user_info->user_id = $users->id;
+
+                $user_info->save();
+                // dd($image);
+            }
+        }
+        if($users->save() &&  $user_info->save()){
+            return redirect()->route('backend.dashboard')->with("updatesuccess",'Cập nhật thông tin thành công');  
+       }else{
+           return redirect()->route('backend.dashboard')->with("updateerror",'Cập nhật thông tin thất bại');  
+       }
 
 
     }
@@ -173,8 +242,19 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        //
+        // $user = User::find($id);
+        // $user->delete();
+        $user_info = UserInfo::where('user_id',$user->id)->delete();
+        Product::where('user_id',$user->id)->update(['user_id' => User::ADMIN]);
+        Category::where('user_id',$user->id)->update(['user_id' => NULL]);
+        Brand::where('user_id',$user->id)->update(['user_id' => NULL]);
+
+        if( $user->delete() &&  $user_info){
+            return redirect()->route('backend.user.index')->with("deletesuccess",'Xóa người dùng thành công');      
+        }else{
+           return redirect()->route('backend.user.index')->with("deleteerror",'Xóa người dùng thất bại');  
+        }
     }
 }

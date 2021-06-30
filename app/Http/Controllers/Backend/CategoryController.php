@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Http\Requests\StoreCategoryRequest;
+use App\Models\Product;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
 class CategoryController extends Controller
 {
@@ -28,7 +30,7 @@ class CategoryController extends Controller
      */
     public function create()
     {   
-        $categories = Category::all();
+        $categories = Category::where('parent_id',0)->get();
         return view('backend.categories.create')->with(['categories' => $categories]);
     }
 
@@ -45,8 +47,13 @@ class CategoryController extends Controller
         $category->slug = \Illuminate\Support\Str::slug($request->get('name')).rand(0,999);
         $category->parent_id = $request->get('parent_id');
         $category->save();
+        Cache::forget('menus');
 
-        return redirect()->route('backend.category.index');
+        if( $category->save()){
+            return redirect()->route('backend.category.index')->with("success",'Thêm danh mục thành công');      
+        }else{
+           return redirect()->route('backend.category.index')->with("error",'Thêm danh mục thất bại');  
+        }
     }
 
     /**
@@ -93,7 +100,12 @@ class CategoryController extends Controller
         $category->slug = \Illuminate\Support\Str::slug($request->get('name')).rand(0,999);
         $category->parent_id = $request->get('parent_id');
         $category->save();
-        return redirect()->route('backend.category.index');
+        Cache::forget('menus');
+        if( $category->save()){
+            return redirect()->route('backend.category.index')->with("updatesuccess",'Chỉnh sửa danh mục thành công');      
+        }else{
+           return redirect()->route('backend.category.index')->with("updateerror",'Chỉnh sửa danh mục thất bại');  
+        }
     }
 
     /**
@@ -102,11 +114,16 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Category $category)
     {
-        $category = Category::find($id);
-        $category->delete();
-
-        return redirect()->route('backend.category.index');
+        // $category = Category::find($id);
+        // $category->delete();
+        Product::where('category_id',$category->id)->update(['category_id' => NULL]);
+        Cache::forget('menus');
+        if( $category->delete()){
+            return redirect()->route('backend.category.index')->with("deletesuccess",'Xóa danh mục thành công');      
+        }else{
+           return redirect()->route('backend.category.index')->with("deleteerror",'Xóa danh mục thất bại');  
+        }
     }
 }

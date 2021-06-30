@@ -27,5 +27,6 @@ class CategoryServiceProvider extends ServiceProvider
         view()->composer(['frontend.detailproduct'],MenuCategoryComposer::class);
         view()->composer(['frontend.search'],MenuCategoryComposer::class);
         view()->composer(['frontend.productcategory'],MenuCategoryComposer::class);
+        view()->composer(['frontend.productbrand'],MenuCategoryComposer::class);
     }
 }

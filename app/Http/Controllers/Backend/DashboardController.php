@@ -12,12 +12,59 @@ use App\Models\Image;
 use Illuminate\Contracts\Cache\Store;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Storage;
 
 class DashboardController extends Controller
 {
-    public function index(){
+    public function index(Request $request){
 
+        // $cookie = cookie('user_name','Bui Xuan Xep',12);
+        // return response('Bui Xuan Xep')->cookie($cookie);
+
+        // Cookie::queue(Cookie::make('user_name', 'bxxep', 10));
+        // dd(Cookie::get('user_name'));
+        // return 1;
+        // $request->session()->put('user_id', '1');
+        // $request->session()->put('user_name', 'Bui Xuan Xep');
+        // session(['user_name' => 'Bui xuan Xep']);
+
+        // $cart = [
+        //     1 => [
+        //         'id' => 1,
+        //         'name' => 'Iphone',
+        //         'price' => 1000000,
+        //         'quantity' => 1
+        //     ]
+        // ];
+        // $request->session()->put('cart',$cart);
+        // // dd(session()->get('cart'));
+
+        // if($request->session()->has('cart'))
+        // {
+        //     $cart = session('cart');
+
+        //     $product = [
+        //         'id' => 2,
+        //         'name' => 'Iphone11',
+        //         'price' => 20000000,
+        //         'quantity'  => 1
+        //     ];
+        //     $cart[2] = $product;
+        //     $request->session()->put('cart',$cart);
+        //     dd($request->session()->get('cart'));
+        // }else{
+        //     $cart = [
+        //         1 => [
+        //             'id' => 1,
+        //             'name' => 'Iphone',
+        //             'price' => 1000000,
+        //             'quantity' => 1
+        //         ]
+        //     ];
+        //     $request->session()->put('cart',$cart);
+        // }
+        //dd($request->session()->get('user_name'),$request->session()->get('user_id'));
         // $user = User::find(1);
         // $userInfo = $user->userInfo;
         // dd($userInfo);
@@ -88,13 +135,16 @@ class DashboardController extends Controller
         //     dd('ko ton tai file');
         // }
 
-        $products = Product::with('orders')->first()->orders;
-        // foreach($products as $product){
-        //     dd($product->pivot->get());
-        // }
-        $products = Product::orderBy('updated_at', 'desc')->simplePaginate();
+    //     $products = Product::with('orders')->first()->orders;
+    //     // foreach($products as $product){
+    //     //     dd($product->pivot->get());
+    //     // }
+        $products = Product::orderBy('created_at', 'desc')->simplePaginate();
+
+        $countproducts = Product::all();
+        $countusers = User::all();
         
-        // dd($products);
-        return view('backend.dashboard')->with(['products' => $products]);
+    // //     // dd($products);
+    return view('backend.dashboard')->with(['products' => $products])->with(compact('countproducts','countusers'));
     }
 }
