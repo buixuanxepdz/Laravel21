@@ -4,7 +4,7 @@
 				<div class="row">
 					<div class="col-sm-2">
 						<div class="companyinfo">
-							<h2><span>e</span>-shopper</h2>
+							<h2><a href="{{ route('frontend.home') }}" style="font-size: 2rem;color: orange"><img style="width: 50px" src="/frontend/images/logohome.png" alt="" />LARAVEL SHOP</a></h2>
 							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,sed do eiusmod tempor</p>
 						</div>
 					</div>

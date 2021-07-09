@@ -5,8 +5,8 @@
 					<div class="col-sm-6">
 						<div class="contactinfo">
 							<ul class="nav nav-pills">
-								<li><a href="#"><i class="fa fa-phone"></i> +2 95 01 88 821</a></li>
-								<li><a href="#"><i class="fa fa-envelope"></i> info@domain.com</a></li>
+								<li><a href="#"><i class="fa fa-phone"></i> +84 3123131</a></li>
+								<li><a href="#"><i class="fa fa-envelope"></i>buixuanxep@gmail.com</a></li>
 							</ul>
 						</div>
 					</div>
@@ -30,46 +30,24 @@
 				<div class="row">
 					<div class="col-sm-4">
 						<div class="logo pull-left">
-							<a href="index.html"><img src="/frontendimages/home/logo.png" alt="" /></a>
+							<a href="{{ route('frontend.home') }}" style="font-size: 2rem;color: orange"><img style="width: 50px" src="/frontend/images/logohome.png" alt="" />LARAVEL SHOP</a>
 						</div>
-						<div class="btn-group pull-right">
-							<div class="btn-group">
-								<button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown">
-									USA
-									<span class="caret"></span>
-								</button>
-								<ul class="dropdown-menu">
-									<li><a href="#">Canada</a></li>
-									<li><a href="#">UK</a></li>
-								</ul>
-							</div>
-							
-							<div class="btn-group">
-								<button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown">
-									DOLLAR
-									<span class="caret"></span>
-								</button>
-								<ul class="dropdown-menu">
-									<li><a href="#">Canadian Dollar</a></li>
-									<li><a href="#">Pound</a></li>
-								</ul>
-							</div>
-						</div>
+						
 					</div>
 					<div class="col-sm-8">
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
 								
-								<li><a href="#"><i class="fa fa-star"></i> Wishlist</a></li>
-								<li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a></li>
-								<li><a href="cart.html"><i class="fa fa-shopping-cart"></i> Cart</a></li>
+								<li><a href="#"><i class="fa fa-star"></i>Yêu thích</a></li>
+								<li><a href="checkout.html"><i class="fa fa-crosshairs"></i>Thanh toán</a></li>
+								<li><a href="{{  route('frontend.cart.index') }}"><i class="fa fa-shopping-cart"></i>Giỏ hàng</a></li>
 								@if(Auth::check())
 								<li><a href="#"><i class="fa fa-user"></i>{{ Auth::user()->name }}</a></li>
 								@endif
 								@if(!Auth::check())
-								<li><a href="{{ route('login.form') }}"><i class="fa fa-lock"></i>Login</a></li>
+								<li><a href="{{ route('login.form') }}"><i class="fa fa-lock"></i>Đăng nhập</a></li>
 								@endif
-								<li><a href="{{ route('logout') }}"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
+								<li><a href="{{ route('logout') }}"><i class="fa fa-sign-out" aria-hidden="true"></i>Đăng xuất</a></li>
 							</ul>
 						</div>
 					</div>
@@ -91,14 +69,14 @@
 						</div>
 						<div class="mainmenu pull-left">
 							<ul class="nav navbar-nav collapse navbar-collapse">
-								<li><a href="{{ route('frontend.home') }}" class="active">Home</a></li>				
-								<li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
+								<li><a href="{{ route('frontend.home') }}" class="active">Trang chủ</a></li>				
+								<li class="dropdown"><a href="#">Cửa hàng<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
-                                        <li><a href="shop.html">Products</a></li>
-										<li><a href="product-details.html">Product Details</a></li> 
+                                        <li><a href="shop.html">Sản phẩm</a></li>
+										<li><a href="product-details.html">Chi tiết sản phẩm</a></li> 
 										<li><a href="checkout.html">Checkout</a></li> 
-										<li><a href="cart.html">Cart</a></li> 
-										<li><a href="login.html">Login</a></li> 
+										<li><a href="cart.html">Giỏ hàng</a></li> 
+										<li><a href="login.html">Đăng nhập</a></li> 
                                     </ul>
                                 </li> 
 								<li class="dropdown"><a href="#">Blog<i class="fa fa-angle-down"></i></a>
@@ -107,8 +85,8 @@
 										<li><a href="blog-single.html">Blog Single</a></li>
                                     </ul>
                                 </li> 
-								<li><a href="404.html">404</a></li>
-								<li><a href="contact-us.html">Contact</a></li>
+								{{-- <li><a href="404.html">404</a></li>
+								<li><a href="contact-us.html">Contact</a></li> --}}
 							</ul>
 						</div>
 					</div>
@@ -117,7 +95,8 @@
 							@csrf
 							<div class="search_box pull-right" style="display: flex;justify-content:space-between;width:80%">
 								<div class="timkiem" style="position: relative;width:70%">
-									<input style="width:90%" type="text" name="keyword" value="{{ old('keyword') }}" id="keywords" placeholder="Tìm kiếm"/>
+									<input style="width:90%;;" type="text" name="keyword" value="{{ Request()->get('keyword') }}" id="keywords" placeholder="Tìm kiếm"/>
+									{{-- <i class="fa fa-times-circle" onclick="change()" id="x" style="position: absolute;right:30px;top: 10px" aria-hidden="true"></i> --}}
 								<div id="searchajax" style="position: absolute"></div>
 								</div>
 								<input style="margin: 0 !important;color:white;font-size:18px;font-weight:bold;" type="submit" name="search" value="Tìm kiếm" class="btn btn-primary"/>
@@ -128,27 +107,4 @@
 			</div>
 		</div><!--/header-bottom-->
 	</header>
-	<script>
-		// $('#keyword').keyup(function(){
-		// 	var query = $(this).val();
-		// 	alert();
-		// 	if( query != ''){
-		// 		var _token = $('input[name = "_token"]').val();
-		// 		$.ajax({
-		// 			url: "{{ url('/autocomplete-ajax') }}",
-		// 			method:"POST",
-		// 			data:{query:query,_token:_token},
-		// 			success:function(data){
-		// 				$('#search_ajax').fadeIn();
-		// 				$('#search_ajax').html(data);
-		// 			}
-		// 		});
-		// 	}else{
-		// 		$('#search_ajax').fadeOut();
-		// 	}
-		// });
-		// $(document).on('click','lisearch',function(){
-		// 	$('#keywords').val($(this).text());
-		// 	$('#search_ajax').fadeOut();
-		// })
-	</script>
+	

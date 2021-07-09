@@ -54,7 +54,7 @@
                             <tr>
                                 <td>{{ $brand->id }}</td>
                                 <td>{{ $brand->name }}</td>
-                                <td>{{ $brand->updated_at }}</td>
+                                <td>{{ $brand->updated_at->format('Y-m-d') }}</td>
                                 <td>
                                     @can('update',$brand)
                                         <a href="{{ route('backend.brand.edit',$brand->id) }}"><button class="btn btn-success"><i class="fas fa-edit" style="margin-right: 3px"></i>Sửa</button></a>

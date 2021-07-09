@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\StoreBrandRequest;
 use App\Models\Brand;
 use App\Models\Product;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class BrandController extends Controller

@@ -32,9 +32,12 @@
         #searchajax li:hover{
             background-color: rgb(208, 212, 216);
         }
-      
+        .sortby{
+            height: 33px;
+            border-radius: 5px;
+        }
     .card-tools{
-        width: 50% !important;
+        width: 60% !important;
         display: flex !important;
         justify-content: space-between !important;
     }
@@ -72,10 +75,17 @@
                                             <option {{ Request::get('category') ==  $category->id ? "selected = 'selected '" : "" }}  value="{{ $category->id }}">{{ $category->name }}</option>
                                         @endforeach
                                     </select>
+                                    <select name="brand" class="sortby" style="border:1px solid #ced4da;">
+                                        <option {{ Request::get('brand') == -1 || !Request::get('brand') ? "'selected = selected '" : "" }} value="-1">-Chọn thương hiệu-</option>
+                                        <option  value="0">Không có thương hiệu</option>
+                                        @foreach ($brands as $brand)
+                                            <option {{ Request::get('brand') ==  $brand->id ? "selected = 'selected '" : "" }}  value="{{ $brand->id }}">{{ $brand->name }}</option>
+                                        @endforeach
+                                    </select>
                                     <button class="btn btn-primary" type="submit">Lọc</button>
                                 </form>
                             </div>
-                            <div class="input-group input-group-sm" style="width: 150px;position:relative">
+                            <div class="input-group input-group-sm" style="width: 250px;position:relative">
                                 <form style="display: flex" autocomplete="off" action="{{ route('backend.product.search') }}" method="GET">
                                     @csrf
                                 <input style="margin-top: 5px" type="text" name="keyword" id="keywords" class="form-control float-right" placeholder="Tìm kiếm">
@@ -117,7 +127,7 @@
                                         <img src="{{ $product->images[0]->image_url }}" width="60px" alt="">
                                     @endif
                                 </td>
-                                <td><a href="{{ route('backend.product.showImage',$product->id) }}">{{ $product->name }}</a></td>
+                                <td><a href="{{ route('frontend.detailproduct',$product->slug) }}" target="_blank" style="font-weight: bold">{{ $product->name }}</a></td>
                                 @if ($product->category == NULL)
                                     <td>Không có danh mục</td>
                                 @else
@@ -128,8 +138,22 @@
                                 @else
                                      <td>{{ $product->brand->name }}</td>
                                 @endif
-                                <td>{{ $product->updated_at }}</td>
-                                <td><span class="tag tag-success">{{ $product->status_product }}</span></td>
+                                <td>{{ $product->updated_at->format('Y-m-d') }}</td>
+                                <td>
+                                    @if ($product->status == 0)
+                                        <span class="tag tag-success" style="display: inline-block;margin-top: 10px;padding: 5px 10px;background-color: yellow;border-radius: 10px;color:#4f5962;font-weight: bold">
+                                            <i class="fas fa-cart-arrow-down" style="margin-right: 5px"></i>Đang nhập
+                                        </span>
+                                    @elseif($product->status == 1)
+                                        <span class="tag tag-success" style="display: inline-block;margin-top: 10px;padding: 5px 10px;background-color: green;border-radius: 10px;color:white;font-weight: bold">
+                                            <i class="fas fa-shopping-cart" style="margin-right: 5px"></i>Đang bán
+                                        </span>
+                                    @else
+                                        <span class="tag tag-success" style="display: inline-block;margin-top: 10px;padding: 5px 10px;background-color: red;border-radius: 10px;color:white;font-weight: bold">
+                                            <i class="fas fa-times-circle" style="margin-right: 5px"></i>Ngừng bán
+                                        </span>
+                                    @endif
+                                </td>
                                 @if ($product->user == NULL)
                                     <td>Người dùng bị vô hiệu hóa</td>
                                 @else
@@ -212,7 +236,7 @@
           title: `Bạn có muốn xóa ${name}?`,
           text: "Nếu bạn xóa nó, bạn sẽ không thể khôi phục lại được",
           icon: "error",
-          buttons: ["Không", "Đồng ý"],
+          buttons: ["Không", "Xóa"],
           dangerMode: true,
       })
       .then((willDelete) => {
@@ -253,4 +277,5 @@
         });
     })
 </script> --}}
+
 @endsection

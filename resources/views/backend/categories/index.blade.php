@@ -64,7 +64,7 @@
                                     @endif
                                 @endforeach
                                @endif
-                                <td>{{ $category->updated_at }}</td>
+                                <td>{{ $category->updated_at->format('Y-m-d') }}</td>
                                 <td>
                                     @can('update', $category)
                                         <a href="{{ route('backend.category.edit',$category->id) }}"><button class="btn btn-success"><i class="fas fa-edit" style="margin-right: 3px"></i>Sửa</button></a>
@@ -134,7 +134,7 @@
           title: `Bạn có muốn xóa ${name}?`,
           text: "Nếu bạn xóa nó, bạn sẽ không thể khôi phục lại được",
           icon: "error",
-          buttons: ["Không", "Đồng ý"],
+          buttons: ["Không", "Xóa"],
           dangerMode: true,
       })
       .then((willDelete) => {

@@ -109,6 +109,7 @@
                                     <tr>
                                         <th>ID</th>
                                         <th>Tên sản phẩm</th>
+                                        <th>Ảnh</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -116,6 +117,10 @@
                                         <tr>
                                             <td>{{ $category->id }}</td>
                                             <td>{{ $category->name }}</td>
+                                            @if ( count($category->images) > 0)
+                                                 <td><img src="{{ $category->images[0]->image_url }}" style="width: 50px" alt=""> </td>
+                                            @endif
+                                           
                                         </tr>
                                     @endforeach    
                                     </tbody>

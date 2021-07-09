@@ -8,6 +8,7 @@ use App\Models\Image;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Category;
 use App\Models\User;
+use App\Models\WareHouse;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreProductRequest;
 use App\Models\Brand;
@@ -27,42 +28,21 @@ class ProductController extends Controller
     {
         $products = Product::orderBy('updated_at', 'desc')->paginate(10);
         $categories = Category::all();
-        // $products = Product::query();
-
-        // if ($request->sortby == 'default') {
-        //     return view('backend.products.index',['products' => $products]);
-        // }
+        $brands = Brand::all();
         
-        // if ($request->sortby) 
-        // {
-        //     $sortby = $request->sortby;
-        //     switch ($sortby) {
-        //         case 'moi-nhat':
-        //             $products = Product::orderBy('id','desc');
-        //             break;
-        //         case 'sp-cu':
-        //             $products = Product::orderBy('id','asc');
-        //             break;
-                
-        //         default:
-        //         $products = Product::orderBy('id','desc');
-                
-        //     }
-        //     $products = $products->paginate(10);
-        // }
-        
-        return view('backend.products.index',['products' => $products])->with(['categories' => $categories]);
+        return view('backend.products.index',['products' => $products])->with(['categories' => $categories])->with(compact('brands'));
     }
 
 
     public function filterProduct(Request $request){
-        if($request->get('status') == -1 && $request->get('category') == -1){
+        if($request->get('status') == -1 && $request->get('category') == -1 && $request->get('brand') == -1){
             return redirect()->route('backend.product.index');
         }
 
-        $products = Product::query()->status($request)->category($request)->paginate(10);
+        $products = Product::query()->status($request)->category($request)->brand($request)->paginate(10);
         $categories = Category::all();
-        return view('backend.products.index',['products' => $products])->with(['categories' => $categories]);
+        $brands = Brand::all();
+        return view('backend.products.index',['products' => $products])->with(['categories' => $categories])->with(['brands' => $brands]);
     }
     /**
      * Show the form for creating a new resource.
@@ -71,7 +51,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $categories = Category::where('parent_id',0)->get();
+        // $categories = Category::where('parent_id',0)->get();
+        $categories = Category::all();
         $user = Auth::user();
         $brands = Brand::all();
         // if($user->cannot('create',Product::class)){
@@ -142,9 +123,7 @@ class ProductController extends Controller
         $product->user_id = Auth::user()->id;
         $product->created_at = Carbon::now();
         $product->save();
-            // if($product->save()){
-            //     dd('ok');
-            // }
+            
             if($request->hasFile('image')){
                 $files = $request->file('image');
                 foreach($files as $file){
@@ -171,17 +150,15 @@ class ProductController extends Controller
                 // $path = $file->move('images2',$name)
               
                 // dd($path);
-            }else{
-                dd('khong co file');
             }
-        // $save =0 ;
-        // if($save){
-        //     $request->session()->flash('success','Tao sp thanh cong');
-        // }else{
-        //     $request->session()->flash('error','Tao sp that bai');
-        // }
-            // $this->authorize('create',Product::class);
-            if($product->save() &&  $image->save()){
+            // $ware = new WareHouse();
+            // $ware->size = $request->size;
+            // $ware->color = $request->color;
+            // $ware->quantity = $request->quantityware;
+            // $ware->product_id = $product->id;
+            // dd($ware);
+            // $ware->save();
+            if($product->save()){
                  return redirect()->route('backend.product.index')->with("success",'Thêm mới sản phẩm thành công');  
             }else{
                 return redirect()->route('backend.product.index')->with("error",'Thêm mới sản phẩm thất bại');  
@@ -293,6 +270,7 @@ class ProductController extends Controller
         $product->content = $request->get('content');
         $product->status = $request->get('status');
         $product->user_id = Auth::user()->id;
+        $product->updated_at = Carbon::now();
         $product->save();
 
      

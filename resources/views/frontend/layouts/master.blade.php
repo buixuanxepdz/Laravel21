@@ -37,7 +37,6 @@
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/frontend/images/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/frontend/images/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="/frontend/images/ico/apple-touch-icon-57-precomposed.png">
-
    
    
     
@@ -162,6 +161,9 @@
             });
         }   
     });  
+   
+
+
   });
   
 </script>
@@ -184,5 +186,5 @@
     $( "#amount_one" ).val($( "#slider-range" ).slider( "values", 0 )).simpleMoneyFormat();
     $( "#amount_two" ).val($( "#slider-range" ).slider( "values", 1 )).simpleMoneyFormat();
   } );
-  
+ 
 	</script> 

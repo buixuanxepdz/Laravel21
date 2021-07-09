@@ -154,6 +154,10 @@ Route::group([
 ], function (){
     // Trang dashboard - trang chủ admin
     Route::get('/dashboard', 'DashboardController@index')->name('backend.dashboard');
+    Route::get('/statistical', 'Statisticalcontroller@index')->name('backend.statistical');
+    Route::post('/statistical-filter', 'Statisticalcontroller@filter')->name('backend.statisticalfilter');
+    Route::post('/statistical-filter-day', 'Statisticalcontroller@filterday')->name('backend.statisticalfilterday');
+    Route::post('/statistical-30-day', 'Statisticalcontroller@OneMonth')->name('backend.chart30day');
     //Quản lý sản phẩm
     Route::group(['prefix' => 'products'], function(){
         Route::get('/', 'ProductController@index')->name('backend.product.index');
@@ -199,6 +203,12 @@ Route::group([
         Route::get('/show/{id}', 'BrandController@showProducts')->name('backend.brand.showProduct');
         Route::delete('/delete/{brand}', 'BrandController@destroy')->name('backend.brand.destroy');
     });
+    Route::group(['prefix' => 'orders'], function(){
+        Route::get('/', 'OrderController@index')->name('backend.order.index');
+        Route::post('/update/{id}', 'OrderController@update')->name('backend.order.update');
+        Route::get('/edit/{id}', 'OrderController@edit')->name('backend.order.edit');
+        Route::delete('/destroy/{order}', 'OrderController@delete')->name('backend.order.destroy');
+    });
 });
 
 Route::group([
@@ -206,8 +216,17 @@ Route::group([
 ],function(){
     Route::get('/','HomeController@index')->name('frontend.home');
     Route::get('/detailproduct/{slug}','HomeController@show')->name('frontend.detailproduct');
+    Route::get('products/cart/list', 'Cartcontroller@index')->name('frontend.cart.index');
+    Route::get('products/cart/checkout', 'Cartcontroller@checkout')->name('frontend.cart.checkout');
     Route::get('/productcategory/{slug}','HomeController@productcategory')->name('frontend.productcategory');
     Route::get('/productbrand/{slug}','HomeController@productbrand')->name('frontend.productbrand');
     Route::get('/search','HomeController@search')->name('frontend.search');
     Route::post('/autocomplete-ajax','HomeController@autocomplete_ajax')->name('frontend.searchauto');
+    Route::get('products/cart/add/{id}', 'Cartcontroller@add')->name('frontend.cart.add');
+    Route::get('products/cart/remove/{id}', 'Cartcontroller@remove')->name('frontend.cart.remove');
+    Route::get('products/cart/destroy', 'Cartcontroller@destroy')->name('frontend.cart.destroy');
+    Route::get('products/cart/update', 'Cartcontroller@update')->name('frontend.cart.update');
+    Route::post('products/cart/send', 'Cartcontroller@postEmail')->name('frontend.cart.email');
+    Route::post('pay', 'Cartcontroller@pay')->name('frontend.cart.pay');
+    Route::get('products/cart/complete', 'Cartcontroller@sendComplete')->name('frontend.cart.complete')->middleware('auth');
 });

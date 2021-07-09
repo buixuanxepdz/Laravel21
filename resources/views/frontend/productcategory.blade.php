@@ -26,40 +26,19 @@
 						
 						<div class="carousel-inner">
 							<div class="item active">
-								<div class="col-sm-6">
-									<h1><span>E</span>-SHOPPER</h1>
-									<h2>Free E-Commerce Template</h2>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-									<button type="button" class="btn btn-default get">Get it now</button>
-								</div>
-								<div class="col-sm-6">
-									<img src="/frontend/images/home/girl1.jpg" class="girl img-responsive" alt="" />
-									<img src="/frontend/images/home/pricing.png"  class="pricing" alt="" />
+								<div class="col-12">
+									<img style="width: 90%;margin: 0 auto;height: 500px;" src="/frontend/images/slide4.jpg" alt="">
 								</div>
 							</div>
 							<div class="item">
-								<div class="col-sm-6">
-									<h1><span>E</span>-SHOPPER</h1>
-									<h2>100% Responsive Design</h2>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-									<button type="button" class="btn btn-default get">Get it now</button>
-								</div>
-								<div class="col-sm-6">
-									<img src="/frontend/images/home/girl2.jpg" class="girl img-responsive" alt="" />
-									<img src="/frontend/images/home/pricing.png"  class="pricing" alt="" />
+								<div class="col-12">
+									<img style="width: 90%;margin: 0 auto;height: 500px;" src="/frontend/images/slide1.jpg" alt="">
 								</div>
 							</div>
 							
 							<div class="item">
-								<div class="col-sm-6">
-									<h1><span>E</span>-SHOPPER</h1>
-									<h2>Free Ecommerce Template</h2>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-									<button type="button" class="btn btn-default get">Get it now</button>
-								</div>
-								<div class="col-sm-6">
-									<img src="/frontend/images/home/girl3.jpg" class="girl img-responsive" alt="" />
-									<img src="/frontend/images/home/pricing.png" class="pricing" alt="" />
+								<div class="col-12">
+									<img style="width: 90%;margin: 0 auto;height: 500px;" src="/frontend/images/slide3.jpg" alt="">
 								</div>
 							</div>
 							
@@ -102,13 +81,15 @@
 									<div id="{{ $value->id }}" class="panel-collapse collapse">
 										<div class="panel-body">
 											<ul>
+												
 												@foreach ($value->children as $children)
-												<a href="#" style="color: #696763">
-													<li>
-														{{ $children->name }}
-													</li>
-												</a>
+													<a href="{{ route('frontend.productcategory',$children->slug) }}" style="color: #696763">
+														<li>
+															{{ $children->name }}
+														</li>
+													</a>
 												@endforeach
+												
 											</ul>
 										</div>
 									</div>
@@ -143,7 +124,7 @@
                                     </select> --}}
 									<div id="slider-range" ></div>
 									<div style="display: flex;justify-content:space-between;">
-										<input type="text" id="amount_one" readonly style="width:49%;border:0; color:#f6931f; font-weight:bold;">
+										<input type="text" id="amount_one"  readonly style="width:49%;border:0; color:#f6931f; font-weight:bold;">
 										<input type="text" id="amount_two" readonly style="width:49%;border:0; color:#f6931f; font-weight:bold;">
 									</div>
 									

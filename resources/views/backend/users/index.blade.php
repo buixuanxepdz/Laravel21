@@ -154,7 +154,7 @@
           title: `Bạn có muốn xóa ${name}?`,
           text: "Nếu bạn xóa nó, bạn sẽ không thể khôi phục lại được",
           icon: "error",
-          buttons: ["Không", "Đồng ý"],
+          buttons: ["Không", "Xóa"],
           dangerMode: true,
       })
       .then((willDelete) => {

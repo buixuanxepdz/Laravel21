@@ -30,7 +30,7 @@
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form runat="server" role="form" method="post" action="{{ route('backend.product.store') }}" enctype="multipart/form-data">
+                    <form runat="server" role="form" method="post" action="{{ route('backend.product.store') }}" enctype="multipart/form-data" name="myform" onsubmit="return validation()">
                         @csrf
                         {{-- @if ($errors->any())
                             <div class="alert alert-danger">
@@ -87,7 +87,7 @@
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label>Giá bán</label>
-                                        <input type="text" name="sale_price" value="{{ old('sale_price') }}" class="form-control" placeholder="Điền giá gốc">
+                                        <input type="text" name="sale_price" value="{{ old('sale_price') }}" class="form-control" placeholder="Điền giá bán">
                                         @error('sale_price')
                                         <span style="color: red">{{ $message }}</span> 
                                         @enderror
@@ -120,6 +120,19 @@
                               @error('image')
                                     <span style="color: red">{{ $message }}</span> 
                                 @enderror
+                            {{-- <div class="form-group">
+                                <label>Kích cỡ</label>
+                                <select name="size" class="form-control select2" style="width: 100%;">
+                                    @foreach (\App\Models\WareHouse::$size_text as $key => $value)
+                                    <option value="{{ $key }}">{{ $value }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Số lượng</label>
+                                <input type="text" name="quantityware" value="{{ old('quantityware') }}" class="form-control" id="" placeholder="Số lượng">
+                            </div> --}}
+                            
                             <div class="form-group">
                                 <label>Trạng thái sản phẩm</label>
                                 <select name="status" class="form-control select2" style="width: 100%;">
@@ -176,5 +189,30 @@
 }
 
 document.querySelector('#uploadFile').addEventListener("change", previewImages);
+</script>
+<script>
+     var img = document.forms['myform']['image[]'];
+      var validExt = ["jpeg","png","jpg"];
+
+      function validation(){
+        if (img.value != '') {
+          var img_text = img.value.substring(img.value.lastIndexOf('.')+1);
+          var result = validExt.includes(img_text);
+          if (result == false) {
+              alert('File bạn chọn không phải file ảnh ')
+              return false
+          } 
+          else {
+              if (parseFloat(img.files[0].size/(1024*1024)) >= 3) {
+                alert('Kích cỡ ảnh vượt quá 3MB' + parseFloat(img.files[0].size/(1024*1024)) );
+                return false;
+              }
+          }
+
+        } else {
+          alert("Vui lòng chọn ảnh !");
+          return false
+        }
+      }
 </script>
 @endsection

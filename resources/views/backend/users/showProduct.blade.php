@@ -108,7 +108,8 @@
                                     <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Ten sp</th>
+                                        <th>Tên sản phẩm đã tạo</th>
+                                        <th>Ảnh</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -116,6 +117,9 @@
                                         <tr>
                                             <td>{{ $user->id }}</td>
                                             <td>{{ $user->name }}</td>
+                                            @if ( count($user->images) > 0)
+                                            <td><img src="{{ $user->images[0]->image_url }}" style="width: 50px" alt=""> </td>
+                                            @endif
                                         </tr>
                                     @endforeach    
                                     </tbody>

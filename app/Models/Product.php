@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
+
 
 class Product extends Model
 {
@@ -32,10 +34,14 @@ class Product extends Model
     }
 
     public function orders(){
-        return $this->belongsToMany(Order::class)->withPivot('product_id');
+        return $this->belongsToMany(Order::class);
     }
     public function images(){
         return $this->hasMany(Image::class);
+    }
+
+    public function warehouses(){
+        return $this->hasMany(WareHouse::class);
     }
 
     public function getStatusTextAttribute(){
@@ -81,6 +87,30 @@ class Product extends Model
 
     return $query;
     }
+    public function scopeBrand($query, $request)
+    {
+        if ($request->has('brand')) 
+        {
+            if($request->get('brand') == -1){
+                $query->orderBy('created_at','desc');
+            }else{
+                $query->where('brand_id', $request->brand)->orderBy('created_at','desc');
+            }
+           
+        }
 
+    return $query;
+    }
+
+
+    // public function getCreatedAtAttribute($date)
+    // {
+    //     return Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('d-m-Y');
+    // }
+
+    // public function getUpdatedAtAttribute($date)
+    // {
+    //     return Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('d-m-Y');
+    // }
    
 }

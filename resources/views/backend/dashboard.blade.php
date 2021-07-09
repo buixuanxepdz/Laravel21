@@ -7,12 +7,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0 text-dark">Dashboard</h1>
+                        <h1 class="m-0 text-dark">Tổng quan</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">Dashboard v1</li>
+                            <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+                            <li class="breadcrumb-item active">Tổng quan</li>
                         </ol>
                     </div><!-- /.col -->
                 </div>
@@ -27,7 +27,7 @@
                         <!-- small box -->
                         <div class="small-box bg-info">
                             <div class="inner">
-                                <h3>150</h3>
+                                <h3>{{ count($orders) }}</h3>
 
                                 <p>Đơn hàng</p>
                             </div>
@@ -127,17 +127,31 @@
                                                     <img src="{{ $product->images[0]->image_url }}" width="60px" alt="">
                                                 @endif
                                             </td>
-                                            <td><a href="{{ route('backend.product.showImage',$product->id) }}">{{ $product->name }}</a></td>
+                                            <td><a href="{{ route('frontend.detailproduct',$product->slug) }}" target="_blank" style="font-weight: bold">{{ $product->name }}</a></td>
                                             @if ($product->category == NULL)
                                                 <td>Không có danh mục</td>
                                             @else
-                                                <td><a href="{{ route('backend.category.showProduct',$product->category->id) }}">{{ $product->category->name }}</a></td>
+                                                <td><a href="{{ route('backend.category.showProduct',$product->category->id) }}" style="font-weight: bold">{{ $product->category->name }}</a></td>
                                             @endif
                                             
-                                            <td><a href="{{ route('backend.user.showProduct',$product->user->id) }}">{{ $product->user->name }}</a></td>
-                                            <td><span class="tag tag-success">{{ $product->status_text }}</span></td>
+                                            <td><a href="{{ route('backend.user.showProduct',$product->user->id) }}" style="font-weight: bold"> {{ $product->user->name }}</a></td>
+                                            <td>
+                                                @if ($product->status == 0)
+                                                    <span class="tag tag-success" style="padding: 5px 10px;background-color: yellow;border-radius: 10px;color:#4f5962;font-weight: bold">
+                                                        <i class="fas fa-cart-arrow-down" style="margin-right: 5px"></i>Đang nhập
+                                                    </span>
+                                                @elseif($product->status == 1)
+                                                    <span class="tag tag-success" style="padding: 5px 10px;background-color: green;border-radius: 10px;color:white;font-weight: bold">
+                                                        <i class="fas fa-shopping-cart" style="margin-right: 5px"></i>Đang bán
+                                                    </span>
+                                                @else
+                                                    <span class="tag tag-success" style="padding: 5px 10px;background-color: red;border-radius: 10px;color:white;font-weight: bold">
+                                                        <i class="fas fa-times-circle" style="margin-right: 5px"></i>Ngừng bán
+                                                    </span>
+                                                @endif
+                                            </td>
                                             <td>{!! $product->content !!}</td>
-                                            <td>{{ $product->created_at }}</td>
+                                            <td>{{ $product->updated_at->format('Y-m-d') }}</td>
                                         </tr>
                                     @endforeach    
                                     </tbody>

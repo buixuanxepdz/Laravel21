@@ -189,4 +189,5 @@
 
 document.querySelector('#uploadFile').addEventListener("change", previewImages);
     </script>
+  
 @endsection

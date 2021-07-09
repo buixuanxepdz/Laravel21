@@ -38,8 +38,9 @@ class HomeController extends Controller
     public function show($slug){
         $products = Product::where('slug',$slug)->first();
         $brands = Brand::all();
-        // dd($products);
-        return view('frontend.detailproduct')->with(['products' => $products])->with(['brands' => $brands]);
+        $relateds = Product::where('category_id',$products->category->id)->orderBy('id','desc')->limit(3)->get();
+
+        return view('frontend.detailproduct')->with(['products' => $products])->with(['brands' => $brands])->with(compact('relateds'));
     }
     public function search(Request $request){
         $keyword = $request->get('keyword');
@@ -108,6 +109,8 @@ class HomeController extends Controller
         // dd($category_products);
         return view('frontend.productcategory')->with(['category_name' => $category_name])->with(['category_products' => $category_products])->with(['brands' => $brands]);
     }
-   
+
+    
+
    
 }
