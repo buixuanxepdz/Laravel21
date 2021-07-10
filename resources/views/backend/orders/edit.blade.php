@@ -69,6 +69,14 @@
                             </div>
                           </div>
                           <hr>
+                          <div class="row">
+                            <div class="col-sm-12">
+                              <h6 class="mb-2">Ghi chú</h6>
+                            </div>
+                            <div class="form-outline mb-4">
+                                <textarea disabled class="form-control" id="form4Example3" rows="4">{{ $orderstt->note }}</textarea>
+                              </div>
+                          </div>
                         </div>
                       </div>
 
@@ -88,6 +96,7 @@
                                                 <thead>
                                                 <tr class="bg-primary">
                                                     <th>Tên sản phẩm</th>
+                                                    <th>Ảnh</th>
                                                     <th>Số lượng</th>
                                                     <th>Đơn giá</th>
                                                     <th>Thành tiền</th>
@@ -97,6 +106,7 @@
                                                 @foreach($orderstt->products as $item)
                                                     <tr>
                                                         <td>{{ $item->name }}</td>
+                                                        <td><img style="width: 40px;" src="{{ $item->images[0]->image_url  }}" alt=""></td>
                                                         <td>{{ $item->pivot->quantity }}</td>
                                                         <td>{{ number_format($item->pivot->price) }} đ</td>
                                                         <td>

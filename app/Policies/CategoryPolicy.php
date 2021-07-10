@@ -53,7 +53,7 @@ class CategoryPolicy
      */
     public function update(User $user, Category $category)
     {
-        if ($user->id === $category->user_id || $user->role == User::ADMIN){
+        if ($user->id == $category->user_id || $user->role == User::ADMIN){
             return true;
         } else {
             return false;
@@ -69,7 +69,7 @@ class CategoryPolicy
      */
     public function delete(User $user, Category $category)
     {
-        if ($user->id === $category->user_id || $user->role == User::ADMIN){
+        if ($user->id == $category->user_id || $user->role == User::ADMIN){
             return true;
         } else {
             return false;

@@ -64,12 +64,19 @@ class HomeController extends Controller
     }
 
 
-    public function productbrand($slug){
+    public function productbrand(Request $request,$slug){
         $brand_name = Brand::where('slug',$slug)->first();
         // dd($category_name);
         $brands = Brand::all();
         $brand_products = Product::where('brand_id', $brand_name->id)->orderBy('created_at','desc')->paginate(6);
         // dd($category_products);
+        if($request->get('minprice') && $request->get('maxprice') )
+        {
+            $min_price = $request->get('minprice');
+            $max_price = $request->get('maxprice');
+            $products = Product::where('brand_id', $brand_name->id)->whereBetween('sale_price',[$min_price,$max_price])->orderBy('sale_price','asc');
+            $brand_products = $products->paginate(6);
+        }
         return view('frontend.productbrand')->with(['brand_name' => $brand_name])->with(['brand_products' => $brand_products])->with(['brands' => $brands]);
     }
     public function productcategory(Request $request,$slug){

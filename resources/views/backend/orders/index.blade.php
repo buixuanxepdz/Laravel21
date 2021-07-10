@@ -19,6 +19,18 @@
     </div>
 @endsection
 @section('content')
+<style>
+   
+    .sortby{
+        height: 33px;
+        border-radius: 5px;
+    }
+.card-tools{
+    width: 40% !important;
+    display: flex !important;
+    justify-content: space-between !important;
+}
+</style>
 <div class="container-fluid">
         <!-- Main row -->
         <div class="row">
@@ -27,10 +39,22 @@
                 <div class="card">
                     <div class="card-header">
                         {{-- <h3 class="card-title">Danh Mục Mới</h3> --}}
-
+                       
                         <div class="card-tools">
-                            <div class="input-group input-group-sm" style="width: 150px;">
-                                <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+                            <div>
+                                <form action="" method="get" id="form_filter">
+                                    <span style="margin-right: 5px">Sắp xếp theo</span>
+                                        <select name="sortby" class="sortby" style="border:1px solid #ced4da;">
+                                            <option {{ Request::get('sortby') == 'default' || !Request::get('sortby') ? "'selected = selected '" : "" }} value="default" selected="selected">Mặc định</option>
+                                            <option {{ Request::get('sortby') == 'moi-nhat' ? "selected = 'selected '" : "" }} value="moi-nhat">Sản phẩm mới</option>
+                                            <option {{ Request::get('sortby') == 'sp-cu' ? "selected = 'selected '" : "" }} value="sp-cu">Sản phẩm cũ</option>
+                                            <option {{ Request::get('sortby') == 'tang-dan' ? "selected = 'selected '" : "" }} value="tang-dan">Thứ tự tăng dần</option>
+                                            <option {{ Request::get('sortby') == 'giam-dan' ? "selected = 'selected '" : "" }} value="giam-dan">Thứ tự giảm dần</option>
+                                        </select>
+                                </form>
+                            </div>
+                            <div class="input-group input-group-sm" style="width: 250px;">
+                                <input style="margin-top: 7px" type="text" name="table_search" class="form-control float-right" placeholder="Search">
 
                                 <div class="input-group-append">
                                     <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
@@ -105,8 +129,12 @@
                             </tr>
                            @endforeach
                             </tbody>
-                            {!! $orders->links() !!}
+                           
                         </table>
+                        <div class="mt-3 float-right mr-5">
+                             {!! $orders->appends(request()->input())->links() !!}
+                        </div>
+                        
                     </div>
                     <!-- /.card-body -->
                 </div>
@@ -170,6 +198,13 @@
     $(function(){
         $('.order').change(function(){
             $('#form_order').submit();
+        });
+    })
+</script>
+<script>
+    $(function(){
+        $('.sortby').change(function(){
+            $('#form_filter').submit();
         });
     })
 </script>

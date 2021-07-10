@@ -138,7 +138,7 @@
 						</div><!--/price-range-->
 						
 						<div class="shipping text-center"><!--shipping-->
-							<img src="/frontend/images/home/shipping.jpg" alt="" />
+							<img style="width: 100%" src="/frontend/images/unnamed.png" alt="" />
 						</div><!--/shipping-->
 					
 					</div>

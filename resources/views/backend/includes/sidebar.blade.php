@@ -104,7 +104,9 @@
                             </li>
                         </ul>
                     </li>
+                    @if(Illuminate\Support\Facades\Auth::user()->role == \App\Models\User::ADMIN)
                     <li style="padding: 10px 0"><i style="color: aliceblue;font-size: 18px">Người dùng</i></li>  
+                    @endif
                     @if(Illuminate\Support\Facades\Auth::user()->role == \App\Models\User::ADMIN)
                     <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">

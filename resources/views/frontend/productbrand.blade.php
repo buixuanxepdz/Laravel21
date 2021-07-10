@@ -4,7 +4,13 @@
 @endsection
 <!--/Footer-->
 @section('content')
-
+<style>
+	.ui-slider-horizontal .ui-slider-range {
+    top: 0;
+    height: 100%;
+	background-color: #fe980f !important;
+}
+</style>
 <section id="slider"><!--slider-->
 		<div class="container">
 			<div class="row">
@@ -104,16 +110,28 @@
 							</div>
 						</div><!--/brands_products-->
 						
-						<div class="price-range"><!--price-range-->
-							<h2>Price Range</h2>
-							<div class="well text-center">
-								 <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="600" data-slider-step="5" data-slider-value="[250,450]" id="sl2" ><br />
-								 <b class="pull-left">$ 0</b> <b class="pull-right">$ 600</b>
-							</div>
-						</div><!--/price-range-->
-						
+						<div class="well text-center">
+							<form action="" method="GET">
+								 {{-- <select name="sortby" class="sortby" style="border:1px solid #ced4da;">
+									<option {{ Request::get('sortby') == 'default' || !Request::get('sortby') ? "'selected = selected '" : "" }} value="default" selected="selected">Mặc định</option>
+									<option {{ Request::get('sortby') == 'moi-nhat' ? "selected = 'selected '" : "" }} value="moi-nhat">Sản phẩm mới</option>
+									<option {{ Request::get('sortby') == 'sp-cu' ? "selected = 'selected '" : "" }} value="sp-cu">Sản phẩm cũ</option>
+								</select> --}}
+								<div id="slider-range" ></div>
+								<div style="display: flex;justify-content:space-between;">
+									<input type="text" id="amount_one"  readonly style="width:49%;border:0; color:#f6931f; font-weight:bold;">
+									<input type="text" id="amount_two" readonly style="width:49%;border:0; color:#f6931f; font-weight:bold;">
+								</div>
+								
+								<input type="hidden" name="minprice" id="minprice">
+								<input type="hidden" name="maxprice" id="maxprice">
+								<input type="submit" name="price_range" value="Lọc giá" class="btn btn_default" >
+							</form>
+							
+							
+						</div>
 						<div class="shipping text-center"><!--shipping-->
-							<img src="/frontend/images/home/shipping.jpg" alt="" />
+							<img style="width: 100%" src="/frontend/images/unnamed.png" alt="" />
 						</div><!--/shipping-->
 					
 					</div>

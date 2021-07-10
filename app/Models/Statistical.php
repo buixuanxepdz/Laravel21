@@ -10,7 +10,7 @@ class Statistical extends Model
     use HasFactory;
     protected $fillable = ['order_date','sales','profit','quantity','total_order'];
 
-    protected $primayKey = 'id_statistical';
+    protected $primayKey = 'id';
 
-    protected $table = 'tbl_statistical';
+    protected $table = 'statisticals';
 }

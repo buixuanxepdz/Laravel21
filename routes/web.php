@@ -208,6 +208,7 @@ Route::group([
         Route::post('/update/{id}', 'OrderController@update')->name('backend.order.update');
         Route::get('/edit/{id}', 'OrderController@edit')->name('backend.order.edit');
         Route::delete('/destroy/{order}', 'OrderController@delete')->name('backend.order.destroy');
+        // Route::get('/filter','OrderController@filterOrder')->name('backend.order.filter');
     });
 });
 

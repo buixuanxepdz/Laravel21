@@ -8,6 +8,8 @@ use App\Models\Category;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Models\Product;
 use Carbon\Carbon;
+use Illuminate\Auth\Middleware\Authenticate;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
 class CategoryController extends Controller
@@ -47,6 +49,7 @@ class CategoryController extends Controller
         $category->name = $request->get('name');
         $category->slug = \Illuminate\Support\Str::slug($request->get('name')).rand(0,999);
         $category->parent_id = $request->get('parent_id');
+        $category->user_id = Auth::user()->id;
         $category->save();
         Cache::forget('menus');
 
@@ -100,6 +103,7 @@ class CategoryController extends Controller
         $category->name = $request->get('name');
         $category->slug = \Illuminate\Support\Str::slug($request->get('name')).rand(0,999);
         $category->parent_id = $request->get('parent_id');
+        $category->user_id = Auth::user()->id;
         $category->save();
         Cache::forget('menus');
         if( $category->save()){

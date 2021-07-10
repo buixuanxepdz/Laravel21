@@ -19,7 +19,7 @@ class BrandController extends Controller
      */
     public function index()
     {
-        $brands = Brand::all();
+        $brands = Brand::orderBy('created_at','desc')->get();
         return view('backend.brands.index')->with(['brands' => $brands]);
     }
 
@@ -91,6 +91,7 @@ class BrandController extends Controller
         $brand = Brand::find($id);
 
         $brand->name = $request->get('name');
+        $brand->user_id = Auth::user()->id;
         $brand->save();
         if( $brand->save()){
             return redirect()->route('backend.brand.index')->with("updatesuccess",'Chỉnh sửa thương hiệu thành công');      

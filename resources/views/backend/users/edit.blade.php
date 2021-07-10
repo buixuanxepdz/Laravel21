@@ -69,7 +69,7 @@
                             <span style="color: red">{{ $message }}</span> 
                             @enderror
                             <div class="form-group">
-                                <label for="exampleInputFile">Hình ảnh sản phẩm</label>
+                                <label for="exampleInputFile">Hình ảnh </label>
                                 <div class="input-group">
                                     <div class="custom-file">
                                         <input type="file" name="image[]" class="custom-file-input" id="imgInp" accept="image/*" multiple>
