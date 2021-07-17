@@ -137,8 +137,9 @@ class ProductController extends Controller
                     $image->disk = $disk_name;
                     $image->path = $path;
                     $image->product_id = $product->id;
+                  
                     $image->save();
-                        // dd($image);
+                      
                 }
                 // $path = Storage::putFile('images',$file);
     

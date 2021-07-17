@@ -17,6 +17,10 @@ class Order extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function orderproducts(){
+        return $this->hasMany(OrderProduct::class);
+    }
+
     const ORDER_WAIT        = 0;
     const ORDER_CONFIRM     = 1;
     const ORDER_SHIPPING    = 2;

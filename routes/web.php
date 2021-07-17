@@ -230,4 +230,5 @@ Route::group([
     Route::post('products/cart/send', 'Cartcontroller@postEmail')->name('frontend.cart.email');
     Route::post('pay', 'Cartcontroller@pay')->name('frontend.cart.pay');
     Route::get('products/cart/complete', 'Cartcontroller@sendComplete')->name('frontend.cart.complete')->middleware('auth');
+    Route::get('/list-cart', 'Cartcontroller@listcart')->name('frontend.cart.list');
 });

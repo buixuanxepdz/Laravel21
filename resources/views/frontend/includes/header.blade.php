@@ -39,7 +39,13 @@
 							<ul class="nav navbar-nav">
 								
 								<li><a href="#"><i class="fa fa-star"></i>Yêu thích</a></li>
-								<li><a href="checkout.html"><i class="fa fa-crosshairs"></i>Thanh toán</a></li>
+								@if (Auth::check())
+									<li><a href="{{ route('frontend.cart.list') }}"><i class="fa fa-crosshairs"></i>Đơn hàng của tôi</a></li>
+								@else
+									<li><a href="{{ route('login.form') }}"><i class="fa fa-crosshairs"></i>Đơn hàng của tôi</a></li>
+								@endif
+								
+								
 								<li><a href="{{  route('frontend.cart.index') }}"><i class="fa fa-shopping-cart"></i>Giỏ hàng</a></li>
 								@if(Auth::check())
 								<li><a href="#"><i class="fa fa-user"></i>{{ Auth::user()->name }}</a></li>

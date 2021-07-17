@@ -44,6 +44,8 @@ class Product extends Model
         return $this->hasMany(WareHouse::class);
     }
 
+   
+
     public function getStatusTextAttribute(){
         return self::$status_text[$this->status];
     }

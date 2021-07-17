@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\OrderProduct;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -93,5 +94,19 @@ class CartController extends Controller
 
     public function sendComplete(){
             return view('frontend.sendcomplete');
+    }
+
+    public function listcart(){
+        $carts = Order::where('user_id',Auth::user()->id)->orderBy('created_at','desc')->get();
+        // if(count($carts) > 0){
+        //     foreach($carts as $cart) {
+        //         foreach ($cart->orderproducts as $orderproduct) {
+        //             $product[] = Product::find($orderproduct->product_id);
+        //             // dd($product);
+        //         }
+        //     }
+        // }
+        // dd($carts);
+        return view('frontend.listcart')->with(compact('carts'));
     }
 }

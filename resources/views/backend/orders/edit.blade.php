@@ -31,7 +31,7 @@
                     <div class="col-md-4">
                       <div class="card mb-3">
                         <div class="card-body">
-                            <button href="#" class="btn btn-primary" style="margin-bottom: 20px" type="button" disabled >Thông tin khách hàng</button>
+                            <button href="#" class="btn btn-primary" style="margin-bottom: 20px" type="button"  >Thông tin khách hàng</button>
                           <div class="row">
                             <div class="col-sm-3">
                                 
@@ -85,7 +85,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <ul class="nav nav-pills">
-                                    <li class="nav-item"><button disabled class="btn btn-primary">Chi tiết đơn hàng</button></li>
+                                    <li class="nav-item"><button  class="btn btn-primary">Chi tiết đơn hàng</button></li>
                                 </ul>
                             </div><!-- /.card-header -->
                             <div class="card-body">
@@ -118,31 +118,32 @@
                                             </table>
                                         </div>
                                         <br>
-                                        <form action="{{ route('backend.order.update', $orderstt->id) }}" method="POST">
-                                           @csrf
+                                
                                             <div class="row">
-                                                <div class="col-6">
-                                                    <p>
+                                              <div class="col-6">
+                                                @if ($orderstt->status == 0)
+                                                <span style="background-color: rgb(247, 65, 65);padding: 5px 10px;color:white;font-weight: bold;border-radius: 10px">
+                                                    Chưa xử lý<i class="fas fa-spinner" style="margin-left: 5px;"></i>
+                                                </span>    
+                                            @elseif($orderstt->status ==1)
+                                                <span style="background-color: rgb(28, 49, 243);padding: 5px 10px;color:white;font-weight: bold;border-radius: 10px">
+                                                    Đã xác nhận<i class="fas fa-thumbs-up" style="margin-left: 5px;"></i>
+                                                </span>
+                                            @elseif($orderstt->status ==2)
+                                                <span  style="background-color: yellow;padding: 5px 10px;color:rgb(19, 95, 209);font-weight: bold;border-radius: 10px">
+                                                    Đang giao hàng<i class="fas fa-motorcycle" style="margin-left: 5px;"></i>
+                                                </span>
+                                            @else
+                                                <span style="background-color:green;padding: 5px 10px;color:white;font-weight: bold;border-radius: 10px">
+                                                    Đã hoàn thành <i class="fas fa-check-circle" style="margin-left: 5px;"></i>
+                                                </span>
+                                            @endif
+                                              </div>
+                                                <div class="col-6" style="text-align: right">
+                                                    <p >
                                                         <b class="text-primary">Tổng tiền:</b> <b>{{ number_format($orderstt->total) }} đ<span style="color: red;font-weight: bold">(Thuế 10%)</span></b>
                                                     </p>
                                                 </div>
-        
-                                                @if($orderstt->status !== 3)
-                                                    <div class="col-3">
-                                                        <select name="status">
-                                                            @foreach(\App\Models\Order::$status_text as $key => $value)
-                                                                <option value="{{ $key }}" {{ ($key == $orderstt->status) ? 'selected' : '' }}>{{ $value }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-3">
-                                                        <button class="btn btn-success">Cập nhật trạng thái</button>
-                                                    </div>
-                                                @else
-                                                    <div class="col-3">
-                                                        <button class="btn btn-success" disabled>Đã giao hàng</button>
-                                                    </div>
-                                                @endif
                                             </div>
                                         </form>
                                         {{--                                    <div class="d-flex justify-content-center">{!! $products->appends(request()->input())->links() !!}</div>--}}

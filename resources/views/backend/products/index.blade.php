@@ -127,7 +127,12 @@
                                         <img src="{{ $product->images[0]->image_url }}" width="60px" alt="">
                                     @endif
                                 </td>
-                                <td><a href="{{ route('frontend.detailproduct',$product->slug) }}" target="_blank" style="font-weight: bold">{{ $product->name }}</a></td>
+                                @if ($product->status == 1)
+                                    <td><a href="{{ route('frontend.detailproduct',$product->slug) }}" target="_blank" style="font-weight: bold">{{ $product->name }}</a></td>
+                                @else
+                                <td>{{ $product->name }}</a>
+                                @endif
+                                
                                 @if ($product->category == NULL)
                                     <td>Không có danh mục</td>
                                 @else

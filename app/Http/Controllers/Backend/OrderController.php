@@ -86,7 +86,7 @@ class OrderController extends Controller
     
                 } else {
                     foreach ($orders->products as $value){
-                        $profit -= $value->pivot->quantity * $value->origin_price;
+                        $profit = $orders->total - ($value->pivot->quantity * $value->origin_price);
                         $quantity += $value->pivot->quantity;
                     }
     

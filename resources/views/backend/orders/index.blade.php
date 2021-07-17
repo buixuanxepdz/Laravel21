@@ -48,8 +48,8 @@
                                             <option {{ Request::get('sortby') == 'default' || !Request::get('sortby') ? "'selected = selected '" : "" }} value="default" selected="selected">Mặc định</option>
                                             <option {{ Request::get('sortby') == 'moi-nhat' ? "selected = 'selected '" : "" }} value="moi-nhat">Sản phẩm mới</option>
                                             <option {{ Request::get('sortby') == 'sp-cu' ? "selected = 'selected '" : "" }} value="sp-cu">Sản phẩm cũ</option>
-                                            <option {{ Request::get('sortby') == 'tang-dan' ? "selected = 'selected '" : "" }} value="tang-dan">Thứ tự tăng dần</option>
-                                            <option {{ Request::get('sortby') == 'giam-dan' ? "selected = 'selected '" : "" }} value="giam-dan">Thứ tự giảm dần</option>
+                                            {{-- <option {{ Request::get('sortby') == 'tang-dan' ? "selected = 'selected '" : "" }} value="tang-dan">Thứ tự tăng dần</option>
+                                            <option {{ Request::get('sortby') == 'giam-dan' ? "selected = 'selected '" : "" }} value="giam-dan">Thứ tự giảm dần</option> --}}
                                         </select>
                                 </form>
                             </div>
@@ -81,47 +81,48 @@
                             @foreach($orders  as $order)
                             <tr>
                                 <td>{{ $order->id }}</td>
-                                <td>{{ $order->name }}</td>
+                                <td><a style="font-weight: bold" href="{{ route('backend.order.edit',$order->id) }}">{{ $order->name }}</a></td>
                                 <td>{{ $order->address }}</td>
                                 <td>{{ $order->phone }}</td>
                                 <td>{{ $order->note }}</td>
                                 <td>
-                                    @if ($order->status == 0)
-                                        <span style="background-color: rgb(247, 65, 65);padding: 5px 10px;color:white;font-weight: bold;border-radius: 10px">
-                                            Chưa xử lý<i class="fas fa-spinner" style="margin-left: 5px;"></i>
-                                        </span>    
-                                    @elseif($order->status ==1)
-                                        <span style="background-color: rgb(28, 49, 243);padding: 5px 10px;color:white;font-weight: bold;border-radius: 10px">
-                                            Đã xác nhận<i class="fas fa-thumbs-up" style="margin-left: 5px;"></i>
-                                        </span>
-                                    @elseif($order->status ==2)
-                                        <span  style="background-color: yellow;padding: 5px 10px;color:rgb(19, 95, 209);font-weight: bold;border-radius: 10px">
-                                            Đang giao hàng<i class="fas fa-motorcycle" style="margin-left: 5px;"></i>
-                                        </span>
-                                    @else
-                                        <span style="background-color:green;padding: 5px 10px;color:white;font-weight: bold;border-radius: 10px">
-                                            Đã hoàn thành <i class="fas fa-check-circle" style="margin-left: 5px;"></i>
-                                        </span>
-                                    @endif
+                                   <form action="{{ route('backend.order.update', $order->id) }}" method="POST" id="formabc">
+                                        @csrf
+                                             @if($order->status !== 3)
+                                                 <div class="col-8" style="padding: 0"> 
+                                                     <select name="status" class="form-select">
+                                                         @foreach(\App\Models\Order::$status_text as $key => $value)
+                                                             <option value="{{ $key }}" {{ ($key == $order->status) ? 'selected' : '' }}>{{ $value }}</option>
+                                                         @endforeach
+                                                     </select>
+                                                 </div>
+                                                 <div>
+                                                     <button type="submit" class="btn btn-primary" style="margin-top: 4px">Cập nhật trạng thái</button>
+                                                 </div>
+                                             @else
+                                                 <div >
+                                                    <span style="background-color:green;padding: 5px 10px;color:white;font-weight: bold;border-radius: 10px">
+                                                        Đã hoàn thành <i class="fas fa-check-circle" style="margin-left: 5px;"></i>
+                                                    </span>
+                                                 </div>
+                                             @endif
+                                         </div>
+                                     </form>
                                 </td>
                                 <td>{{ $order->created_at->format('Y-m-d') }}</td>
                                 <td>
-                                    @if ($order->status == 3)
-                                        <button class="btn btn-outline-success" type="button" disabled><i class="fas fa-file-signature" style="margin-right: 4px"></i>Cập nhật đơn hàng</button>
-                                    @else
-                                        <a class="btn btn-outline-success" href="{{ route('backend.order.edit',$order->id) }}"><i class="fas fa-file-signature" style="margin-right: 4px"></i>Cập nhật đơn hàng</a>
-                                    @endif
+                                    <a href="{{ route('backend.order.edit',$order->id) }}" class="btn btn-primary" title="Chi tiết đơn hàng"><i class="far fa-eye"></i></a>
                                     
                                     <form style="display: inline" action="{{ route('backend.order.destroy',$order->id) }}" method="POST">
                                         {{ csrf_field() }}
                                         {{ method_field('DELETE') }}
                                         @if ($order->status == 3)
-                                            <button disabled  type="submit" class="btn btn-outline-danger delete-confirm" data-name="{{ $order->name }}">
-                                                <i class="fas fa-window-close" style="margin-right: 4px"></i>Hủy đơn hàng
+                                            <button disabled  type="submit" class="btn btn-danger delete-confirm" data-name="{{ $order->name }}">
+                                                <i class="fas fa-window-close" style="margin-right: 4px"></i>Hủy
                                             </button>
                                         @else
-                                            <button  type="submit" class="btn btn-outline-danger delete-confirm" data-name="{{ $order->name }}">
-                                                <i class="fas fa-window-close" style="margin-right: 4px"></i></i>Hủy đơn hàng
+                                            <button  type="submit" class="btn btn-danger delete-confirm" data-name="{{ $order->name }}">
+                                                <i class="fas fa-window-close" style="margin-right: 4px"></i></i>Hủy
                                             </button>
                                         @endif
                                     </form>
