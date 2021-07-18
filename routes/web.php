@@ -208,7 +208,6 @@ Route::group([
         Route::post('/update/{id}', 'OrderController@update')->name('backend.order.update');
         Route::get('/edit/{id}', 'OrderController@edit')->name('backend.order.edit');
         Route::delete('/destroy/{order}', 'OrderController@delete')->name('backend.order.destroy');
-        // Route::get('/filter','OrderController@filterOrder')->name('backend.order.filter');
     });
 });
 
@@ -231,4 +230,6 @@ Route::group([
     Route::post('pay', 'Cartcontroller@pay')->name('frontend.cart.pay');
     Route::get('products/cart/complete', 'Cartcontroller@sendComplete')->name('frontend.cart.complete')->middleware('auth');
     Route::get('/list-cart', 'Cartcontroller@listcart')->name('frontend.cart.list');
+    Route::get('/detail-cart/{id}', 'Cartcontroller@detail')->name('frontend.cart.detail');
+    Route::get('/cancel/{id}','CartController@cancel')->name('frontend.order.cancel');
 });

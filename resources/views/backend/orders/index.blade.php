@@ -112,20 +112,22 @@
                                 <td>{{ $order->created_at->format('Y-m-d') }}</td>
                                 <td>
                                     <a href="{{ route('backend.order.edit',$order->id) }}" class="btn btn-primary" title="Chi tiết đơn hàng"><i class="far fa-eye"></i></a>
+                                    @if ($order->status == 4)
+                                        <form style="display: inline" action="{{ route('backend.order.destroy',$order->id) }}" method="POST">
+                                            {{ csrf_field() }}
+                                            {{ method_field('DELETE') }}
+                                            @if ($order->status == 3)
+                                                <button disabled  type="submit" class="btn btn-danger delete-confirm" data-name="{{ $order->name }}">
+                                                    <i class="fas fa-window-close" style="margin-right: 4px"></i>Hủy
+                                                </button>
+                                            @else
+                                                <button  type="submit" class="btn btn-danger delete-confirm" data-name="{{ $order->name }}">
+                                                    <i class="fas fa-window-close" style="margin-right: 4px"></i></i>Hủy
+                                                </button>
+                                            @endif
+                                        </form>
+                                    @endif
                                     
-                                    <form style="display: inline" action="{{ route('backend.order.destroy',$order->id) }}" method="POST">
-                                        {{ csrf_field() }}
-                                        {{ method_field('DELETE') }}
-                                        @if ($order->status == 3)
-                                            <button disabled  type="submit" class="btn btn-danger delete-confirm" data-name="{{ $order->name }}">
-                                                <i class="fas fa-window-close" style="margin-right: 4px"></i>Hủy
-                                            </button>
-                                        @else
-                                            <button  type="submit" class="btn btn-danger delete-confirm" data-name="{{ $order->name }}">
-                                                <i class="fas fa-window-close" style="margin-right: 4px"></i></i>Hủy
-                                            </button>
-                                        @endif
-                                    </form>
                                 </td>
                             </tr>
                            @endforeach

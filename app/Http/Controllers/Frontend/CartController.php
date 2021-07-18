@@ -97,16 +97,18 @@ class CartController extends Controller
     }
 
     public function listcart(){
-        $carts = Order::where('user_id',Auth::user()->id)->orderBy('created_at','desc')->get();
-        // if(count($carts) > 0){
-        //     foreach($carts as $cart) {
-        //         foreach ($cart->orderproducts as $orderproduct) {
-        //             $product[] = Product::find($orderproduct->product_id);
-        //             // dd($product);
-        //         }
-        //     }
-        // }
-        // dd($carts);
+        $carts = Order::where('user_id',Auth::user()->id)->orderBy('created_at','desc')->paginate(10);
         return view('frontend.listcart')->with(compact('carts'));
+    }
+    public function detail($id){
+        $order = Order::find($id);
+        return view('frontend.detailcart')->with(['order' => $order]);
+    }
+    public function cancel($id){
+        $order = Order::find($id);
+        $order->status = 4;
+        
+        $order->save();
+        return redirect()->back();
     }
 }

@@ -9,6 +9,7 @@ use App\Models\UserInfo;
 use App\Models\Category;
 use App\Models\Order;
 use App\Models\Image;
+use App\Models\Statistical;
 use Carbon\Carbon;
 use Illuminate\Contracts\Cache\Store;
 use Illuminate\Http\Request;
@@ -145,8 +146,9 @@ class DashboardController extends Controller
         $countproducts = Product::all();
         $countusers = User::all();
         $orders = Order::all();
+        $statis = Statistical::all();
         
     // //     // dd($products);
-    return view('backend.dashboard')->with(['products' => $products])->with(compact('countproducts','countusers','orders'));
+    return view('backend.dashboard')->with(['products' => $products])->with(compact('countproducts','countusers','orders','statis'));
     }
 }

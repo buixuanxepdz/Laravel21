@@ -56,7 +56,7 @@ class OrderController extends Controller
         $orders->status = $request->get('status');
         $orders->updated_at = Carbon::now();
         $orders->save();
-            if ($orders->status == 3) {
+            if ($orders->status ==3) {
                 foreach ($orders->products as  $value) {
                     $products = Product::where('id',$value->id)->first();
                     $products->quantity -= $value->pivot->quantity;
@@ -115,5 +115,4 @@ class OrderController extends Controller
         }
         return redirect()->route('backend.order.index')->with("error",'Hủy đơn hàng thất bại');
     }
-    
 }

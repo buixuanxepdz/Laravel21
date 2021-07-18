@@ -133,7 +133,7 @@
 											</a> 
 											<h2>{{  number_format($pro->sale_price).''.'đ' }}</h2>
 											<p>{{ $pro->name }}</p>
-											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
+											<a href="{{ route('frontend.cart.add', ['id' => $pro->id]) }}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
 										</div>
 								</div>
 								<div class="choose">
@@ -179,7 +179,7 @@
 														
 														<h2>{{ number_format($rand->sale_price) }}</h2>
 														<p>{{ $rand->name }}</p>
-														<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
+														<a href="{{ route('frontend.cart.add', ['id' => $rand->id]) }}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
 													</div>
 													
 												</div>
@@ -203,7 +203,7 @@
 													
 													<h2>{{ number_format($rand->sale_price) }}</h2>
 													<p>{{ $rand->name }}</p>
-													<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+													<a href="{{ route('frontend.cart.add', ['id' => $rand->id]) }}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
 												</div>
 												
 											</div>

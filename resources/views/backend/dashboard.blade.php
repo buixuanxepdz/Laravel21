@@ -72,7 +72,16 @@
                         <!-- small box -->
                         <div class="small-box bg-danger">
                             <div class="inner">
-                                <h3>65,000,000 </h3>
+                                <h3>
+                                    @php
+                                        $tong =0;
+                                       foreach ($statis as $key => $value) {
+                                           $tong +=$value->profit;
+                                           
+                                       }
+                                       echo number_format($tong).'đ';
+                                    @endphp
+                                </h3>
 
                                 <p>Doanh thu</p>
                             </div>
