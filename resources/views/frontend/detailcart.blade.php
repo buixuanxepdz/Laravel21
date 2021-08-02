@@ -164,7 +164,7 @@ p {
                 <div style="margin-left: 10px;display: flex;width: 60%;justify-content: space-between">
                     <h4>{{ $item->name }}</h4>
                     <img style="width: 50px;margin-top: 10px;height: 60px;" src="{{ $item->images[0]->image_url }}" alt="">
-                    @if ($order->status == 0 || $order->status == 1 )
+                    @if ($order->status == 0)
                         <a href="{{ route('frontend.order.cancel',$order->id) }}" class="btn btn-primary" style="display: flex;align-items: center">Yêu cầu hủy đơn</a>
                     @elseif($order->status == 4)
                        <button class="btn btn-primary">Đang chờ hủy đơn...</button>

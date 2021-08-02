@@ -30,7 +30,7 @@
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form role="form" method="post" action="{{ route('backend.user.store') }}" enctype="multipart/form-data">
+                    <form name="myform" onsubmit="return validation()" role="form" method="post" action="{{ route('backend.user.store') }}" enctype="multipart/form-data">
                         @csrf
                         <div class="card-body">
                             <div class="form-group">
@@ -144,5 +144,30 @@
 }
 
 document.querySelector('#uploadFile').addEventListener("change", previewImages);
+</script>
+<script>
+    var img = document.forms['myform']['image[]'];
+     var validExt = ["jpeg","png","jpg"];
+
+     function validation(){
+       if (img.value != '') {
+         var img_text = img.value.substring(img.value.lastIndexOf('.')+1);
+         var result = validExt.includes(img_text);
+         if (result == false) {
+             alert('File bạn chọn không phải file ảnh ')
+             return false
+         } 
+         else {
+             if (parseFloat(img.files[0].size/(1024*1024)) >= 3) {
+               alert('Kích cỡ ảnh vượt quá 3MB' + parseFloat(img.files[0].size/(1024*1024)) );
+               return false;
+             }
+         }
+
+       } else {
+         alert("Vui lòng chọn ảnh !");
+         return false
+       }
+     }
 </script>
 @endsection

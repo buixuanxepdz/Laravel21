@@ -88,7 +88,7 @@
                             <div class="input-group input-group-sm" style="width: 250px;position:relative">
                                 <form style="display: flex" autocomplete="off" action="{{ route('backend.product.search') }}" method="GET">
                                     @csrf
-                                <input style="margin-top: 5px" type="text" name="keyword" id="keywords" class="form-control float-right" placeholder="Tìm kiếm">
+                                <input style="margin-top: 5px" type="text" name="keyword" id="keywords" value="{{ Request()->get('keyword') }}" class="form-control float-right" placeholder="Tìm kiếm">
                                 <div id="searchajax" style="position: absolute;top:40px;"></div>
                                 <div class="input-group-append">
                                     <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>

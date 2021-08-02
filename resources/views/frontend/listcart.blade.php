@@ -64,9 +64,13 @@
                                 <span  style="background-color: yellow;padding: 5px 10px;color:rgb(19, 95, 209);font-weight: bold;border-radius: 10px">
                                     Đang giao hàng<i class="fa fa-motorcycle" style="margin-left: 5px;"></i>
                                 </span>
-                            @else
+                            @elseif($item->status ==3)
                                 <span style="background-color:green;padding: 5px 10px;color:white;font-weight: bold;border-radius: 10px">
                                     Đã hoàn thành <i class="fa fa-check-circle" style="margin-left: 5px;"></i>
+                                </span>
+                            @else
+                                <span style="background-color:rgb(42, 147, 218);padding: 5px 10px;color:white;font-weight: bold;border-radius: 10px">
+                                    Đang chờ hủy đơn ...
                                 </span>
                             @endif
                                </p>
